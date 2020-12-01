@@ -1,4 +1,4 @@
-package com.deepblue.chapter_01_Init;
+package com.deepblue.chapter_01_init;
 
 /**
  * 异常 处理方式不推荐, 保持原始方式

@@ -1,4 +1,4 @@
-package com.deepblue.chapter_01_Init;
+package com.deepblue.chapter_01_init;
 
 /**
  * JDK1.7 以后的

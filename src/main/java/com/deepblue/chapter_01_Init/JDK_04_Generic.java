@@ -1,4 +1,4 @@
-package com.deepblue.chapter_01_Init;
+package com.deepblue.chapter_01_init;
 
 import com.google.common.collect.Maps;
 
