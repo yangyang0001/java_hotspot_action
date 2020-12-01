@@ -1,5 +1,16 @@
-#openjdk下载地址
-#http://download.java.net/openjdk/jdk7/promoted/b147/openjdk-7-fcs-src-b147-27_jun_2011.zip
+## Oracle用户名密码, Oracle username: 2017585616@qq.com
+
+## openjdk下载地址
+#  http://download.java.net/openjdk/jdk7/promoted/b147/openjdk-7-fcs-src-b147-27_jun_2011.zip
+
+## jdk下载
+#  jdk下载页面链接 https://www.oracle.com/cn/java/technologies/oracle-java-archive-downloads.html
+#  在上面的链接页面中找到jdk6的点进去就OK了
+#  http://download.oracle.com/otn/java/jdk/6u35-b10/jdk-6u35-linux-x64.bin
+
+## apache-ant下载链接 https://ant.apache.org/
+#  在里面
+
 
 #!/bin/bash
 export LANG=C
