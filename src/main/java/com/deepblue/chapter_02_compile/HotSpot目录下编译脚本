@@ -1,0 +1,25 @@
+#openjdk下载地址
+#http://download.java.net/openjdk/jdk7/promoted/b147/openjdk-7-fcs-src-b147-27_jun_2011.zip
+
+#!/bin/bash
+export LANG=C
+
+#导入JDK路径
+export ALT_BOOTDIR="/home/chentao/mywork/soft/jdk1.6.0_35"
+export ALT_JDK_IMPORT_PATH="/home/chentao/mywork/soft/jdk1.6.0_35"
+
+#导入ANT路径
+export ANT_HOME="/home/chentao/mywork/soft/apache-ant-1.8.4"
+
+#导入PATH
+export PATH=""
+
+#其他配置
+export HOTSPOT_BUILD_JOBS=5
+
+#输出目录
+export alt_outputdir=../build/hotspot_debug
+
+#以下为执行命令
+cd make
+make jvmg jvmg1 2>&1 | tee
