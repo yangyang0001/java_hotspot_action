@@ -72,7 +72,7 @@ export ALT_OUTPUTDIR=/home/openjdk/hotspot/build_jvm
 
 #以下为执行命令
 cd make
-make DEBUG_BINARIES=true VM_TARGET=product generic_build2 jvmg jvmg1 2>&1 | tee /home/openjdk/hotspot/build_jvm/hotspot_debug.log
+make DEBUG_BINARIES=true jvmg jvmg1 2>&1 | tee /home/openjdk/hotspot/build_jvm/hotspot_debug.log
 
 
 
@@ -82,8 +82,6 @@ make[2]: *** [linux_i486_compiler2/debug] Error 2
 make[2]: Leaving directory `/home/openjdk/hotspot/build/linux'
 make[1]: *** [generic_build2] Error 2
 make[1]: Leaving directory `/home/openjdk/hotspot/make'
-
-
 
 
 
