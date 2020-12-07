@@ -5,10 +5,16 @@
 #  https://download.java.net/openjdk/jdk8/
 #  http://download.java.net/openjdk/jdk7/promoted/b147/openjdk-7-fcs-src-b147-27_jun_2011.zip
 
+## openjdk 云下载地址: https://cloud.tencent.com/developer/article/1413521
+## openjdk 下载并安装地址: https://openjdk.java.net/install/
+
 ## jdk下载
 #  jdk下载页面链接 https://www.oracle.com/cn/java/technologies/oracle-java-archive-downloads.html
 #  在上面的链接页面中找到jdk6的点进去就OK了
 #  http://download.oracle.com/otn/java/jdk/6u35-b10/jdk-6u35-linux-x64.bin
+
+## 参考Centos7.X 编译HotSpot https://www.cnblogs.com/grey-wolf/p/10327321.html#_label2
+
 
 ## apache-ant下载链接 https://ant.apache.org/ 在里面查找就OK了
 
