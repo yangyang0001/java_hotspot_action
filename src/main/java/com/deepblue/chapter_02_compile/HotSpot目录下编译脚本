@@ -1,12 +1,20 @@
 ## Oracle用户名密码, Oracle username: 2017585616@qq.com
 
 ## openjdk下载地址
+#  https://download.java.net/openjdk/jdk7/
+#  https://download.java.net/openjdk/jdk8/
 #  http://download.java.net/openjdk/jdk7/promoted/b147/openjdk-7-fcs-src-b147-27_jun_2011.zip
+
+## openjdk 云下载地址: https://cloud.tencent.com/developer/article/1413521
+## openjdk 下载并安装地址: https://openjdk.java.net/install/
 
 ## jdk下载
 #  jdk下载页面链接 https://www.oracle.com/cn/java/technologies/oracle-java-archive-downloads.html
 #  在上面的链接页面中找到jdk6的点进去就OK了
 #  http://download.oracle.com/otn/java/jdk/6u35-b10/jdk-6u35-linux-x64.bin
+
+## 参考Centos7.X 编译HotSpot https://www.cnblogs.com/grey-wolf/p/10327321.html#_label2
+
 
 ## apache-ant下载链接 https://ant.apache.org/ 在里面查找就OK了
 
@@ -20,12 +28,12 @@
 
 
 
-export JAVA_HOME=/home/jdk1.7.0_79
-export JRE_HOME=/home/jdk1.7.0_79/jre
+export JAVA_HOME=/home/yangjianwei/mywork/soft/jdk1.6.0_35
+export JRE_HOME=/home/yangjianwei/mywork/soft/jdk1.6.0_35/jre
 export CLASSPATH=$JRE_HOME/lib/rt.jar:$JRE_HOME/lib/ext
 export PATH=$PATH:$JRE_HOME/bin:$JAVA_HOME/bin
 
-export ANT_HOME=/home/apache-ant-1.8.4
+export ANT_HOME=/home/yangjianwei/mywork/soft/apache-ant-1.8.4
 export PATH=$PATH:$ANT_HOME/bin
 
 卸载旧版本的JDK：
@@ -69,14 +77,7 @@ export ARCH_DATA_MODEL=64
 
 #以下为执行命令
 cd make
-make DEBUG_BINARIES=true ARCH_DATA_MODEL=64 jvmg jvmg1 2>&1 | tee /home/openjdk/hotspot/build_jvm/hotspot_debug.log
-
-make jvmg jvmg1 2>&1 | tee /home/openjdk/hotspot/build_jvm/hotspot_debug.log
-make jvmg jvmg1 2>&1 | tee /media/psf/iCloud/.Trash/openjdk/hotspot/build_jvm/hotspot_debug.log
-
-make ARCH_DATA_MODEL=64 jvmg jvmg1 2>&1 | tee /home/openjdk/hotspot/build_jvm/hotspot_debug.log
-make ARCH_DATA_MODEL=64 jvmg jvmg1 2>&1 | tee /media/psf/iCloud/.Trash/openjdk/hotspot/build_jvm/hotspot_debug.log
-
+make DEBUG_BINARIES=true jvmg jvmg1 2>&1 | tee /home/openjdk/hotspot/build_jvm/hotspot_debug.log
 
 ARCH_DATA_MODEL=64 DEBUG_BINARIES=true make clean debug debug1 2>&1 | tee /home/openjdk/hotspot/build_jvm/hotspot_debug.log
 
