@@ -20,12 +20,12 @@
 
 
 
-export JAVA_HOME=/home/yangjianwei/mywork/soft/jdk1.6.0_35
-export JRE_HOME=/home/yangjianwei/mywork/soft/jdk1.6.0_35/jre
+export JAVA_HOME=/home/jdk1.7.0_79
+export JRE_HOME=/home/jdk1.7.0_79/jre
 export CLASSPATH=$JRE_HOME/lib/rt.jar:$JRE_HOME/lib/ext
 export PATH=$PATH:$JRE_HOME/bin:$JAVA_HOME/bin
 
-export ANT_HOME=/home/yangjianwei/mywork/soft/apache-ant-1.8.4
+export ANT_HOME=/home/apache-ant-1.8.4
 export PATH=$PATH:$ANT_HOME/bin
 
 卸载旧版本的JDK：
@@ -62,11 +62,27 @@ export HOTSPOT_BUILD_JOBS=5
 #编译后的输出目录
 export ALT_OUTPUTDIR=/home/openjdk/hotspot/build_jvm
 
+#编译模式jvm采用64位
+export ARCH_DATA_MODEL=64
+
+
+
 #以下为执行命令
 cd make
-make DEBUG_BINARIES=true VM_TARGET=product generic_build2 jvmg jvmg1 2>&1 | tee /home/openjdk/hotspot/build_jvm/hotspot_debug.log
+make DEBUG_BINARIES=true ARCH_DATA_MODEL=64 jvmg jvmg1 2>&1 | tee /home/openjdk/hotspot/build_jvm/hotspot_debug.log
+
+make jvmg jvmg1 2>&1 | tee /home/openjdk/hotspot/build_jvm/hotspot_debug.log
+make jvmg jvmg1 2>&1 | tee /media/psf/iCloud/.Trash/openjdk/hotspot/build_jvm/hotspot_debug.log
+
+make ARCH_DATA_MODEL=64 jvmg jvmg1 2>&1 | tee /home/openjdk/hotspot/build_jvm/hotspot_debug.log
+make ARCH_DATA_MODEL=64 jvmg jvmg1 2>&1 | tee /media/psf/iCloud/.Trash/openjdk/hotspot/build_jvm/hotspot_debug.log
 
 
+ARCH_DATA_MODEL=64 DEBUG_BINARIES=true make clean debug debug1 2>&1 | tee /home/openjdk/hotspot/build_jvm/hotspot_debug.log
+
+
+yum -y install centos-release-scl
+yum -y install devtoolset-7
 
 make[3]: *** [check_j2se_version] Error 1
 make[3]: Leaving directory `/home/openjdk/hotspot/build/linux'
@@ -119,3 +135,19 @@ make[2]: *** [/home/openjdk/build/linux-amd64/btbins/freetype_versioncheck] Erro
 make[1]: Leaving directory `/home/openjdk/jdk/make'
 
 
+make -f /home/openjdk/hotspot/make/linux/Makefile
+if [ $? -ne 0 ]; then \
+   /home/openjdk/hotspot/make/bin/java -version; \
+  echo "*** An XSLT processor (J2SE 1.4.x or newer) is required" \
+  "to bootstrap this build" 1>&2; \
+  exit 1; \
+fi
+/bin/sh:行2: /home/openjdk/hotspot/make/bin/java: 没有那个文件或目录
+*** An XSLT processor (J2SE 1.4.x or newer) is required to bootstrap this build
+
+
+
+su -c yum install java-1.7.0-openjdk
+
+## Ubuntu
+http://www.pooy.net/ubuntu-1210.html
