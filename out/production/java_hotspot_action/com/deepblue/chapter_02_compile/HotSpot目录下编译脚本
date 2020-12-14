@@ -1,0 +1,35 @@
+## Oracle用户名密码, Oracle username: 2017585616@qq.com
+
+## openjdk下载地址
+#  http://download.java.net/openjdk/jdk7/promoted/b147/openjdk-7-fcs-src-b147-27_jun_2011.zip
+
+## jdk下载
+#  jdk下载页面链接 https://www.oracle.com/cn/java/technologies/oracle-java-archive-downloads.html
+#  在上面的链接页面中找到jdk6的点进去就OK了
+#  http://download.oracle.com/otn/java/jdk/6u35-b10/jdk-6u35-linux-x64.bin
+
+## apache-ant下载链接 https://ant.apache.org/ 在里面查找就OK了
+
+############################################################ 以下为启动脚本 在HotSpot目录下 #####################################################
+#!/bin/bash
+export LANG=C
+
+#导入JDK路径
+export ALT_BOOTDIR="/home/yangjianwei/mywork/soft/jdk1.6.0_35"
+export ALT_JDK_IMPORT_PATH="/home/yangjianwei/mywork/soft/jdk1.6.0_35"
+
+#导入ANT路径
+export ANT_HOME="/home/yangjianwei/mywork/soft/apache-ant-1.8.4"
+
+#导入PATH
+export PATH=""
+
+#其他配置
+export HOTSPOT_BUILD_JOBS=5
+
+#编译后的输出目录
+export ALT_OUTPUTDIR=/home/openjdk/hotspot/build_jvm
+
+#以下为执行命令
+cd make
+make DEBUG_BINARIES=true jvmg jvmg1 2>&1 | tee /home/openjdk/hotspot/build_jvm/hotspot_debug.log
