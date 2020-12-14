@@ -16,7 +16,7 @@ Desktop（桌面）版下载
 Server（服务器）版下载
    PC端 64位（amd64）：
    	推荐（复制到迅雷，即可开始下载）：http://old-releases.ubuntu.com/releases/quantal/ubuntu-12.10-server-amd64.iso
-   	迅雷 BT 种子下载： Ubuntu12.10（64位）PC服务器版映像下载	    下载中
+   	迅雷 BT 种子下载： Ubuntu12.10（64位）PC服务器版映像下载	    已经下载
 
    PC端 32位（i386）：
    	推荐（复制到迅雷，即可开始下载）：http://old-releases.ubuntu.com/releases/quantal/ubuntu-12.10-server-i386.iso
