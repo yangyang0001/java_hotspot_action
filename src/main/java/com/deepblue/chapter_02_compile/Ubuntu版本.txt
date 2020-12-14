@@ -24,22 +24,22 @@ Server（服务器）版下载
 
    MAC端64位（amd64）：
    	推荐（复制到迅雷，即可开始下载）：http://old-releases.ubuntu.com/releases/quantal/ubuntu-12.10-server-amd64+mac.iso
-   	迅雷 BT 种子下载： Ubuntu12.10（64位）MAC服务器版映像下载	下载中
+   	迅雷 BT 种子下载： Ubuntu12.10（64位）MAC服务器版映像下载	已经下载
 
 
 其他版本下载
    1) OMAP4处理器桌面版映像下载：
    	推荐（复制到迅雷，即可开始下载）：http://old-releases.ubuntu.com/releases/quantal/ubuntu-12.10-desktop-armhf+omap4.img
-   	迅雷 BT 种子下载： Ubuntu12.10 OMAP4处理器桌面版映像下载
+   	迅雷 BT 种子下载： Ubuntu12.10 OMAP4处理器桌面版映像下载     已经下载
    2) OMAP4处理器服务器版映像下载：
    	推荐（复制到迅雷，即可开始下载）：http://old-releases.ubuntu.com/releases/quantal/ubuntu-12.10-server-armhf+omap4.img
-   	迅雷 BT 种子下载： Ubuntu12.10 OMAP4处理器服务器版映像下载
+   	迅雷 BT 种子下载： Ubuntu12.10 OMAP4处理器服务器版映像下载    下载中
    3) OMAP处理器服务器版映像下载：
    	推荐（复制到迅雷，即可开始下载）：http://old-releases.ubuntu.com/releases/quantal/ubuntu-12.10-server-armhf+omap.img
-   	迅雷 BT 种子下载： Ubuntu12.10 OMAP处理器服务器版映像下载
+   	迅雷 BT 种子下载： Ubuntu12.10 OMAP处理器服务器版映像下载     下载中
    4) PowerPC端服务器版映像下载：
    	推荐（复制到迅雷，即可开始下载）：http://old-releases.ubuntu.com/releases/quantal/ubuntu-12.10-server-powerpc.iso
-   	迅雷 BT 种子下载： Ubuntu12.10 PowerPC端服务器版映像下载
+   	迅雷 BT 种子下载： Ubuntu12.10 PowerPC端服务器版映像下载      已经下载
    32 位和 64 位版本的选择方法：32位映像适合几乎所有的电脑；64位映像可充分利用基于AMD64或EM64T架构（例如Athlon64，Opteron，EM64T Xeon，Core 2）的计算机。如果您有AMD制造的非64位处理器，或者您需要完全支持32位代码，请改用i386映像。
    
    12.10 版Ubuntu更新说明
