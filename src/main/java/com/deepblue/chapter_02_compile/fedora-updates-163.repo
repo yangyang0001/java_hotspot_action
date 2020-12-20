@@ -1,0 +1,26 @@
+[updates]
+name=Fedora 17 - $basearch - Updates - 163.com
+failovermethod=priority
+baseurl=http://mirrors.163.com/fedora/updates/17/$basearch/
+mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=updates-released-f17&arch=$basearch
+enabled=1
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch
+
+[updates-debuginfo]
+name=Fedora 17 - $basearch - Updates - Debug - 163.com
+failovermethod=priority
+baseurl=http://mirrors.163.com/fedora/updates/17/$basearch/debug/
+mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=updates-released-debug-f17&arch=$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch
+
+[updates-source]
+name=Fedora 17 - Updates Source - 163.com
+failovermethod=priority
+baseurl=http://mirrors.163.com/fedora/updates/17/SRPMS/
+mirrorlist=https://mirrors.fedoraproject.org/metalink?repo=updates-released-source-f17&arch=$basearch
+enabled=0
+gpgcheck=1
+gpgkey=file:///etc/pki/rpm-gpg/RPM-GPG-KEY-fedora-$basearch
