@@ -1,0 +1,23 @@
+
+find /usr -name gcc
+
+
+命令：
+tar -xvf gcc-4.7.0.tar.bz2
+cd gcc-4.8.5/
+./contrib/download_prerequisites
+mkdir build
+cd build
+../configure --prefix=/usr/local/gcc4.7.0 --enable-checking=release --enable-languages=c,c++ --disable-multilib
+make
+make install
+
+
+rm -rf /usr/bin/gcc
+ln -s /usr/local/gcc4.7.0/bin/gcc /usr/bin/gcc
+
+
+
+
+
+

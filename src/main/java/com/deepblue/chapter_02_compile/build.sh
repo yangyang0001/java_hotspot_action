@@ -2,8 +2,8 @@
 export LANG=C
 
 #导入JDK路径
-export ALT_BOOTDIR="/home/jdk1.6.0_35"
-export ALT_JDK_IMPORT_PATH="/home/jdk1.6.0_35"
+export ALT_BOOTDIR="/home/jdk1.7.0_79"
+export ALT_JDK_IMPORT_PATH="/home/jdk1.7.0_79"
 
 #导入ANT路径
 export ANT_HOME="/home/apache-ant-1.8.4"

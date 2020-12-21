@@ -62,7 +62,7 @@ export ALT_JDK_IMPORT_PATH="/home/yangjianwei/mywork/soft/jdk1.6.0_35"
 export ANT_HOME="/home/yangjianwei/mywork/soft/apache-ant-1.8.4"
 
 #导入PATH
-export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/yangjianwei/mywork/soft/jdk1.6.0_35/jre/bin:/home/yangjianwei/mywork/soft/jdk1.6.0_35/bin:/home/yangjianwei/mywork/soft/apache-ant-1.8.4/bin:/home/yangjianwei/.local/bin:/home/yangjianwei/bin"
+export PATH="/usr/local/bin:/usr/local/sbin:/usr/bin:/usr/sbin:/bin:/sbin:/home/yangjianwei/.local/bin:/home/yangjianwei/bin"
 
 #其他配置
 export HOTSPOT_BUILD_JOBS=5
@@ -152,3 +152,142 @@ su -c yum install java-1.7.0-openjdk
 
 ## Ubuntu
 http://www.pooy.net/ubuntu-1210.html
+
+
+修改/openjdk/hotspot/src/share/vm/oops/constantPoolOop.cpp 第272行 return false改为return (methodOop)false; 或者 return NULL。
+
+
+
+########################################## jdk7 编译 openjdk7##########################################
+4. 踩坑阶段（WTFK）
+
+好了，轻松愉快的阅读和复制粘贴工作结束，下面就是最开心的踩坑阶段，调整好自己的心情，打开百度和Google，准备开始一场烧脑的网络冲浪吧。
+
+4.1 echo “* This OS is not supported:” uname -a; exit 1
+
+* This OS is not supported: Linux pgc-virtual-machine 3.11.0-12-generic #19-Ubuntu SMP Wed Oct 9 16:12:00 UTC 2013 i686 i686 i686 GNU/Linux
+2.3 ERROR: echo “* This OS is not supported:” ‘uname -a‘; exit 1;
+1
+2
+这需要注释掉hotspot/make/linux/Makefile里面的checkOS。
+
+check_os_version:
+#ifeq ($(DISABLE_HOTSPOT_OS_VERSION_CHECK)$(EMPTY_IF_NOT_SUPPORTED),)
+# $(QUIETLY) >&2 echo "*** This OS is not supported:" `uname -a`; exit 1;
+#endif
+
+也可以最好的办法是在make参数后面添加 ：
+DISABLE_HOTSPOT_OS_VERSION_CHECK=OK
+1
+2
+3
+4
+5
+6
+7
+4.2 BUILD FAILED
+
+/home/pgc/Downloads/openjdk/build/jaxws/build/xml_generated/build-drop-jaf_src.xml:96: Redirection detected from https to http. Protocol switch unsafe, not allowed.
+1
+在这个build-drop-jaf_src.xml的96行中获取包下载的地址失效或有问题，就会导致改问题发生，这时你需要把那些包自己下载，主要是jdk7-jaf-2010_08_19.zip这个包下载不了。
+需要自己下载依赖的jaxp、jaf、jaxws
+jaxp145_01.zip
+jdk7-jaxws2_2_4-b03-2011_05_27.zip
+jdk7-jaf-2010_08_19.zip
+包下载好后进入openjdk目录，创建drop文件夹，然后，把这下载到的三个包放到drop文件夹中。再执行：
+
+export ALT_DROPS_DIR=/home/java/openjdk/openjdk/drop
+1
+上面的路径需要根据自己的情况进行修改。
+
+4.3 .ed.hpp:36
+
+/home/pgc/Downloads/openjdk/hotspot/src/share/vm/runtime/interfaceSupport.hpp:430:0: error: “__LEAF” redefined [-Werror]
+#define __LEAF(result_type, header) \
+^
+![](https://user-gold-cdn.xitu.io/2019/3/25/169b54f02337c7c8?w=800&h=154&f=jpeg&s=23337)
+In file included from /usr/include/features.h:374:0,
+1
+2
+3
+4
+5
+这是cdefs.h中定义的宏“LEAF”与interfaceSupport.hpp冲突。可以在interfaceSupport.hpp中增加一个“#undef LEAF”语句来解决冲突，interfaceSupport.hpp的文件地址在错误日志中找到，或者可以使用find命令来进行查找。
+
+// LEAF routines do not lock, GC or throw exceptions
+#ifdef __LEAF
+#undef __LEAF
+#define __LEAF(result_type, header) \
+TRACE_CALL(result_type, header) \
+debug_only(NoHandleMark __hm;) \
+/* begin of body */
+#endif
+1
+2
+3
+4
+5
+6
+7
+8
+4.4 error: converting ‘false’ to pointer type ‘methodOop’
+
+
+修改/openjdk/hotspot/src/share/vm/oops/constantPoolOop.cpp 第272行 return false改为return (methodOop)false; 或者 return NULL。
+
+4.5 error: converting ‘false’ to pointer type ‘Node*
+
+
+修改openjdk/hotspot/src/share/vm/opto/loopnode.cpp: 第896行 return false改为return (Node*)false; 或者 return NULL;
+
+4.6 ERROR gcc: error: unrecognized command line option ‘-mimpure-text’
+
+
+这个-mimpure-text是gcc给Solaris的编译选项，所以注释掉或删掉即可。
+文件在./jdk/make/common/shared/Compiler-gcc.gmk
+
+4.7 Error: time is more than 10 years from present: 1136059200000
+
+修改CurrencyData.properties（路径：jdk/src/share/classes/java/util/CurrencyData.properties）
+
+修改108行
+AZ=AZM;2018-12-31-20-00-00;AZN
+修改381行
+MZ=MZM;2018-06-30-22-00-00;MZN
+修改443行
+RO=ROL;20189-06-30-21-00-00;RON
+修改535行
+TR=TRL;2018-12-31-22-00-00;TRY
+修改561行
+VE=VEB;2018-01-01-04-00-00;VEF
+1
+2
+3
+4
+5
+6
+7
+8
+9
+10
+上面的行数有可能有略微偏差，找到行数的附近然后根据关键字查找就可以。
+
+4.8 collect2: error: ld returned 1 exit status
+
+make[5]: * [/home/pgc/Downloads/openjdk/build/lib/i386/libjsoundalsa.so] Error 1
+make[5]: Leaving directory `/home/pgc/Downloads/openjdk/jdk/make/javax/sound/jsoundalsa’
+make[4]: * [build] Error 1
+1
+2
+3
+遇到和”javax/sound/jsoundalsa”相关的一个错误，需要修改openjdk/jdk/make/javax/sound/jsoundalsa目录下的Makefile文件，找到 LDFLAGS += -lasound 修改为 OTHER_LDLIBS += -lasound
+
+4.9 ./test_gamma错误
+
+
+这需要去掉或者注释掉hotspot/make/linux/Makefile 文件中所有包含test_gamma的整行！！！一定要是整行！
+
+yum -y install build-essential gawk m4 libasound2-dev libcups2-dev lib
+
+yum -y install gcc-4.7
+
