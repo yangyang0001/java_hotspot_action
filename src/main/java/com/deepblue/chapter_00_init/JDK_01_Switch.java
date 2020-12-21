@@ -1,4 +1,4 @@
-package com.deepblue.chapter_01_init;
+package com.deepblue.chapter_00_init;
 
 /**
  * JDK1.7 以后switch 增强

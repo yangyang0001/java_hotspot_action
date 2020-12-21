@@ -1,6 +1,4 @@
-package com.deepblue.chapter_01_init;
-
-import com.google.common.collect.Maps;
+package com.deepblue.chapter_00_init;
 
 import java.util.HashMap;
 import java.util.List;
