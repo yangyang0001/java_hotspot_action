@@ -111,3 +111,5 @@ RubyGems 镜像
 
 npm 镜像
 cnpmjs：http://cnpmjs.org/
+
+张三

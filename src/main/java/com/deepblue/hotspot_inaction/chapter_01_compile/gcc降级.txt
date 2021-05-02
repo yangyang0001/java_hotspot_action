@@ -16,6 +16,13 @@ make install
 rm -rf /usr/bin/gcc
 ln -s /usr/local/gcc4.7.0/bin/gcc /usr/bin/gcc
 
+ln -s /usr/bin/gcc-4.4.6/bin/gcc /usr/bin/gcc
+
+
+mkdir -p /usr/local/bin/gcc-6.1.0
+mv /usr/local/bin/gcc /usr/local/bin/gcc-6.1.0
+ln -s /usr/bin/gcc /usr/local/bin/gcc
+
 
 
 

@@ -1,4 +1,4 @@
-package com.deepblue.chapter_00_init;
+package com.deepblue.hotspot_inaction.chapter_00_init;
 
 /**
  * JDK1.7 以后switch 增强

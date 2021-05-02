@@ -1,4 +1,4 @@
-package com.deepblue.chapter_99_test;
+package com.deepblue.hotspot_inaction.chapter_99_test;
 
 import com.alibaba.fastjson.JSON;
 import com.google.common.collect.Lists;
@@ -91,19 +91,19 @@ public class TestObject {
         thirdIds.add(10000L);
         thirdIds.add(40000L);
 
-        PostDTO post1 = new PostDTO();      1   2
+        PostDTO post1 = new PostDTO();
         post1.setName("AAAA");
         post1.setTopicIdsIds(firstIds);
 
-        PostDTO post2 = new PostDTO();      1   3
+        PostDTO post2 = new PostDTO();
         post2.setName("BBBB");
         post2.setTopicIdsIds(secondIds);
 
-        PostDTO post3 = new PostDTO();      1   4
+        PostDTO post3 = new PostDTO();
         post3.setName("CCCC");
         post3.setTopicIdsIds(thirdIds);
 
-        PostDTO post4 = new PostDTO();      1   4
+        PostDTO post4 = new PostDTO();
         post4.setName("DDDD");
         post4.setTopicIdsIds(thirdIds);
 
