@@ -59,15 +59,18 @@ yum -y install lsof
 yum -y install tcpdump
 yum -y install sysstat
 yum -y install unzip
+yum -y install zip
 yum -y install wget
 yum -y install xz
 yum -y install bzip2
-
 yum -y install gcc pcre pcre-devel zlib zlib-devel openssl openssl-devel
 yum -y install gcc-c++
 yum -y install ncurses-devel
 yum -y install openssl openssl-devel
 yum -y install unixODBC unixODBC-devel
+yum -y install glibc-static libstdc++-static
+yum -y install gdb
+
 
 
 docker run debian echo "Hello World"
@@ -768,3 +771,9 @@ cp zoo_sample.cfg zoo.cfg
 
 
 PDSK15-SQSAL2-5ASNXM-SAMXIE-8SAPHA-AJXNCE
+
+
+find / -type f -name '*'|xargs grep "main("
+
+find /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg -type f -name '*'|xargs grep "main("
+
