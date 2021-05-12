@@ -16,4 +16,9 @@
 HotSpot 内核框架
     1.内核框架的基本结构 参考图片
 
-    HotSpot顶层模块包含: Service Prims, Runtime, Classfile, Interpreter, Code, Memory, Compiler, Oops, C1/Opto/Shark 和 GC
+HotSpot顶层模块包含: Service Prims, Runtime, Classfile, Interpreter, Code, Memory, Compiler, Oops, C1/Opto/Shark 和 GC
+    Prims模块的组成部分: JNI, JVM, JVMTI, Perf
+    JNI: java native interface 是Java本地库或JVM库中的方法, 本地方法库中定义了很多jni_开头的函数
+    JVM: 为了解析类创建了很多JVM_开头的常量和函数来辅助解析Class文件
+    JVMTI: jvm tools interface, 监控java程序使用
+    Perf:  监控 Perf Data计数器
