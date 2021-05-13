@@ -17,8 +17,49 @@ HotSpot 内核框架
     1.内核框架的基本结构 参考图片
 
 HotSpot顶层模块包含: Service Prims, Runtime, Classfile, Interpreter, Code, Memory, Compiler, Oops, C1/Opto/Shark 和 GC
-    Prims模块的组成部分: JNI, JVM, JVMTI, Perf
-    JNI: java native interface 是Java本地库或JVM库中的方法, 本地方法库中定义了很多jni_开头的函数
-    JVM: 为了解析类创建了很多JVM_开头的常量和函数来辅助解析Class文件
-    JVMTI: jvm tools interface, 监控java程序使用
-    Perf:  监控 Perf Data计数器
+    Prims模块主要包含4个子模块:
+        JNI, JVM, JVMTI, Perf
+
+        1、JNI:    java native interface 是Java本地库或JVM库中的方法, 本地方法库中定义了很多jni_开头的函数
+        2、JVM:    为了解析类创建了很多JVM_开头的常量和函数来辅助解析Class文件
+        3、JVMTI:  jvm tools interface, 监控java程序使用
+        4、Perf:   监控 Perf Data计数器
+
+    Services模块主要包含9个子模块:
+        Management, MemoryService, MemoryPool, ThreadService, RuntimeService, MemoryManager, HeapDumper, ClassLoadingService, AttachListener
+
+        Services 对JVM提供了JMX功能, 即JMX (Java Management Extensions)
+
+        1、Management:       提供了JMX底层实现的基础, 在windows系统中可以参考 JRE_HOME/bin/management.dll
+        2、MemoryService:    提供JVM内存管理服务, 对堆内存和线程池都可进行管理!
+        3、MemoryPool:       内存池管理模块, MemoryPool 分为两类: CollectedMemoryPool 和 CodeHeapPool,
+                             其中 CollectedMemoryPool又有以下4种常见的类型:
+                             ContiguousSpacePool			    contiguous  [kənˈtɪgjuəs]     连续的, 邻近的
+                             SurvivorContiguousSpacePool		survivor    [səˈvaɪvə(r)]     幸存者; 生还者; 残存物
+                             CompactibleFreeListSpacePool		compactible [kəmˈpæktəb(ə)l]  能被压缩的
+                             GenerationPool				        generation  [ˌdʒenəˈreɪʃn]    一代; 产生; 一代人; 生殖
+
+        4、MemoryManager:    内存管理器 用来管理内存池, 一个内存管理器可以管理一个内存池或多个内存池, 同样一个内存池可以由一个或多个内存管理器进行管理!
+                             常见的内存管理器有 CodeCacheMemoryManager, GCMemoryManager, 其中GCMemoryManager又有以下8种子类型
+                             CopyMemoryManager
+                             MSCMemoryManager
+                             ParNewMemoryManager
+                             CMSMemoryManager
+                             PSScavengeMemoryManager
+                             PSMarkSweepMemoryManager
+                             G1YoungGenMemoryManager
+                             G1OldGenMemoryManager
+
+        5、RuntimeService:   提供对java运行时的性能监控和管理服务, 如applicationTime, jvmCapabilities 等
+
+        6、ThreadService:    提供对线程性能和管理服务
+
+        7、ClassLoadingService:  提供类加载器模块的性能和管理服务
+
+        8、AttachListener:   监控 客户端连接JVM的工具
+
+        9、HeapDumper:       堆转储功能管理
+
+
+
+
