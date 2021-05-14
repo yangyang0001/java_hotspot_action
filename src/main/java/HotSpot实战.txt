@@ -33,14 +33,14 @@ HotSpot顶层模块包含: Service Prims, Runtime, Classfile, Interpreter, Code,
         1、Management:       提供了JMX底层实现的基础, 在windows系统中可以参考 JRE_HOME/bin/management.dll
         2、MemoryService:    提供JVM内存管理服务, 对堆内存和线程池都可进行管理!
         3、MemoryPool:       内存池管理模块, MemoryPool 分为两类: CollectedMemoryPool 和 CodeHeapPool,
-                             其中 CollectedMemoryPool又有以下4种常见的类型:
+                             其中 CollectedMemoryPool又有以下4种常见的类型:     SCGC
                              ContiguousSpacePool			    contiguous  [kənˈtɪgjuəs]     连续的, 邻近的
                              SurvivorContiguousSpacePool		survivor    [səˈvaɪvə(r)]     幸存者; 生还者; 残存物
                              CompactibleFreeListSpacePool		compactible [kəmˈpæktəb(ə)l]  能被压缩的
                              GenerationPool				        generation  [ˌdʒenəˈreɪʃn]    一代; 产生; 一代人; 生殖
 
         4、MemoryManager:    内存管理器 用来管理内存池, 一个内存管理器可以管理一个内存池或多个内存池, 同样一个内存池可以由一个或多个内存管理器进行管理!
-                             常见的内存管理器有 CodeCacheMemoryManager, GCMemoryManager, 其中GCMemoryManager又有以下8种子类型
+                             常见的内存管理器有 CodeCacheMemoryManager, GCMemoryManager, 其中GCMemoryManager又有以下8种子类型  CMCG + 3P
                              CopyMemoryManager
                              MSCMemoryManager
                              ParNewMemoryManager
