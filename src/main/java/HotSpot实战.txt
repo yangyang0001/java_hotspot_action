@@ -63,9 +63,9 @@ HotSpot顶层模块包含: Service Prims, Runtime, Classfile, Interpreter, Code,
 
         9、HeapDumper:       堆转储功能管理
 
-    Runtime 模块 具体的子模块非常多, 只介绍最常用的模块,
+    Runtime 模块 具体的子模块非常多 主要有24个核心模块, 只介绍最常用的模块
         Thread模块, Arguments模块, StubRoutines和StubCodeGenerator模块, Frame模块
-        CompilationPolicy模块, Init模块, VmThread模块, VMOperation模块
+        CompilationPolicy模块, Init模块, VMThread模块, VMOperation模块
 
 
 
