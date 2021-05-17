@@ -16,7 +16,7 @@
 HotSpot 内核框架
     1.内核框架的基本结构 参考图片
 
-HotSpot顶层模块包含: Service Prims, Runtime, Classfile, Interpreter, Code, Memory, Compiler, Oops, C1/Opto/Shark 和 GC
+HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Code, Memory, Compiler, Oops, C1/Opto/Shark 和 GC
     Prims模块主要包含4个子模块:
         JNI, JVM, JVMTI, Perf
 
@@ -87,6 +87,23 @@ HotSpot顶层模块包含: Service Prims, Runtime, Classfile, Interpreter, Code,
            1        1       阻塞,　　进入安全点     safepoint
 
         8、VMOperation 操作 参考图片HotSpot_Runtime_VMOperation操作种类
+
+Launcher: 分为通用启动器 和 调试启动器
+    通用启动器 就是我们常用的 JDK 中的java 命令(包括 javaw), VM在启动时创建一个单例线程VM Thread, 当前线程主要 维护一个VMOperationQueue,
+    VMOperation的模式请看VMThread[即上面的7]
+    JRE 中提供的类加载器有三种 bootstrap class path, extension class path 书中为 installed extensions, user class path
+
+    java 命令的使用方式:
+    java  [ option ] class [ argument ... ]
+    java  [ option ] -jar file.jar [ argument ... ]
+    javaw [ option ] class [ argument ... ]
+    javaw [ option ] -jar file.jar [ argument ... ]
+
+    option   是VM选项, 分为标准选项 和 非标准选项, 非标准选项的使用方式 为 -X 或 -XX
+    argument 是传递给main方法的参数
+
+    cd /Users/yangjianwei/IdeaProjects/java_hotspot_action/target/classes
+    java com/deepblue/hotspot_inaction/chapter_02_launcher/ClientTest
 
 
 
