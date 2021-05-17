@@ -63,9 +63,30 @@ HotSpot顶层模块包含: Service Prims, Runtime, Classfile, Interpreter, Code,
 
         9、HeapDumper:       堆转储功能管理
 
-    Runtime 模块 具体的子模块非常多 主要有24个核心模块, 只介绍最常用的模块
+    Runtime 模块 具体的子模块非常多 主要有24个核心模块, 只介绍最常用的模块, 参考图片请查看HotSpot_Runtime模块组成部分
         Thread模块, Arguments模块, StubRoutines和StubCodeGenerator模块, Frame模块
         CompilationPolicy模块, Init模块, VMThread模块, VMOperation模块
+
+        1、Thread模块: Thread模块中定义了各种线程类型, JVM内部线程和Java业务线程! 此外还定义了Threads子模块, 它维护着系统中有效线程队列!
+
+        2、Arguments: 记录和传递VM参数和选项
+
+        3、StubRoutines 和 StubCodeGenerator:  生成Stub, 关于Stub的更多信息!
+
+        4、Frame模块: 表示一个物理栈帧(又称活动记录 Activation Record) 栈帧是和CPU类型相关, 栈帧即可以是C帧也可以是java帧, java帧既可以是编译帧也可以是解释帧!
+
+        5、CompilationPolicy: 编译策略, 提供了2种情况编译策略类型: SimpleThresHoldPolicy, AdvancedThresHoldPolicy! ThresHold [ˈθreʃhəʊld] [n. 入口；门槛；开始；极限；临界值]
+
+        6、Init模块: 初始化模块
+
+        7、VMThread模块: 虚拟机在创建时, 会启动一个单例的虚拟机线程(VM Thread), 该线程职责: 维护一个VMOperationQueue, 这些VMOperation分为4种模式
+           阻塞    安全
+           0        0       非阻塞,　非进入安全点   concurrent
+           0        1       非阻塞,　进入安全点     async_safepoint
+           1        0       阻塞,　　非进入安全点   no_safepoint
+           1        1       阻塞,　　进入安全点     safepoint
+
+        8、VMOperation 操作 参考图片HotSpot_Runtime_VMOperation操作种类
 
 
 
