@@ -102,9 +102,24 @@ Launcher: 分为通用启动器 和 调试启动器
     option   是VM选项, 分为标准选项 和 非标准选项, 非标准选项的使用方式 为 -X 或 -XX
     argument 是传递给main方法的参数
 
+    ----------------------------------------------------------------------------------------------------------------------------------------
+    TODO macOS系统
     cd /Users/yangjianwei/IdeaProjects/java_hotspot_action/target/classes
     java com/deepblue/hotspot_inaction/chapter_02_launcher/ClientTest
 
+    TODO windows系统
+    cd D:\study_workspace\java_hotspot_action\target\classes
+    java com/deepblue/hotspot_inaction/chapter_02_launcher/ClientTest
 
+    TODO 使用javap -verbose 反编译 class 文件, 看一个文件的 class文件具体构成
+    D:\study_workspace\java_hotspot_action\target\classes>javap -verbose com/deepblue/hotspot_inaction/chapter_02_launcher/ClientTest.class
+    ----------------------------------------------------------------------------------------------------------------------------------------
 
+    VM选项分为 标准VM选项 和 非标准VM选项, 非标准VM选项的使用是以 -X 或 -XX开始的, 查看非标准VM选项 使用用命令 java -X
+
+    VM 标准选项请看 HotSpot_Launcher_VM标准选项
+
+    VM 非标准选项 java -X 来查看当前JDK下的 VM非标准选项
+
+    隐藏的非标准的VM选项, 这种包含成千上万个, 使用方式 -XX
 
