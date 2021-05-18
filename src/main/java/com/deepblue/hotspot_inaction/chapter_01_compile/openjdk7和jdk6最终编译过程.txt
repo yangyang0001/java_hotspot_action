@@ -23,3 +23,10 @@
     /home/openjdk/hotspot/src/share/vm/opto/loopnode.cpp:896:49: error: converting 'false' to pointer type 'Node*' [-Werror=conversion-null]
     if (expr == NULL || expr->req() != 3)  return false;  改为 return (Node*) false
 
+5、安装debuginfo-install
+    vim /etc/yum.repos.d/CentOS-Debuginfo.repo  enabled=1
+
+    cd /home
+    yum whatprovides debuginfo-install
+    yum install yum-utils
+    debuginfo-install glibc-2.17-324.el7_9.x86_64
