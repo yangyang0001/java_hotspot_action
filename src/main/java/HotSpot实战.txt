@@ -3,7 +3,7 @@
 
 ------------------------------------------------------------  第二章启动  -------------------------------------------------------
 
-如何阅读HotSpot源码:
+一、如何阅读HotSpot源码:
     1.宏的定义 #define typeName(param_type) {};
 
     2.内联函数函数
@@ -13,7 +13,7 @@
 
     4.HotSpot VM选项 参考图片
 
-HotSpot 内核框架
+二、HotSpot 内核框架
     1.内核框架的基本结构 参考图片
 
 HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Code, Memory, Compiler, Oops, C1/Opto/Shark 和 GC
@@ -80,46 +80,60 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         6、Init模块: 初始化模块
 
         7、VMThread模块: 虚拟机在创建时, 会启动一个单例的虚拟机线程(VM Thread), 该线程职责: 维护一个VMOperationQueue, 这些VMOperation分为4种模式
-           阻塞    安全
-           0        0       非阻塞,　非进入安全点   concurrent
-           0        1       非阻塞,　进入安全点     async_safepoint
-           1        0       阻塞,　　非进入安全点   no_safepoint
-           1        1       阻塞,　　进入安全点     safepoint
+            阻塞    安全
+            0        0       非阻塞,　非进入安全点   concurrent
+            0        1       非阻塞,　进入安全点     async_safepoint
+            1        0       阻塞,　　非进入安全点   no_safepoint
+            1        1       阻塞,　　进入安全点     safepoint
 
         8、VMOperation 操作 参考图片HotSpot_Runtime_VMOperation操作种类
+            引入源码看下 VMOperation 的模式有以下4种类型
+            enum Mode {
+            _safepoint,       // blocking,        safepoint, vm_op C-heap allocated
+            _no_safepoint,    // blocking,     no safepoint, vm_op C-Heap allocated
+            _concurrent,      // non-blocking, no safepoint, vm_op C-Heap allocated
+            _async_safepoint  // non-blocking,    safepoint, vm_op C-Heap allocated
+            };
 
-Launcher: 分为通用启动器 和 调试启动器
-    通用启动器 就是我们常用的 JDK 中的java 命令(包括 javaw), VM在启动时创建一个单例线程VM Thread, 当前线程主要 维护一个VMOperationQueue,
-    VMOperation的模式请看VMThread[即上面的7]
-    JRE 中提供的类加载器有三种 bootstrap class path, extension class path 书中为 installed extensions, user class path
+三、启动
+    A、启动器(Launcher)的分类: 分为通用启动器(JDK中的java命令) 和 调试启动器(gamma 调试启动器作为实战的基础)
+        1、通用启动器 就是我们常用的 JDK 中的java 命令(包括 javaw), VM在启动时创建一个单例线程VM Thread, 当前线程主要 维护一个VMOperationQueue,
+        VMOperation的模式请看VMThread[即上面的7]
+        JRE 中提供的类加载器有三种 bootstrap class path, extension class path 书中为 installed extensions, user class path
 
-    java 命令的使用方式:
-    java  [ option ] class [ argument ... ]
-    java  [ option ] -jar file.jar [ argument ... ]
-    javaw [ option ] class [ argument ... ]
-    javaw [ option ] -jar file.jar [ argument ... ]
+        java 命令的使用方式:
+        java  [ option ] class [ argument ... ]
+        java  [ option ] -jar file.jar [ argument ... ]
+        javaw [ option ] class [ argument ... ]
+        javaw [ option ] -jar file.jar [ argument ... ]
 
-    option   是VM选项, 分为标准选项 和 非标准选项, 非标准选项的使用方式 为 -X 或 -XX
-    argument 是传递给main方法的参数
+        option   是VM选项, 分为标准选项 和 非标准选项, 非标准选项的使用方式 为 -X 或 -XX
+        argument 是传递给main方法的参数
 
-    ----------------------------------------------------------------------------------------------------------------------------------------
-    TODO macOS系统
-    cd /Users/yangjianwei/IdeaProjects/java_hotspot_action/target/classes
-    java com/deepblue/hotspot_inaction/chapter_02_launcher/ClientTest
+        ----------------------------------------------------------------------------------------------------------------------------------------
+        TODO macOS系统
+        cd /Users/yangjianwei/IdeaProjects/java_hotspot_action/target/classes
+        java com/deepblue/hotspot_inaction/chapter_02_launcher/ClientTest
 
-    TODO windows系统
-    cd D:\study_workspace\java_hotspot_action\target\classes
-    java com/deepblue/hotspot_inaction/chapter_02_launcher/ClientTest
+        TODO windows系统
+        cd D:\study_workspace\java_hotspot_action\target\classes
+        java com/deepblue/hotspot_inaction/chapter_02_launcher/ClientTest
 
-    TODO 使用javap -verbose 反编译 class 文件, 看一个文件的 class文件具体构成
-    D:\study_workspace\java_hotspot_action\target\classes>javap -verbose com/deepblue/hotspot_inaction/chapter_02_launcher/ClientTest.class
-    ----------------------------------------------------------------------------------------------------------------------------------------
+        TODO 使用javap -verbose 反编译 class 文件, 看一个文件的 class文件具体构成
+        D:\study_workspace\java_hotspot_action\target\classes>javap -verbose com/deepblue/hotspot_inaction/chapter_02_launcher/ClientTest.class
+        ----------------------------------------------------------------------------------------------------------------------------------------
 
-    VM选项分为 标准VM选项 和 非标准VM选项, 非标准VM选项的使用是以 -X 或 -XX开始的, 查看非标准VM选项 使用用命令 java -X
+        VM选项分为 标准VM选项 和 非标准VM选项, 非标准VM选项的使用是以 -X 或 -XX开始的, 查看非标准VM选项 使用用命令 java -X
 
-    VM 标准选项请看 HotSpot_Launcher_VM标准选项
+        VM 标准选项请看 HotSpot_Launcher_VM标准选项
 
-    VM 非标准选项 java -X 来查看当前JDK下的 VM非标准选项
+        VM 非标准选项 java -X 来查看当前JDK下的 VM非标准选项
 
-    隐藏的非标准的VM选项, 这种包含成千上万个, 使用方式 -XX
+        隐藏的非标准的VM选项, 这种包含成千上万个, 使用方式 -XX
+
+        2、调试启动器 gamma, 在HotSpot中以此调试器作为实战的基础! 在 hotspot/src/share/tools/launcher/java.c
+
+    B、虚拟机的声明周期 从这开始就需要从Linux上进行调试 来根据文章中所书写来进行实战了
+
+
 
