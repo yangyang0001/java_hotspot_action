@@ -136,4 +136,9 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
     B、虚拟机的声明周期 从这开始就需要从Linux上进行调试 来根据文章中所书写来进行实战了
 
 
+GDB使用
+    在Clion中写一个HelloWorld.c(C语言书写), 移动到 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg 下
+    执行 gcc -g HelloWorld.c 会产生一个 a.out 然后用 gdb a.out 命令进行调试就进入了GDB环境了!
+
+
 
