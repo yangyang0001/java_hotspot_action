@@ -72,6 +72,12 @@ yum -y install glibc-static libstdc++-static
 yum -y install gdb
 
 
+cd /home
+yum whatprovides debuginfo-install
+yum install yum-utils
+debuginfo-install glibc-2.17-324.el7_9.x86_64
+
+
 
 docker run debian echo "Hello World"
 

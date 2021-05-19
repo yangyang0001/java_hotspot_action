@@ -15,7 +15,14 @@
 
     文件宏问题:
     /home/openjdk/hotspot/src/share/vm/runtime/interfaceSupport.hpp:430:0: error: "__LEAF" redefined [-Werror]
-
+    改为如下:
+    #ifdef __LEAF
+    #undef __LEAF
+    #define __LEAF(result_type, header)                                  \
+      TRACE_CALL(result_type, header)                                    \
+      debug_only(NoHandleMark __hm;)                                     \
+      /* begin of body */
+    #endif
 
     /home/openjdk/hotspot/src/share/vm/oops/constantPoolOop.cpp:272:39: error: converting 'false' to pointer type 'methodOop' [-Werror=conversion-null]
     if (cpool->cache() == NULL)  return false;  // nothing to load yet  改为 return (methodOop) false;
