@@ -139,6 +139,13 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
 GDB使用
     在Clion中写一个HelloWorld.c(C语言书写), 移动到 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg 下
     执行 gcc -g HelloWorld.c 会产生一个 a.out 然后用 gdb a.out 命令进行调试就进入了GDB环境了!
+    start 命令, 进行GDB命令调试!
+    list  命令, 查看更多的行
+    ctrl + x + a 联合按键 会触发一个GDB的调试面板!
+    refresh 命令, 刷新GDB页面!
+    layout next 命令来切换不同的视图界面
+
+    next 执行1步不会进入函数体,  step执行1步 进入函数体
 
 
 
