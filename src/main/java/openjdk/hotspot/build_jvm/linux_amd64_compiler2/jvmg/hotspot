@@ -117,7 +117,7 @@ fi
 # any.
 JRE=$JDK/jre
 JAVA_HOME=$JDK
-ARCH=@@LIBARCH@@
+ARCH=amd64
 
 # Find out the absolute path to this script
 MYDIR=$(cd $(dirname $SCRIPT) && pwd)
