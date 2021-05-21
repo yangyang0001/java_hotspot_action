@@ -135,20 +135,34 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
 
     B、虚拟机的声明周期 从这开始就需要从Linux上进行调试 来根据文章中所书写来进行实战了
 
+    =========================================================== GDB 命令的使用start ==========================================================
+    GDB使用
+        在Clion中写一个HelloWorld.c(C语言书写), 移动到 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg 下
+        执行 gcc -g HelloWorld.c 会产生一个 a.out 然后用 gdb a.out 命令进行调试就进入了GDB环境了!
+        start 命令, 进行GDB命令调试!
+        list  命令, 查看更多的行
+        ctrl + x + a 联合按键 会触发一个GDB的调试面板!
+        refresh 命令, 刷新GDB页面!
+        layout next 命令来切换不同的视图界面
 
-GDB使用
-    在Clion中写一个HelloWorld.c(C语言书写), 移动到 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg 下
-    执行 gcc -g HelloWorld.c 会产生一个 a.out 然后用 gdb a.out 命令进行调试就进入了GDB环境了!
-    start 命令, 进行GDB命令调试!
-    list  命令, 查看更多的行
-    ctrl + x + a 联合按键 会触发一个GDB的调试面板!
-    refresh 命令, 刷新GDB页面!
-    layout next 命令来切换不同的视图界面
+        next 执行1步不会进入函数体,  step执行1步 进入函数体
 
-    next 执行1步不会进入函数体,  step执行1步 进入函数体
+        break main  在main 函数打断点
+        run         再次运行程序
 
-    break main  在main 函数打断点
-    run         再次运行程序
+
+
+        在/home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg 目录下使用命令 sh hotspot -gdb HelloWorld 之前
+        首先将本地书写的HelloWorld.java 上传到 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg 目录下
+
+        用jdk6进行编译:
+        /home/jdk1.6.0_35/bin/javac HelloWorld.java   在当前目录下会产生 HelloWorld.class文件
+
+        执行 sh hotspot -gdb HelloWorld
+
+    =========================================================== GDB 命令的使用 end ==========================================================
+
+
 
 
 
