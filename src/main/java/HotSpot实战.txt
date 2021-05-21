@@ -160,6 +160,11 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
 
         执行 sh hotspot -gdb HelloWorld
 
+        // 通过GDB调试 检测整个过程的启动
+        (gdb) break java.c:main
+        (gdb) break java.c:JavaMain
+        (gdb) run
+
     =========================================================== GDB 命令的使用 end ==========================================================
 
 
