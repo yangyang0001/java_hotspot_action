@@ -165,6 +165,9 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         (gdb) break java.c:JavaMain
         (gdb) run
 
+        // 后面不断调试添加
+        break java.c:586
+        break java.c:
     =========================================================== GDB 命令的使用 end ==========================================================
 
 
