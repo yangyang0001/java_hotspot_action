@@ -12,6 +12,7 @@ target/
 
 ### IntelliJ IDEA ###
 .idea
+openjdk
 *.iws
 *.iml
 *.ipr
