@@ -199,8 +199,27 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
     6、java对象在jvm中的表示方式
     java对象在虚拟内存中的方式方式可以分为两块连续的内存: 对象头 + 实例数据
     instanceOopDesc 和 arrayOopDesc 称为对象头
-    其中两种对象头表示对象的方式又是不一样的
 
+
+    7、对象的内存布局: 对象头 + 实例数据
+                     ---------------------
+                     |     Mark Word      |  _mark: markOop
+    instanceOopDesc  ---------------------
+                     |     元数据指针      |  _metaData: wideKlassOop 或 narrowOop
+                     ---------------------
+                     |      实例数据       |
+                     ---------------------
+
+                     数组的内存布局
+                     ---------------------
+                     |     Mark Word      |  _mark: markOop
+    arrayOopDesc       ---------------------
+                     |     元数据指针      |  _metaData: wideKlassOop 或 narrowOop
+                     ---------------------
+                     |     数组的长度      |  _length: n
+                     ---------------------
+                     |      实例数据       |
+                     ---------------------
 
 
 
