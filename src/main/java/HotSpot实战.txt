@@ -175,4 +175,36 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
     第二章 根据自己想要研究的深度和细致程度 用GDB自己去调试跟踪吧
     =========================================================== GDB 命令的使用 end ==========================================================
 
-    ------------------------------------------------------------  第三章 类与对象  -------------------------------------------------------
+    ------------------------------------------------------------  第三章 类与对象  ----------------------------------------------------------
+    1、概念: OOP (ordinary object pointer) [ˈɔːdnri]  普通的, 平凡的
+
+    2、OOP-Klass 二分模型:
+    OOP 和 Klass 是什么?
+    OOP     :(ordinary object pointer) 普通对象指针, 用来描述对象实例数据! 描述对象实例数据
+    Klass   : Java类的C++对等体, 用来描述Java类
+
+    3、OOP 和 Klass 的功能是什么?
+    OOP   功能 只是用来表示 对象实例数据
+    Klass 功能 1、在语言层面实现对等的Class类[由基类Klass类来完成] 2、分发对象 [由Klass类的子类进行完成]
+
+    4、Oops 模块可分为两个独立的框架: OOP框架 和 Klass框架
+    oopDesc 是Oops模块的基类 参考 oop.hpp, oopDesc 有很多子类型的oopDesc, 一共12个子类型
+
+    5、OopDesc 是 OOP框架的基类, 在hotspot中存在有12个子类 参考 OopDesc及其子类描述.png
+    instanceOopDesc, methodOopDesc, methodDataOopDesc, constMethodOopDesc, constPoolOopDesc, constPoolCacheOopDesc, klassOopDesc, markOopDesc
+    arrayOopDesc, objArrayOopDesc, typeArrayOopDesc, compiledICHolderOopDesc
+
+    其中 instanceOopDesc 和 arrayOopDesc 称之为对象头
+
+    6、java对象在jvm中的表示方式
+    java对象在虚拟内存中的方式方式可以分为两块连续的内存: 对象头 + 实例数据
+    instanceOopDesc 和 arrayOopDesc 称为对象头
+    其中两种对象头表示对象的方式又是不一样的
+
+
+
+
+
+
+
+
