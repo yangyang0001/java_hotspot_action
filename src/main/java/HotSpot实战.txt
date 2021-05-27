@@ -222,8 +222,41 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
                      ----------------------
 
     对象头中每个部分都存放什么东西?
-    Mark Word: 当前对象的HashCode, 锁状态, GC分代垃圾回收年龄Age, 线程持有锁, 偏向线程ID, 偏向时间戳 等
+    Mark Word: 当前对象的HashCode, 锁状态, GC分代垃圾回收年龄Age, 线程持有锁, 偏向线程ID, 偏向时间戳 等 占用空间和当前操作系统一致! 64位操作系统则占用64位, 32位操作系统则占用32位
     元数据指针: 指向了方法区中的Klass类
+
+    对象内存空间利用率: 实例数据空间 / (instanceOop + 实例数据空间)
+
+    8、是否压缩元数据指针配置  -XX:+UseCompressedOops  -XX:-UseCompressedOops
+    VM选项 使用元数据指针的 wideKlassOop 或 narrowOop 如果使用 -XX:+UseCompressedOops 在使用wideKassOop 如果使用 -XX:-UseCompressedOops 则元数据指针使用 narrowOop
+
+    在/home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg 文件夹下使用如下命令, 虽然看不出参数使用效果 可以作为以后调试的入口!
+    /home/jdk1.6.0_35/bin/java -XX:+UseCompressedOops HelloWorld
+    sh hotspot -XX:+UseCompressedOops HelloWord
+
+    MarkWord 定义了对象的 5 种状态, 其所占用的位数在对象处在不同的状态时是不一样的！ 参考MarkWord记录对象状态.png
+    enum {
+        locked_value             = 0,
+        unlocked_value           = 1,
+        monitor_value            = 2,
+        marked_value             = 3,
+        biased_lock_pattern      = 5            // biased [ˈbaɪəst]  偏向的 偏心的
+    };
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
