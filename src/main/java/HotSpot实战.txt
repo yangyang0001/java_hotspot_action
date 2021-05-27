@@ -191,7 +191,7 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
     oopDesc 是Oops模块的基类 参考 oop.hpp, oopDesc 有很多子类型的oopDesc, 一共12个子类型
 
     5、OopDesc 是 OOP框架的基类, 在hotspot中存在有12个子类 参考 OopDesc及其子类描述.png
-    instanceOopDesc, methodOopDesc, methodDataOopDesc, constMethodOopDesc, constPoolOopDesc, constPoolCacheOopDesc, klassOopDesc, markOopDesc
+    instanceOopDesc, methodOopDesc, methodDataOopDesc, constMethodOopDesc, constantPoolOopDesc, constantPoolCacheOopDesc, klassOopDesc, markOopDesc
     arrayOopDesc, objArrayOopDesc, typeArrayOopDesc, compiledICHolderOopDesc
 
     其中 instanceOopDesc 和 arrayOopDesc 称之为对象头
@@ -202,25 +202,28 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
 
 
     7、对象的内存布局: 对象头 + 实例数据
-                     ---------------------
+                     ----------------------
                      |     Mark Word      |  _mark: markOop
-    instanceOopDesc  ---------------------
+    instanceOopDesc  ----------------------
                      |     元数据指针      |  _metaData: wideKlassOop 或 narrowOop
-                     ---------------------
+                     ----------------------
                      |      实例数据       |
-                     ---------------------
+                     ----------------------
 
                      数组的内存布局
-                     ---------------------
+                     ----------------------
                      |     Mark Word      |  _mark: markOop
-    arrayOopDesc       ---------------------
+    arrayOopDesc     ----------------------
                      |     元数据指针      |  _metaData: wideKlassOop 或 narrowOop
-                     ---------------------
+                     ----------------------
                      |     数组的长度      |  _length: n
-                     ---------------------
+                     ----------------------
                      |      实例数据       |
-                     ---------------------
+                     ----------------------
 
+    对象头中每个部分都存放什么东西?
+    Mark Word: 当前对象的HashCode, 锁状态, GC分代垃圾回收年龄Age, 线程持有锁, 偏向线程ID, 偏向时间戳 等
+    元数据指针: 指向了方法区中的Klass类
 
 
 
