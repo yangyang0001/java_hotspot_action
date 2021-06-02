@@ -228,7 +228,7 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
     对象内存空间利用率: 实例数据空间 / (instanceOop + 实例数据空间)
 
     8、是否压缩元数据指针配置  -XX:+UseCompressedOops  -XX:-UseCompressedOops
-    VM选项 使用元数据指针的 wideKlassOop 或 narrowOop 如果使用 -XX:+UseCompressedOops 在使用wideKassOop 如果使用 -XX:-UseCompressedOops 则元数据指针使用 narrowOop
+    VM选项 使用元数据指针的 wideKlassOop 或 narrowOop 如果使用 -XX:+UseCompressedOops 则源数据指针使用 wideKassOop 如果使用 -XX:-UseCompressedOops 则元数据指针使用 narrowOop
 
     在/home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg 文件夹下使用如下命令, 虽然看不出参数使用效果 可以作为以后调试的入口!
     /home/jdk1.6.0_35/bin/java -XX:+UseCompressedOops HelloWorld
