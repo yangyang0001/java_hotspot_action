@@ -258,9 +258,27 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         tag = 0x80  表示 oop数组
         tag = 0xC0  表示 非oop数组
 
+    10、实例对象中字段的存储顺序 可由 -XX:FieldsAllocationStyle=1 是默认的情况下面给出 FieldsAllocationStyle的枚举类型
+    product(intx, FieldsAllocationStyle, 1,                                   \  默认的风格是 1, oops at last
+              "0 - type based with oops first, 1 - with oops last, "          \  风格 0: oops at first
+              "2 - oops in super and sub classes are together")               \  风格 2: oops 在父类和子类中都存在
+
+    TODO 使用方式: sh hotspot -XX:FieldsAllocationStyle=0 HelloWorld
+
+    product(bool, CompactFields, true,                                        \
+            "Allocate nonstatic fields in gaps between previous fields")      \  在前面的字段之间的间隔中分配空间用以存放非静态字段
+
+    TODO 使用方式: sh hotspot -XX:+CompactFields HelloWorld
+
+    notproduct(bool, PrintCompactFieldsSavings, false,                        \
+            "Print how many words were saved with CompactFields")             \
+
+    TODO 使用凡是: sh hotspot -XX:+PrintCompactFieldsSavings HelloWorld
 
 
-
+    11、使用HSDB 调试 HotSpot
+    Exception in thread "main" java.awt.HeadlessException:
+    No X11 DISPLAY variable was set, but this program performed an operation which requires it.
 
 
 
