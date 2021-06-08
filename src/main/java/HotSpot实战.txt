@@ -276,13 +276,38 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
     TODO 使用凡是: sh hotspot -XX:+PrintCompactFieldsSavings HelloWorld
 
 
-    11、使用HSDB 调试 HotSpot
-    Exception in thread "main" java.awt.HeadlessException:
-    No X11 DISPLAY variable was set, but this program performed an operation which requires it.
+    11、实战部分 使用HSDB 调试 HotSpot
+        注意: Linux和Solaris在Oracle/Sun JDK6就可以使用HSDB了, 但Windows上要到Oracle JDK7才可以用HSDB, 无论哪种平台都必须先安装JDK环境
 
+        Windows平台
+        java -cp ".;%JAVA_HOME%/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB    能够成功; 书上的没有加双引号, 书上错误
 
+        使用Attaching to Process时出现错误 如下异常
+        抛出异常: Exception in thread "Thread-1" java.lang.UnsatisfiedLinkError: Can't load library: D:\Program Files\Java\jre1.8.0_221\bin\sawindbg.dll
+        解决方案: 将D:\Program Files\Java\jdk1.8.0_221\jre\bin\sawindbg.dll 复制到 D:\Program Files\Java\jre1.8.0_221\bin\ 下就OK了
 
+        ---------------------------------------------------------- Linux平台HSDB研究 -------------------------------------------------------------
+        Linux平台
+        运行命令: java -cp "$JAVA_HOME/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB
+        抛出异常: Exception in thread "main" java.awt.HeadlessException: No X11 DISPLAY variable was set, but this program performed an operation which requires it.
+        解决方案: 在 /etc/profile 中添加配置 export DISPLAY=localhost:0.0
 
+        再次命令: java -cp "$JAVA_HOME/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB
+        抛出异常: Exception in thread "main" java.lang.UnsatisfiedLinkError: /home/jdk1.6.0_35/jre/lib/amd64/xawt/libmawt.so: libXext.so.6: cannot open shared object file: No such file or directory
+        解决方案: 执行如下命令:
+                 yum -y install libXext.x86_64
+                 yum -y install libXrender.x86_64
+                 yum -y install libXtst.x86_64
+
+        再次命令: java -cp "$JAVA_HOME/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB
+        抛出异常: Exception in thread "main" java.lang.InternalError: Can't connect to X11 window server using 'localhost:0.0' as the value of the DISPLAY variable.
+        解决方案: 命令上添加启动参数 -Djava.awt.headless=true
+
+        执行命令:
+            export DISPLAY=192.168.117.1:0.0
+            java -cp "$JAVA_HOME/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB
+            但是没有任何反应! 所以这种Linux下的 HSDB不先做深入研究, 在Windows上做这种HSDB的研究
+        ---------------------------------------------------------- Linux平台HSDB研究 -------------------------------------------------------------
 
 
 
