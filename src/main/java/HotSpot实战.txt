@@ -309,7 +309,8 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
             但是没有任何反应! 所以这种Linux下的 HSDB不先做深入研究, 在Windows上做这种HSDB的研究
         ---------------------------------------------------------- Linux平台HSDB研究 -------------------------------------------------------------
 
-
+        MacOS 平台:
+        java -cp "/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB
 
 
 
