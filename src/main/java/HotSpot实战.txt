@@ -317,7 +317,13 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         连接进程命令: attach 进程号
         开始使用命令来处理就OK了
 
-    13、类的状态转换
+    13、类的状态转换, 主要研究类从编译 到 进入JVM的过程 和辅助工具的使用
+        Java虚拟机规范地址: 参考以下可以猜测se10 等等
+        https://docs.oracle.com/javase/specs/jvms/se7/jvms7.pdf
+        https://docs.oracle.com/javase/specs/jvms/se8/jvms8.pdf
+        https://docs.oracle.com/javase/specs/jvms/se9/jvms9.pdf
+        ......
+
 
 
 
