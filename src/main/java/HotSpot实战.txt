@@ -312,6 +312,15 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         MacOS 平台:
         java -cp "/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB
 
+    12、HSDB 熟悉 和 使用 Command Line HSDB, 如果想在DOS命令下使用 CLHSDB 执行如下命令:
+        开启CLHSDB : java -cp ".;%JAVA_HOME%/lib/sa-jdi.jar" sun.jvm.hotspot.CLHSDB
+        连接进程命令: attach 进程号
+        开始使用命令来处理就OK了
+
+    13、类的状态转换
+
+
+
 
 
 
