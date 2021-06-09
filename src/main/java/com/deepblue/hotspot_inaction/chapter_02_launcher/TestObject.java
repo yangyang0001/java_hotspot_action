@@ -24,23 +24,6 @@ public class TestObject {
 //        System.out.println("JNI_VERSION_1_4 = " + JNI_VERSION_1_4);
 //        System.out.println("JNI_VERSION_1_6 = " + JNI_VERSION_1_6);
 
-        List<String> merchantIds = Lists.newArrayList();
-        merchantIds.add("20150211ZH02030651");
-        String jsonIds = JSON.toJSONString(merchantIds);
-        System.out.println("jsonIds :" + jsonIds);
-
-        List<String> strings = JSON.parseArray(jsonIds, String.class);
-        System.out.println("strings :" + JSON.toJSONString(strings));
-
-        String merchantId = "20150211ZH02030651";
-        if(CollectionUtils.isNotEmpty(merchantIds) && !merchantIds.contains(merchantId)) {
-            // 来疯IOS退款成功订单 消息
-            System.out.println("来疯订单");
-        } else {
-            // TODO doNothing； 不区分来疯IOS和优酷IOS 则什么都不做! 目的就是接入来疯IOS退款成功消息
-            System.out.println("do Nothing");
-        }
-
     }
 
 }
