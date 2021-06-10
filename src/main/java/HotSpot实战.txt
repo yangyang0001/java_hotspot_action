@@ -323,6 +323,28 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         https://docs.oracle.com/javase/specs/jvms/se8/jvms8.pdf
         https://docs.oracle.com/javase/specs/jvms/se9/jvms9.pdf
         ......
+        TODO HotSpot中instanceKlass 给类定义了7种状态, markOop 给对象定义了5种状态, 前者是类的状态, 后者是对象的状态不可弄混了!
+        enum ClassState {
+            unparsable_by_gc = 0,               // object is not yet parsable by gc. Value of _init_state at object allocation. 还不能被GC解析, 已经分配了初始状态值
+            allocated,                          // allocated (but not yet linked)                                               已经分配, 未链接
+            loaded,                             // loaded and inserted in class hierarchy (but not linked yet)                  加载并插入到类层次结构中, 未链接
+            linked,                             // successfully linked/verified (but not initialized yet)                       已链接/校验完成, 但未初始化
+            being_initialized,                  // currently running class initializer                                          初始化中
+            fully_initialized,                  // initialized (successfull final state)                                        完成初始化
+            initialization_error                // error happened during initialization                                         初始化过程出错
+        };
+
+        *.java文件 -> 编译 -> *.class文件 -> 加载 -> 链接 -> 初始化 -> Class[方法区]
+
+        加载: 加载过程是将*.class文件 通过输入流进入内存并按照Klass文件对应的格式翻译成JVM内部的类或借口
+        链接: 校验 准备 解析
+            校验: 校验klass是否复合规定的二进制文件格式
+            准备: 静态初始化的过程 = 零初始化 + 常量表达式初始化
+            解析: 是将符号引用转换为直接引用
+        初始化:执行类或接口的初始化方法的过程
+
+        *.class文件 经过 加载 链接 初始化 的过程 就可以在JVM中使用了!
+
 
 
 
