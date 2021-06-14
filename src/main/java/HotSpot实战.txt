@@ -345,6 +345,7 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
 
         *.class文件 经过 加载 链接 初始化 的过程 就可以在JVM中使用了!
 
+    14、Java VisualVM 可视化工具的使用, 在windows下需要 管理员 才能看到进程! 目前只是链接的本地机器
 
 
 
