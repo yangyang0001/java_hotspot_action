@@ -358,7 +358,11 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
 
 
     6、用GDB调试查看 classFileParser.hpp:277行[即方法 classFileParser:parseClassFile()], 打断点如下:
-ç
+    break thread.cpp:3107
+    break init.cpp:109
+    break universe.cpp:348
+    break systemDictionary.cpp:1886
+    break classFileParser.hpp:277
 
     init.cpp文件中的init_globals() 方法完成加载功能, HotSpot_类加载详细过程.png
 
