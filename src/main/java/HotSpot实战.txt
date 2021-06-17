@@ -180,7 +180,7 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 --------------------------------------------------------------------------第三章 类与对象----------------------------------------------------------------
 -------------------------------------------------------------------------------------------------------------------------------------------------------
-
+    -------------------------------------------------------------------- 3.1、对象表示机制 --------------------------------------------------------
     1、概念: OOP (ordinary object pointer) [ˈɔːdnri]  普通的, 平凡的
 
     2、OOP-Klass 二分模型:
@@ -273,10 +273,11 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
     notproduct(bool, PrintCompactFieldsSavings, false,                        \
             "Print how many words were saved with CompactFields")             \
 
-    TODO 使用凡是: sh hotspot -XX:+PrintCompactFieldsSavings HelloWorld
+    TODO 使用方式: sh hotspot -XX:+PrintCompactFieldsSavings HelloWorld
 
+    -------------------------------------------------------------------- 3.2、类状态的转换 --------------------------------------------------------
 
-    11、实战部分 使用HSDB 调试 HotSpot
+    1、实战部分 使用HSDB 调试 HotSpot
         注意: Linux和Solaris在Oracle/Sun JDK6就可以使用HSDB了, 但Windows上要到Oracle JDK7才可以用HSDB, 无论哪种平台都必须先安装JDK环境
 
         Windows平台
@@ -312,12 +313,12 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         MacOS 平台:
         java -cp "/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB
 
-    12、HSDB 熟悉 和 使用 Command Line HSDB, 如果想在DOS命令下使用 CLHSDB 执行如下命令:
+    2、HSDB 熟悉 和 使用 Command Line HSDB, 如果想在DOS命令下使用 CLHSDB 执行如下命令:
         开启CLHSDB : java -cp ".;%JAVA_HOME%/lib/sa-jdi.jar" sun.jvm.hotspot.CLHSDB
         连接进程命令: attach 进程号
         开始使用命令来处理就OK了
 
-    13、类的状态转换, 主要研究类从编译 到 进入JVM的过程 和辅助工具的使用
+    3、类的状态转换, 主要研究类从编译 到 进入JVM的过程 和辅助工具的使用
         Java虚拟机规范地址: 参考以下可以猜测se10 等等
         https://docs.oracle.com/javase/specs/jvms/se7/jvms7.pdf
         https://docs.oracle.com/javase/specs/jvms/se8/jvms8.pdf
@@ -345,7 +346,23 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
 
         *.class文件 经过 加载 链接 初始化 的过程 就可以在JVM中使用了!
 
-    14、Java VisualVM 可视化工具的使用, 在windows下需要 管理员 才能看到进程! 目前只是链接的本地机器
+    4、Java VisualVM 可视化工具的使用, 在windows下需要 管理员 才能看到进程! 目前只是链接的本地机器, 加载相关的 VMOperation 参考图片 HotSpot_JVM类加载相关.png
+
+    5、类的加载
+        classfile 顶层模块, 这个模块下的5个核心模块 ClassFileParser, Verifier, ClassLoader, SystemDictionary, SymbolTable
+        ClassFileParser : 类解析器, 用来解析*.class文件; 它利用ClassFileStream 读取*.class文件, 将当前输入流为 ClassFileParser的参数!
+        Verifier        : 校验器, 一种抽象 有子类ClassVerifier
+        ClassLoader     : 类加载器
+        SystemDictionary: 系统字典, 存储所有已经加载的类
+        SymbolTable     : 字符表                                               Symbol [ˈsɪmbl] 字符, 标志, 象征
+
+
+    6、用GDB调试查看 classFileParser.hpp:277行, 打断点如下:
+    break thread.cpp:3107
+    break init.cpp:109
+    break universe.cpp:348
+    break classFileParser.cpp:277
+
 
 
 
