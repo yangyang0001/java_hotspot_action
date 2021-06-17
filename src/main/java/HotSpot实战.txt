@@ -357,7 +357,7 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         SymbolTable     : 字符表                                               Symbol [ˈsɪmbl] 字符, 标志, 象征
 
 
-    6、用GDB调试查看 classFileParser.hpp:277行, 打断点如下:
+    6、用GDB调试查看 classFileParser.hpp:277行[即方法 classFileParser:parseClassFile()], 打断点如下:
     break thread.cpp:3107
     break init.cpp:109
     break universe.cpp:348
