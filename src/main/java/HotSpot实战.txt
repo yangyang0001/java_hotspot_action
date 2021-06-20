@@ -358,16 +358,28 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
 
 
     6、用GDB调试查看 classFileParser.hpp:277行[即方法 classFileParser:parseClassFile()], 打断点如下:
-    break thread.cpp:3107
-    break init.cpp:109
-    break universe.cpp:348
-    break systemDictionary.cpp:186
-    break systemDictionary.cpp:1359
-    break classLoader.cpp:917
-    break classFileParser.hpp:284
-    break classFileParser.cpp:2826
+        break thread.cpp:3107
+        break init.cpp:109
+        break universe.cpp:348
+        break systemDictionary.cpp:186
+        break systemDictionary.cpp:1359
+        break classLoader.cpp:917
+        break classFileParser.hpp:284
+        break classFileParser.cpp:2826
 
-    init.cpp文件中的init_globals() 方法完成加载功能, 查看HotSpot_JVM启动过程.jpg; 在classFileParser.cpp:parseClassFile 方法
+        init.cpp文件中的init_globals() 方法完成加载功能, 查看HotSpot_JVM启动过程.jpg; 在classFileParser.cpp:parseClassFile 方法
+
+        加载中常用的VMOperation 可以参考图片, 也可以通过启动加入以下参数查看
+        -verbose    是打印出来VMOperation
+        -XX:+TraceClassLoading -XX:+TraceClassLoadingPreorder -XX:+LazyBootClassLoader
+        -XX:+LoadLineNumberTables -XX:+LoadLocalVariableTables -XX:+LoadLocalVariableTypeTables
+
+        具体命令可以如下:
+        sh hotspot -XX:+TraceClassLoading -XX:+TraceClassLoadingPreorder -XX:+LazyBootClassLoader -verbose HelloWorld
+        sh hotspot -XX:+LoadLineNumberTables -XX:+LoadLocalVariableTables -XX:+LoadLocalVariableTypeTables -verbose HelloWorld
+
+    7、链接
+
 
 
 
