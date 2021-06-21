@@ -340,7 +340,7 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         加载: 加载过程是将*.class文件 通过输入流进入内存并按照Klass文件对应的格式翻译成JVM内部的类或借口
         链接: 校验 准备 解析
             校验: 校验klass是否复合规定的二进制文件格式
-            准备: 静态初始化的过程 = 零初始化 + 常量表达式初始化
+            准备: 对静态变量进行分配空间和零初始化的过程
             解析: 是将符号引用转换为直接引用
         初始化:执行类或接口的初始化方法的过程
 
@@ -378,7 +378,44 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         sh hotspot -XX:+TraceClassLoading -XX:+TraceClassLoadingPreorder -XX:+LazyBootClassLoader -verbose HelloWorld
         sh hotspot -XX:+LoadLineNumberTables -XX:+LoadLocalVariableTables -XX:+LoadLocalVariableTypeTables -verbose HelloWorld
 
-    7、链接
+    7、链接 包含 校验、准备、解析 三个逻辑阶段
+        每个Class文件都有自己的常量池, 常量池中存放当前类用到的 符号引用!
+        Class文件之间通过符号引用建立联系, Class的常量池会在JVM内部关联一个 位于运行时内存的 常量池数据结构, 匹配关系如下:
+        *.class文件constantPool <-------------> 运行时常量池(内部对应*.class文件常量池的数据结构), 运行时常量池 有别于 Class文件的静态常量池
+
+        链接又从逻辑上分为3个阶段, 校验、准备、解析, 将符号引用转换为直接引用的过程称为解析, 因符号引用来自于常量池, 故解析又叫常量池解析!
+
+        注意:
+            1、每个Class都有自己的常量池, 常量池中存放的当前类中用到的所有符号引用!
+            2、解析是将符号引用转化为直接引用的过程, 因符号引用来自于常量池, 因此解析又称为常量池解析! 解析的时机, 有的是采用主方法运行前一次性完成对所有类的解析, 这种称为早解析,
+               有的采用首次被访问时才进行解析, 这种叫晚解析! HotSpot 采用的是后者晚解析的方式! 因此解析的时机又分为两种时机 早解析 和 晚解析!
+
+        TODO 通过GDB查看链接过程, 需要加入断点
+        break thread.cpp:3107
+        break init.cpp:122
+        break universe.cpp:1059
+        break instanceKlass.cpp:245
+
+        如下代码就是 instanceKlass.cpp 中的245代码:
+        bool instanceKlass::link_class_impl(instanceKlassHandle this_oop, bool throw_verifyerror, TRAPS)
+
+        校验: 对类或接口所对应的二进制信息进行验证, 其中method是验证的主要目标
+
+        准备: 对静态变量进行零初始化的过程, 即对不同类型的静态变量进行赋默认值的过程, 进行零初始化的规则如下:
+        　　  Char类型 默认值为: '\u0000'
+        　　  byte类型 默认值为: 0
+        　　  boolean 默认值为: 0
+        　　  float   默认值为: 0.0f
+        　　  double  默认值为: 0.0d
+
+        解析: 将符号引用 转换成 直接引用的过程, 因符号引用存在于常量池中, 故解析又称为常量池解析; 将以下4类符号引用转化为直接引用的过程称之为解析!
+        　　  其中包括4类符号引用: 类, 接口, 字段, 类方法和接口方法, 将这四类符号引用转化为直接引用, 即直接转化为运行时内存地址!
+        　　  解析过程主要专注方法, 将指向常量池的索引 替换为 常量池缓存的索引 的过程称之为重写!
+
+
+    8、初始化
+        概念: 对类或接口进行初始化就是执行他们的初始化方法!
+        时机: 请看HotSpot_类初始化时机.png
 
 
 
