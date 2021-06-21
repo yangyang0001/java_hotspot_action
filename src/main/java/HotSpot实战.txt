@@ -417,6 +417,8 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         概念: 对类或接口进行初始化就是执行他们的初始化方法!
         时机: 请看HotSpot_初始化时机.png
 
+        instanceKlass.cpp 中 initialize_impl() 就是初始化的方法
+
 
 
 
