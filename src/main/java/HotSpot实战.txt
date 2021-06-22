@@ -390,10 +390,10 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
             2、解析是将符号引用转化为直接引用的过程, 因符号引用来自于常量池, 因此解析又称为常量池解析! 解析的时机, 有的是采用主方法运行前一次性完成对所有类的解析, 这种称为早解析,
                有的采用首次被访问时才进行解析, 这种叫晚解析! HotSpot 采用的是后者晚解析的方式! 因此解析的时机又分为两种时机 早解析 和 晚解析!
 
-        TODO 通过GDB查看链接过程, 需要加入断点
+        TODO 通过GDB查看链接过程, 需要加入断点 查看图片 HotSpot_链接过程源码.jpg
         break thread.cpp:3107
         break init.cpp:122
-        break universe.cpp:1059
+        break universe.cpp:1057
         break instanceKlass.cpp:245
 
         如下代码就是 instanceKlass.cpp 中的245代码:
@@ -415,7 +415,13 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
 
     8、初始化
         概念: 对类或接口进行初始化就是执行他们的初始化方法!
-        时机: 请看HotSpot_初始化时机.png
+        参考: HotSpot_初始化过程源码.png
+
+        break thread.cpp:3107
+        break init.cpp:122
+        break universe.cpp:1057
+        break instanceKlass.cpp:195
+        break instanceKlass.cpp:394
 
         instanceKlass.cpp 中 initialize_impl() 就是初始化的方法
 
