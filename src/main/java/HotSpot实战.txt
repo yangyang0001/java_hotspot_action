@@ -412,7 +412,6 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         　　  其中包括4类符号引用: 类, 接口, 字段, 类方法和接口方法, 将这四类符号引用转化为直接引用, 即直接转化为运行时内存地址!
         　　  解析过程主要专注方法, 将指向常量池的索引 替换为 常量池缓存的索引 的过程称之为重写!
 
-
     8、初始化
         概念: 对类或接口进行初始化就是执行他们的初始化方法!
         参考: HotSpot_初始化过程源码.png
@@ -421,9 +420,14 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         break instanceKlass.cpp:195
         break instanceKlass.cpp:394
 
+        instanceKlass.cpp第394行就是如下代码:
         instanceKlass.cpp 中 initialize_impl() 就是初始化的方法
 
+        初始化和接口没有关系, 证明如下:
+        1、让接口中 有个属性是static的且赋值, 如public static OtherK other = new OtherK(); 在 OtherK.java中有初始化代码块
+        2、可以看源码在 instanceKlass.cpp Step7 中有 !this_oop->is_interface(), 源码解释: 如果是接口直接过滤掉了! 可参考页码 117/358
 
+    9、实战: 类的族谱
 
 
 
