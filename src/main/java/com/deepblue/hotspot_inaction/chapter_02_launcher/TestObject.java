@@ -81,13 +81,22 @@ public class TestObject {
 //
 //            System.out.println("list :" + JSON.toJSONString(list));
 //        }
-        Long timeMillis = System.currentTimeMillis();
-        Long currentSecond = timeMillis / 1000;
-        System.out.println("timeMillis    :" + timeMillis);
-        System.out.println("currentSecond :" + currentSecond);
+//        Long timeMillis = System.currentTimeMillis();
+//        Long currentSecond = timeMillis / 1000;
+//        System.out.println("timeMillis    :" + timeMillis);
+//        System.out.println("currentSecond :" + currentSecond);
 
+        User user = new User();
+        System.out.println("user :" + JSON.toJSONString(user));
+        decorateUser(user);
+        System.out.println("user :" + JSON.toJSONString(user));
     }
 
+
+    public static void decorateUser(User user) {
+        user.setCode(1111);
+        user.setDesc("1111");
+    }
 
     public static void decorate(List<User> users) {
         for(User user: users) {
