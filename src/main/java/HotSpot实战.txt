@@ -428,6 +428,55 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         2、可以看源码在 instanceKlass.cpp Step7 中有 !this_oop->is_interface(), 源码解释: 如果是接口直接过滤掉了! 可参考页码 117/358
 
     9、实战: 类的族谱
+        研究类的族谱 这里使用开源的JavaFX项目作为演示程序 ensemble.jar
+        需要下载 javafx_samples-2_0_2.zip
+        引导地址 https://www.infoworld.com/article/2074504/javafx-2-s-ensemble-and-other-sample-applications.html
+        下载地址 https://www.oracle.com/java/technologies/javafx2-archive-downloads.html
+        下载链接 https://download.oracle.com/otn-pub/java/javafx/2.0.2-b08/javafx_samples-2_0_2.zip
+
+        使用条件:
+        1、解压javafx_samples-2_0_2.zip 里面会有 Ensemble.jar, 双击Ensemble.jar 或 执行 java -jar Ensemble.jar, 并启用HSDB进行debug
+        2、通过HSDB链接进程, 查看类Class Browser, 根据地址查看类消息 Inspector
+
+    10、实战: 系统字典 System Dictionary
+        在systemDictionary.cpp中 静态成员含义:
+        // 持有已加载类的 Hashtable
+        Dictionary*            SystemDictionary::_dictionary          = NULL;
+
+        // 持有将被加载类的占位符的 Hashtable
+        PlaceholderTable*      SystemDictionary::_placeholders        = NULL;
+
+        // 持有来自于共享库的类的 Hashtable
+        Dictionary*            SystemDictionary::_shared_dictionary   = NULL;
+
+        // 类加载器约束
+        LoaderConstraintTable* SystemDictionary::_loader_constraints  = NULL;
+
+        // 解析错误
+        ResolutionErrorTable*  SystemDictionary::_resolution_errors   = NULL;
+
+        // 调用方法表(JSR 292)
+        SymbolPropertyTable*   SystemDictionary::_invoke_method_table = NULL;
+
+        // 单调递增计数器, 随着_number_of_classes和断点设置等信息增长或删除
+        int         SystemDictionary::_number_of_modifications = 0;
+
+        // 系统类加载器锁对象
+        oop         SystemDictionary::_system_loader_lock_obj     =  NULL;
+
+        // 持有公用的klasses(预加载)
+        klassOop    SystemDictionary::_well_known_klasses[SystemDictionary::WKID_LIMIT] =  { NULL /*, NULL...*/ };
+
+        // 持有基本类型的装箱klass的表(如int_klass、double_klass等)
+        klassOop    SystemDictionary::_box_klasses[T_VOID+1]      =  { NULL /*, NULL...*/ };
+
+        oop         SystemDictionary::_java_system_loader         =  NULL;
+        bool        SystemDictionary::_has_loadClassInternal      =  false;
+        bool        SystemDictionary::_has_checkPackageAccess     =  false;
+
+        // 延迟加载类
+        volatile klassOop    SystemDictionary::_abstract_ownable_synchronizer_klass = NULL;
+
 
 
 
