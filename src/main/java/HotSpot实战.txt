@@ -477,6 +477,14 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         // 延迟加载类
         volatile klassOop    SystemDictionary::_abstract_ownable_synchronizer_klass = NULL;
 
+        TODO 这里并没有深究 SA Plugin 来探测 SystemDictionary中的属性
+
+    11、创建对象, 创建流程过程请查看HotSpot_实例的创建流程.jpg
+        对象创建的基本流程:
+        (1) 当前类已经完成解析
+        (2) 确保当前类和父类已经完成初始化
+        (3) 如果满足快速分配条件, 则进入快速分配流程
+        (4) 如果不满足快速分配条件, 或快速分配失败, 则进入慢速分配流程
 
 
 
