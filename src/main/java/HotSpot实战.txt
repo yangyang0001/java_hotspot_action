@@ -486,6 +486,10 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         (3) 如果满足快速分配条件, 则进入快速分配流程
         (4) 如果不满足快速分配条件, 或快速分配失败, 则进入慢速分配流程
 
+        HotSpot分配对象的过程, 有快速分配 和 慢速分配!
+        快速分配有两种分配方式: TLABs 和 共享Eden区! [Thread Local Allocation Buffers 线程快速分配缓存技术], 可以在线程私有区域实现空间的分配, 简称TLABs
+        慢速分配 请参考 HotSpot_实例的创建流程.jpg
+
 
 
 

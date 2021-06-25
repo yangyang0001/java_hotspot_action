@@ -86,10 +86,12 @@ public class TestObject {
 //        System.out.println("timeMillis    :" + timeMillis);
 //        System.out.println("currentSecond :" + currentSecond);
 
-        User user = new User();
-        System.out.println("user :" + JSON.toJSONString(user));
-        decorateUser(user);
-        System.out.println("user :" + JSON.toJSONString(user));
+//        User user = new User();
+//        System.out.println("user :" + JSON.toJSONString(user));
+//        decorateUser(user);
+//        System.out.println("user :" + JSON.toJSONString(user));
+
+
     }
 
 
@@ -135,7 +137,5 @@ public class TestObject {
         private Integer code;
         private String  desc;
     }
-
-
 
 }
