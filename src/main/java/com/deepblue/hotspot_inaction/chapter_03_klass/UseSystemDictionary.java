@@ -1,20 +1,11 @@
 package com.deepblue.hotspot_inaction.chapter_03_klass;
 
-import javax.lang.model.SourceVersion;
-import javax.tools.Tool;
-import java.io.InputStream;
-import java.io.OutputStream;
-import java.util.Set;
+import sun.jvm.hotspot.tools.Tool;
 
-public class UseSystemDictionary implements Tool {
+public class UseSystemDictionary extends Tool {
 
 	@Override
-	public int run(InputStream in, OutputStream out, OutputStream err, String... arguments) {
-		return 0;
-	}
+	public void run() {
 
-	@Override
-	public Set<SourceVersion> getSourceVersions() {
-		return null;
 	}
 }

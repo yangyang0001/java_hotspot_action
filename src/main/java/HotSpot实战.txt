@@ -313,6 +313,10 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         MacOS 平台:
         java -cp "/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB
 
+        jdk12 执行以下命令:
+        cd /Library/Java/JavaVirtualMachines/jdk-12.0.2.jdk/Contents/Home/bin
+        jhsdb hsdb
+
     2、HSDB 熟悉 和 使用 Command Line HSDB, 如果想在DOS命令下使用 CLHSDB 执行如下命令:
         开启CLHSDB : java -cp ".;%JAVA_HOME%/lib/sa-jdi.jar" sun.jvm.hotspot.CLHSDB
         连接进程命令: attach 进程号
@@ -489,6 +493,46 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         HotSpot分配对象的过程, 有快速分配 和 慢速分配!
         快速分配有两种分配方式: TLABs 和 共享Eden区! [Thread Local Allocation Buffers 线程快速分配缓存技术], 可以在线程私有区域实现空间的分配, 简称TLABs
         慢速分配 请参考 HotSpot_实例的创建流程.jpg
+
+        使用jdk12 的CLHSDB
+        cd /Library/Java/JavaVirtualMachines/jdk-12.0.2.jdk/Contents/Home/bin
+        jhsdb hsdb
+
+        hsdb> attach 13914
+        Attaching to process 13914, please wait...
+        Warning: Nashorn engine is planned to be removed from a future JDK release
+        javax.script.ScriptException: TypeError: sapkg.runtime.VM.getVM is not a function in sa.js at line number 54
+        javax.script.ScriptException: TypeError: sapkg.runtime.VM.getVM is not a function in sa.js at line number 54
+        Warning! JS Engine can't start, some commands will not be available.
+
+        hsdb> universe
+        Heap Parameters:
+        garbage-first heap [0x0000000700000000, 0x0000000800000000] region size 1024K
+        G1 Heap:
+           regions  = 4096
+           capacity = 4294967296 (4096.0MB)
+           used     = 3899392 (3.71875MB)
+           free     = 4291067904 (4092.28125MB)
+           0.090789794921875% used
+        G1 Young Generation:
+        Eden Space:
+           regions  = 3
+           capacity = 27262976 (26.0MB)
+           used     = 3145728 (3.0MB)
+           free     = 24117248 (23.0MB)
+           11.538461538461538% used
+        Survivor Space:
+           regions  = 0
+           capacity = 0 (0.0MB)
+           used     = 0 (0.0MB)
+           free     = 0 (0.0MB)
+           0.0% used
+        G1 Old Generation:
+           regions  = 2
+           capacity = 243269632 (232.0MB)
+           used     = 753664 (0.71875MB)
+           free     = 242515968 (231.28125MB)
+           0.3098060344827586% used
 
 
 
