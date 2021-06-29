@@ -1,6 +1,7 @@
 package com.deepblue.hotspot_inaction.chapter_02_launcher;
 
 import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.google.common.collect.Lists;
 import lombok.*;
 import org.apache.commons.collections4.CollectionUtils;
@@ -90,6 +91,17 @@ public class TestObject {
 //        System.out.println("user :" + JSON.toJSONString(user));
 //        decorateUser(user);
 //        System.out.println("user :" + JSON.toJSONString(user));
+
+        List<Long> list = Lists.newArrayList();
+        System.out.println(list.contains(200L));
+        System.out.println(list.size());
+        list.add(1000000L);
+        list.add(2000000L);
+        System.out.println(JSON.toJSONString(list));
+
+        String a = "[1000000,2000000]";
+        List<Long> longs = JSONObject.parseArray(null, Long.class);
+        System.out.println(JSON.toJSONString(longs));
 
 
     }

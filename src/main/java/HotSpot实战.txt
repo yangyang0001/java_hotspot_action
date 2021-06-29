@@ -282,6 +282,7 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
 
         Windows平台
         java -cp ".;%JAVA_HOME%/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB    能够成功; 书上的没有加双引号, 书上错误
+        java -cp ".;%JAVA_HOME%/lib/sa-jdi.jar" sun.jvm.hotspot.CLHSDB
 
         使用Attaching to Process时出现错误 如下异常
         抛出异常: Exception in thread "Thread-1" java.lang.UnsatisfiedLinkError: Can't load library: D:\Program Files\Java\jre1.8.0_221\bin\sawindbg.dll
@@ -494,7 +495,7 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
         快速分配有两种分配方式: TLABs 和 共享Eden区! [Thread Local Allocation Buffers 线程快速分配缓存技术], 可以在线程私有区域实现空间的分配, 简称TLABs
         慢速分配 请参考 HotSpot_实例的创建流程.jpg
 
-        使用jdk12 的CLHSDB
+        MacOS下 使用jdk12 的CLHSDB
         cd /Library/Java/JavaVirtualMachines/jdk-12.0.2.jdk/Contents/Home/bin
         jhsdb hsdb
 
@@ -533,6 +534,55 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
            used     = 753664 (0.71875MB)
            free     = 242515968 (231.28125MB)
            0.3098060344827586% used
+
+
+        Windows jdk8下 使用 CLHSDB 观察 Ensemble.jar
+        java -cp ".;%JAVA_HOME%/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB    能够成功; 书上的没有加双引号, 书上错误
+        java -cp ".;%JAVA_HOME%/lib/sa-jdi.jar" sun.jvm.hotspot.CLHSDB
+
+        C:\Users\yangjianwei>jps
+        10528 Launcher
+        35552
+        24532 Ensemble.jar
+        17112 Jps
+        10812 RemoteMavenServer36
+        
+        C:\Users\yangjianwei>java -cp ".;%JAVA_HOME%/lib/sa-jdi.jar" sun.jvm.hotspot.CLHSDB
+        hsdb> attach 24532
+        Attaching to process 24532, please wait...
+        hsdb> universe
+        Heap Parameters:
+        ParallelScavengeHeap [
+            PSYoungGen [
+                eden =  [0x00000000d6000000,0x00000000d7235330,0x00000000da000000] ,
+                from =  [0x00000000da000000,0x00000000da000000,0x00000000da500000] ,
+                to   =  [0x00000000de500000,0x00000000de500000,0x00000000dea00000]
+            ]
+            PSOldGen [  [0x0000000082000000,0x00000000833518c8,0x0000000087100000]  ]
+        ]
+
+        TODO scanoops 命令的使用 scanoops start end ClassName
+        hsdb> scanoops 0x0000000082000000 0x00000000833518c8 java/lang/Thread
+        0x00000000820770f0 java/lang/Thread
+        0x00000000820ce450 java/lang/Thread
+        0x00000000820ce648 java/lang/Thread
+        0x00000000820ce848 java/lang/ref/Finalizer$FinalizerThread
+        0x00000000820cea40 java/lang/ref/Reference$ReferenceHandler
+        0x00000000820cecc0 com/sun/glass/ui/InvokeLaterDispatcher
+        0x0000000082165de0 java/lang/Thread
+        0x0000000082165f58 java/lang/Thread
+        0x00000000821660d0 java/lang/Thread
+        0x0000000082166248 java/lang/Thread
+        0x000000008272ab88 com/sun/javafx/tk/quantum/QuantumToolkit$1
+        0x0000000082af21d0 java/lang/Thread
+        0x0000000082b0fc48 java/lang/Thread
+        0x0000000082b109f0 java/lang/Thread
+        0x0000000082b10c68 java/lang/Thread
+        0x0000000083065e40 java/lang/Thread
+        0x0000000083122a78 java/lang/Thread
+
+
+
 
 
 
