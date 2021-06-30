@@ -108,11 +108,11 @@ public class TestObject {
 
         SimpleDateFormat defaultSDF = new SimpleDateFormat("yyyy-MM-dd");
         String contractEffectiveTimeStr = defaultSDF.format(new Date());
-        Date contractEffectiveTime;
+        Date contractEffectiveTime = null;
         try {
             contractEffectiveTime = defaultSDF.parse(contractEffectiveTimeStr);
         } catch (ParseException pe) {
-            throw new RuntimeException("合同生效时间解析失败:" + contractEffectiveTimeStr);
+            pe.printStackTrace();
         }
 
         Calendar calendar = Calendar.getInstance();
