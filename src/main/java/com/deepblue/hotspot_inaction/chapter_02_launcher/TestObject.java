@@ -6,6 +6,7 @@ import com.google.common.collect.Lists;
 import lombok.*;
 import org.apache.commons.collections4.CollectionUtils;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.stream.Collectors;
@@ -92,16 +93,37 @@ public class TestObject {
 //        decorateUser(user);
 //        System.out.println("user :" + JSON.toJSONString(user));
 
-        List<Long> list = Lists.newArrayList();
-        System.out.println(list.contains(200L));
-        System.out.println(list.size());
-        list.add(1000000L);
-        list.add(2000000L);
-        System.out.println(JSON.toJSONString(list));
+//        List<Long> list = Lists.newArrayList();
+//        System.out.println(list.contains(200L));
+//        System.out.println(list.size());
+//        list.add(1000000L);
+//        list.add(2000000L);
+//        System.out.println(JSON.toJSONString(list));
+//
+//        String a = "[1000000,2000000]";
+//        List<Long> longs = JSONObject.parseArray(null, Long.class);
+//        System.out.println(JSON.toJSONString(longs));
 
-        String a = "[1000000,2000000]";
-        List<Long> longs = JSONObject.parseArray(null, Long.class);
-        System.out.println(JSON.toJSONString(longs));
+
+
+        SimpleDateFormat defaultSDF = new SimpleDateFormat("yyyy-MM-dd");
+        String contractEffectiveTimeStr = defaultSDF.format(new Date());
+        Date contractEffectiveTime;
+        try {
+            contractEffectiveTime = defaultSDF.parse(contractEffectiveTimeStr);
+        } catch (ParseException pe) {
+            throw new RuntimeException("合同生效时间解析失败:" + contractEffectiveTimeStr);
+        }
+
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(contractEffectiveTime);
+        calendar.add(Calendar.YEAR, 1);
+        calendar.add(Calendar.DATE, -1);
+        Date contractExpirationTime = calendar.getTime();
+
+        SimpleDateFormat mineSDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        System.out.println("contractEffectiveTime  :" + mineSDF.format(contractEffectiveTime));
+        System.out.println("contractExpirationTime :" + mineSDF.format(contractExpirationTime));
 
 
     }
