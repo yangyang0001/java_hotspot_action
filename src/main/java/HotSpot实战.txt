@@ -602,6 +602,16 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
     方法区 和 持久代不是一个概念, 方法区是运行时数据区的划分, 持久代是垃圾回收的概念, 只是HotSpot在设计方法区的时候设计在持久代中了!
 
 
+看图说话, 根据 HotSpot_运行时数据区只能划分.jpg中描述, 运行时数据区分为以下3大区域:
+    运行时数据区主要分为 本地内存(Native Memory), 堆(Heap), 方法区(Method Area)
+
+    本地内存(Native Memory) :   Thread 1 ... N, PC + 栈帧(Stack Frame)
+    堆(Heap)               :   分为 新生代(YoungGen) + 老年代(OldGen); 新生代(YoungGen)又分为: Eden, From, To; 老年代(OldGen)
+    方法区 (Method Area)　  :   Class  1 ... N, (方法, 字段, 代码, 运行时常量池)
+
+    堆区 + 方法区 是所有线程共享的区域, 本地内存中的 PC + 栈帧 是线程私有区域
+
+
 
 
 

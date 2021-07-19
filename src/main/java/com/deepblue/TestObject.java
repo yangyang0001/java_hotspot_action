@@ -1,4 +1,4 @@
-package com.deepblue.hotspot_inaction.chapter_02_launcher;
+package com.deepblue;
 
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONObject;
@@ -9,6 +9,7 @@ import org.apache.commons.collections4.CollectionUtils;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.*;
+import java.util.concurrent.TimeUnit;
 import java.util.stream.Collectors;
 
 public class TestObject {
@@ -104,28 +105,86 @@ public class TestObject {
 //        List<Long> longs = JSONObject.parseArray(null, Long.class);
 //        System.out.println(JSON.toJSONString(longs));
 
+//        SimpleDateFormat defaultSDF = new SimpleDateFormat("yyyy-MM-dd");
+//        String contractEffectiveTimeStr = defaultSDF.format(new Date());
+//        Date contractEffectiveTime = null;
+//        try {
+//            contractEffectiveTime = defaultSDF.parse(contractEffectiveTimeStr);
+//        } catch (ParseException pe) {
+//            pe.printStackTrace();
+//        }
+//
+//        Calendar calendar = Calendar.getInstance();
+//        calendar.setTime(contractEffectiveTime);
+//        calendar.add(Calendar.YEAR, 1);
+//        calendar.add(Calendar.DATE, -1);
+//        Date contractExpirationTime = calendar.getTime();
+//
+//        SimpleDateFormat mineSDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+//        System.out.println("contractEffectiveTime  :" + mineSDF.format(contractEffectiveTime));
+//        System.out.println("contractExpirationTime :" + mineSDF.format(contractExpirationTime));
+
+//        KlassUser klassUser = new KlassUser();
+//        klassUser.userList = Lists.newArrayList();
+//        klassUser.getUserList().add(new User(100, "100"));
+//        klassUser.getUserList().add(new User(200, "200"));
+//        klassUser.getUserList().add(new User(300, "300"));
+//
+//        klassUser.strList  = Lists.newArrayList();
+//        klassUser.getStrList().add("11111");
+//        klassUser.getStrList().add("22222");
+//        klassUser.getStrList().add("33333");
+//
+//        System.out.println("klassUser :" + JSON.toJSONString(klassUser));
+
+//        ClassState classState = ClassState.OTHER;
+//        switch (classState) {
+//            case UNPARSABLE_BY_GC:
+//                System.out.println("UNPARSABLE_BY_GC");
+//                break;
+//            case ALLOCATED:
+//                System.out.println("ALLOCATED");
+//                break;
+//            case LOADED:
+//                System.out.println("LOADED");
+//                break;
+//            case LINKED:
+//                System.out.println("LINKED");
+//                break;
+//            case BEING_INITIALIZED:
+//                System.out.println("BEING_INITIALIZED");
+//                break;
+//            case FULLY_INITIALIZED:
+//                System.out.println("FULLY_INITIALIZED");
+//                break;
+//            case INITIALIZATION_ERROR:
+//                System.out.println("INITIALIZATION_ERROR");
+//                break;
+//            default:
+//                System.out.println("DEFAULT");
+//                break;
+//        }
+
+        List<User> userList = Lists.newArrayList();
+//        userList.add(new User(100, "100"));
+//        userList.add(new User(200, "200"));
+//        userList.add(new User(300, "300"));
+//        userList.add(new User(400, "400"));
+
+//        User user = null;
+//        Optional<User> userOptional = userList.stream().filter(item -> Objects.nonNull(item) && item.getCode().intValue() == 1000).findFirst();
+//        if(userOptional.isPresent()) {
+//            user = userOptional.get();
+//        }
+//
+//        System.out.println(user);
 
 
-        SimpleDateFormat defaultSDF = new SimpleDateFormat("yyyy-MM-dd");
-        String contractEffectiveTimeStr = defaultSDF.format(new Date());
-        Date contractEffectiveTime = null;
-        try {
-            contractEffectiveTime = defaultSDF.parse(contractEffectiveTimeStr);
-        } catch (ParseException pe) {
-            pe.printStackTrace();
-        }
+        long seconds = TimeUnit.DAYS.toSeconds(1);
 
-        Calendar calendar = Calendar.getInstance();
-        calendar.setTime(contractEffectiveTime);
-        calendar.add(Calendar.YEAR, 1);
-        calendar.add(Calendar.DATE, -1);
-        Date contractExpirationTime = calendar.getTime();
-
-        SimpleDateFormat mineSDF = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-        System.out.println("contractEffectiveTime  :" + mineSDF.format(contractEffectiveTime));
-        System.out.println("contractExpirationTime :" + mineSDF.format(contractExpirationTime));
-
-
+        long day_sec = 60 * 60 * 24;
+        System.out.println(seconds);
+        System.out.println(day_sec);
     }
 
 
@@ -172,4 +231,49 @@ public class TestObject {
         private String  desc;
     }
 
+    @Data
+    @AllArgsConstructor
+    @NoArgsConstructor
+    @Builder
+    @ToString
+    public static class KlassUser {
+        private List<User> userList = Lists.newArrayList();
+        private List<String> strList = Lists.newArrayList();
+    }
+
+    public enum ClassState {
+        UNPARSABLE_BY_GC(1,"UNPARSABLE_BY_GC"),
+        ALLOCATED(2,"ALLOCATED"),
+        LOADED(3,"LOADED"),
+        LINKED(4,"LINKED"),
+        BEING_INITIALIZED(5,"BEINGINITIALIZED"),
+        FULLY_INITIALIZED(6,"FULLYINITIALIZED"),
+        INITIALIZATION_ERROR(7,"INITIALIZATIONERROR"),
+        OTHER(8,"OTHER"),
+        ;
+
+        private int code;
+        private String desc;
+
+        ClassState(int code, String desc) {
+            this.code = code;
+            this.desc = desc;
+        }
+
+        public int getCode() {
+            return code;
+        }
+
+        public void setCode(int code) {
+            this.code = code;
+        }
+
+        public String getDesc() {
+            return desc;
+        }
+
+        public void setDesc(String desc) {
+            this.desc = desc;
+        }
+    }
 }
