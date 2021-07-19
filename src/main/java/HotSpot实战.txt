@@ -594,25 +594,44 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
 
     注意: 每个线程都有自己独有的 PC寄存器 + 栈帧
 
-堆(Heap)
+堆(Heap)区
     在Java中程序员是不会直接关注内存区域的, 内存的管理交给JVM来管理, 这种管理内存的方式称为 自动内存管理! 同样垃圾回收的事情也是JVM自动完成, 这个组件叫垃圾收集器 或 垃圾回收器!
     在JConsole 和 VisualVM 中的表现形式是不一样的, 具体参考图片 JConsole和VisualVM运行时数据区的表现形式.png
 
     问题: 方法区 和 持久代是一个概念吗?
     方法区 和 持久代不是一个概念, 方法区是运行时数据区的划分, 持久代是垃圾回收的概念, 只是HotSpot在设计方法区的时候设计在持久代中了!
 
+    看图说话, 根据 HotSpot_运行时数据区只能划分.jpg中描述, 运行时数据区分为以下3大区域:
+        运行时数据区主要分为 本地内存(Native Memory), 堆(Heap), 方法区(Method Area)
 
-看图说话, 根据 HotSpot_运行时数据区只能划分.jpg中描述, 运行时数据区分为以下3大区域:
-    运行时数据区主要分为 本地内存(Native Memory), 堆(Heap), 方法区(Method Area)
+        本地内存(Native Memory) :   Thread 1 ... N, PC + 栈帧(Stack Frame)
+        堆(Heap)               :   分为 新生代(YoungGen) + 老年代(OldGen); 新生代(YoungGen)又分为: Eden, From, To; 老年代(OldGen)
+        方法区 (Method Area)　  :   Class  1 ... N, (方法, 字段, 代码, 运行时常量池)
 
-    本地内存(Native Memory) :   Thread 1 ... N, PC + 栈帧(Stack Frame)
-    堆(Heap)               :   分为 新生代(YoungGen) + 老年代(OldGen); 新生代(YoungGen)又分为: Eden, From, To; 老年代(OldGen)
-    方法区 (Method Area)　  :   Class  1 ... N, (方法, 字段, 代码, 运行时常量池)
+        堆区 + 方法区 是所有线程共享的区域, 本地内存中的 PC + 栈帧 是线程私有区域
 
-    堆区 + 方法区 是所有线程共享的区域, 本地内存中的 PC + 栈帧 是线程私有区域
+    分代概念的提出: 因为不同对象在内存中的声明周期差距巨大, 有的声明周期及其短暂, 有的声明周期伴随整个程序或整个应用的声明周期, 因此在创建对象的过程中就将不同的对象放入不同的内存区域中!
+        Java内存中的分代目前分为:
+        新生代: (Young     Generation) 新产生的对象存入的内存区域, 新生代又分为 Eden区 和 两个幸存区(Survivor), 一个称为From区, 另外一个称为To区, 这块区域为 堆区
+        老年代: (Old       Generation) 经过分代垃圾回收后, 新生代达到一定的年龄会被虚拟机移动到老年代中, 这块区域位于 堆区
+        持久代: (Permanent Generation) 这块区域位于 非堆区
+
+线程私有区域: PC + 栈帧
+    PC:
+        线程私有区域, 每个线程都有自己独有的PC寄存器, 用来存放 某种方法的 指令的地址!
+        如果程序运行的当前方法是本地方法, 那么PC寄存器中不存放任何指令的地址, 因为 本地方法的执行 是依赖于 硬件PC寄存器来进行处理的!
+        如果程序运行的当前方法非本地方法, 那么PC寄存器中存放的就是 正在执行的 字节码指令的地址!
+
+    JVM栈:
+        JVM栈分配规范:
+            JVM虚拟机规范JVM栈可以在堆中分配, 但是根据职能划分图中来看, JVM栈是内存中的独立的一块区域, 另外JVM规范也提供了VMOperation 来控制JVM栈的最大和最小空间设置操作!
+        JVM栈可能异常:
+            1、java线程分配的栈的内存超过java虚拟机栈允许的最大容量时, JVM会抛出一个 StackOverflowError 异常!
+            2、如果java虚拟机栈是可以动态扩展的, 但是在扩展后仍然无法满足内存分配的需求, 或者创建新的线程时没有足够的内存去创建java虚拟机栈, 这是会抛出 OutOfMemoryError 异常!
 
 
-
+    方法区:
+        方法区在java虚拟机规范中,没有明确规定物理上和堆进行隔离, 只是逻辑上的分隔, 规范中提供了调节方法区最大和最小值的VMOperation!
 
 
 
