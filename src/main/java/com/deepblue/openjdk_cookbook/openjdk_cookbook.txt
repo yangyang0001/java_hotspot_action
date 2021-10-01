@@ -1,0 +1,43 @@
+OPENJDK COOKBOOK 学习
+-------------------------------------------------- Linux 下安装 openjdk -------------------------------------------------
+yum search openjdk
+yum -y install <上面查询出的包名称>
+
+组装环境:
+1、安装apache-ant 环境
+    wget https://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.tar.gz
+
+2、降级安装 gcc
+    wget https://ftp.gnu.org/gnu/gcc/gcc-4.7.0/gcc-4.7.0.tar.gz
+    wget https://ftp.gnu.org/gnu/gcc/gcc-4.7.0/gcc-4.7.0.tar.bz2
+
+    tar -xvf gcc-4.7.0.tar.bz2
+    cd gcc-4.7.0/
+    ./contrib/download_prerequisites
+    mkdir build
+    cd build
+    ../configure --prefix=/usr/local/gcc4.7.0 --enable-checking=release --enable-languages=c,c++ --disable-multilib
+    make
+    make install
+
+
+3、下载 openjdk
+    wget http://download.java.net/openjdk/jdk7/promoted/b147/openjdk-7-fcs-src-b147-27_jun_2011.zip
+    wget http://download.java.net/openjdk/jdk8/promoted/b132/openjdk-8-src-b132-03_mar_2014.zip
+    wget https://download.java.net/openjdk/jdk8u41/ri/openjdk-8u41-b04-linux-x64-14_jan_2020.tar.gz
+
+
+4、编译过程 创建build.sh 文件
+
+5、错误排查
+    a、This OS is not supported: Linux localhost.localdomain 3.10.0-1127.el7.x86_64 #1 SMP Tue Mar 31 23:36:51 UTC 2020 x86_64 x86_64 x86_64 GNU/Linux
+    linux版本不兼容, 因此
+
+
+
+
+
+
+
+
+

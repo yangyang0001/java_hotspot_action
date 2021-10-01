@@ -1,0 +1,39 @@
+1、准备环境centos7.5
+    配置链接网络环境参考 linux_单机命令.txt
+
+2、准备相关的环境包
+    wget https://archive.apache.org/dist/ant/binaries/apache-ant-1.8.4-bin.tar.gz
+    wget https://github.com/yangyang0001/java_hotspot_action/raw/master/src/main/java/jdk-6u35-linux-x64.bin
+    wget http://download.java.net/openjdk/jdk7/promoted/b147/openjdk-7-fcs-src-b147-27_jun_2011.zip
+
+3、构建build.sh 参考hotspot实战书籍中, 或build.sh文件
+
+
+4、编译问题总结如下:
+    版本问题:
+    echo "*** This OS is not supported:" `uname -a`; exit 1; 修改/home/openjdk/hotspot/make/linux/Makefile 中的SUPPORTED_OS_VERSION
+
+    文件宏问题:
+    /home/openjdk/hotspot/src/share/vm/runtime/interfaceSupport.hpp:430:0: error: "__LEAF" redefined [-Werror]
+    改为如下:
+    #ifdef __LEAF
+    #undef __LEAF
+    #define __LEAF(result_type, header)                                  \
+      TRACE_CALL(result_type, header)                                    \
+      debug_only(NoHandleMark __hm;)                                     \
+      /* begin of body */
+    #endif
+
+    /home/openjdk/hotspot/src/share/vm/oops/constantPoolOop.cpp:272:39: error: converting 'false' to pointer type 'methodOop' [-Werror=conversion-null]
+    if (cpool->cache() == NULL)  return false;  // nothing to load yet  改为 return (methodOop) false;
+
+    /home/openjdk/hotspot/src/share/vm/opto/loopnode.cpp:896:49: error: converting 'false' to pointer type 'Node*' [-Werror=conversion-null]
+    if (expr == NULL || expr->req() != 3)  return false;  改为 return (Node*) false
+
+5、安装debuginfo-install
+    vim /etc/yum.repos.d/CentOS-Debuginfo.repo  enabled=1
+
+    cd /home
+    yum whatprovides debuginfo-install
+    yum install yum-utils
+    debuginfo-install glibc-2.17-324.el7_9.x86_64

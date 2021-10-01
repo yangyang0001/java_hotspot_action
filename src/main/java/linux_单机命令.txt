@@ -1,0 +1,785 @@
+----------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------linux裸机需要安装的东西-----------------------------------------------------------
+----------------------------------------------------------------------------------------------------------------------------------------------------
+CentOS7关闭SELinux
+vim /etc/selinux/config
+
+将SELINUX=enforcing改为SELINUX=disabled
+设置后需要重启才能生效
+
+
+
+一、首先执行下面三步执行:	ip addr
+1.修改网络脚本
+cd /etc/sysconfig/network-scripts
+vi ifcfg-ens33
+
+将ONBOOT=no修改为ONBOOT=yes保存退出
+2.重启网络服务
+service network restart
+
+3.安装net-tools包
+yum -y install net-tools
+
+二、安装vim
+yum -y install vim
+
+三、安装上sz rz -y
+yum -y install lrzsz
+
+四、安装lsof查看端口的命令 例子:lsof -i:8080
+yum install lsof -y
+
+五、安装tcpdump
+yum -y install tcpdump
+
+六、安装iostat 命令
+yum -y install sysstat
+
+七、安装unzip命令
+yum -y install unzip
+
+八、安装wget命令
+yum -y install wget
+
+九、安装tar.xz文件的解压缩命令
+yum -y install xz
+
+十、安装bzip
+yum -y install bzip2
+
+十一、安装字体库
+yum -y install fontconfig
+
+-----总结上面的命令:
+yum -y install net-tools
+yum -y install vim
+yum -y install lrzsz
+yum -y install lsof
+yum -y install tcpdump
+yum -y install sysstat
+yum -y install unzip
+yum -y install zip
+yum -y install wget
+yum -y install xz
+yum -y install bzip2
+yum -y install gcc pcre pcre-devel zlib zlib-devel openssl openssl-devel
+yum -y install gcc-c++
+yum -y install ncurses-devel
+yum -y install openssl openssl-devel
+yum -y install unixODBC unixODBC-devel
+yum -y install glibc-static libstdc++-static
+yum -y install gdb
+
+
+cd /home
+yum whatprovides debuginfo-install
+yum install yum-utils
+debuginfo-install glibc-2.17-324.el7_9.x86_64
+
+
+
+docker run debian echo "Hello World"
+
+
+修改时间:
+查看和修改Linux的时间
+
+1. 查看时间和日期
+命令 ： date
+
+2.设置时间和日期
+例如：将系统日期设定成2019年10月5日的命令
+
+命令 ： date -s 10/07/2019
+
+将系统时间设定成下午5点55分55秒的命令
+
+命令 ： date -s 17:55:55
+
+3. 将当前时间和日期写入BIOS，避免重启后失效
+命令 ： hwclock -w
+
+hwclock --hctosys
+
+
+解决偶尔ifconfig不能显示IP的问题:
+
+systemctl restart network.service
+
+chkconfig NetworkManager off 
+chkconfig network on 
+service NetworkManager stop 
+service network start
+------------------------------------------------------------------------------------------------------------------------------------------------------
+
+----------------------------------------------------window下查询某个端口是哪个进程占用的命令:
+window下根据端口号查询进程号的命令或着哪个端口号被占用命令： 	netstat -aon|findstr 端口号
+window下根据进程号查询当前进程号的占用程序或服务是哪一个: 	tasklist|findstr 进程号
+
+----------------------------------------------------linux 下查询某个端口是否被占用的命令:
+方法1: lsof -i:端口号
+方法2: netstat -tunpl | grep 端口号
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+//查看各个服务实时状态					中间的是数字1不是字母l,意思是每1秒刷新一次
+watch -n 1 -d netstat -tunlp
+
+
+//重启的命令,特定环境
+ps aux | grep tomcat | grep -v grep | awk '{print $2}' | xargs kill -9 ; sleep 5
+/opt/tomcat7/bin/startup.sh
+/opt/tomcat7.85/bin/startup.sh
+
+
+//查询日志的多少行到多少行的日志
+sed -n '1,10p' catalina.out
+或
+grep -C 100 '13563051773' catalina.out
+
+//查看单台tomcat进程号
+netstat -tunlp
+
+ps -aux | grep 进程号			----->进程号通过上面的命令获得
+
+netstat -ntulp |grep 80			//查看端口情况
+
+
+//查看内存情况命令
+top
+
+//查看是否有积压命令
+netstat -tunlp
+
+//查看某些片段的命令
+cat  文件名   | grep  查找的字符串
+cat catalina.out | grep 539300001202
+
+如果下面的命令遇到特殊字符必须加\转译例如  grep '\[TimeTasker\]' catalina.out
+grep '字符串' 文件名
+
+
+1、查看进程
+	ps -ef | grep java
+2、杀掉进程
+	sudo kill -9 [PID]
+3、ssh打开文件
+	vi [文件名]
+4、ssh编辑文件
+	打开文件后按insert键
+5、退出编辑
+	:q!   退出不保存修改
+	:q
+6、退出编辑并保存
+	:wq
+7、下载文件
+	sz [文件名]
+8、上传新文件
+	rz [文件名]
+9、上传并覆盖文件
+	rz -y [文件名]
+10、停止tomcat
+	/etc/init.d/tomcat stop
+	ps -ef |grep java
+    如果有进程kill -9 进程号
+11、清除tomcat缓存
+	sudo rm -rf /opt/tomcat7/work/*
+12、启动tomcat
+    /etc/init.d/tomcat start
+13、所有服务器都是
+    用户root
+    密码pxe@wd2013
+14、所有数据库用户密码：
+    用户 sdiptv
+    密码 iptvsd2015
+15、实时查看日志log
+    tail -f /opt/tomcat/log/日志文件名
+16、zip压缩与解压
+    zip -r 文件名.zip 目录
+    unzip
+17、重命名  mv 源文件名 新文件名
+18、template山东本地访问地址
+    http://172.25.37.236/templetssd/epg/index.jsptempToken=temptoken&UserID=UserID
+    &providerid=hw&MAC=MAC
+    http://60.19.30.89/templetssd/epg/index.jsp?           
+19、webservice生成客户端
+    wsimport -keep -p com.demo.clent         http://172.25.37.235/epgms/services/templateSyncCmdRequestWbs?wsdl
+20. 压缩文件夹 zip -r aa.zip aa
+
+重启tomcat
+ps -ef|grep jre 
+找到进程号
+kill -9 20990
+/etc/init.d/tomcat stop
+
+
+/etc/init.d/tomcat start
+
+
+
+关闭tomcat本来是/etc/init.d/tomcat stop因为不好使就直接杀死进程关闭
+如果在init.d下面没有tomcat，启动关闭方式：
+sudo rm -rf /opt/tomcat7/work/*
+systemctl stop tomcat7.service
+systemctl start tomcat7.service
+tailf /opt/tomcat7/logs/catalina.out
+
+先连接  adb ，  adb  connect  192.168.x.xxx   , 连接adb 后执行 adb logcat > d:\test4.log  ,  然后  进行   打开 统一播放器的操作，  之后再 退出播放器。  然后   在  cmd  命令栏中 ctrl+c。  然后把   test4.log  发我 就行了。
+
+adb shell 
+
+memcache telnet ip 11211 get key; delete key;quit;
+
+adb pull data/data/com.shandong.shandonglive/databases/xkliveplay.db d:\
+
+
+
+ftp://10.23.248.11/iptv/asm/20160722/1469169908464_hk_1.jpg
+
+
+
+
+
+
+
+
+
+
+------------------清空日志命令/清除日志-------------------
+cat /dev/null > catalina.out
+cat /dev/null > gc.log
+
+
+//查看带有某个字符串最后的日志
+grep T0059 /opt/tomcat7/logs/catalina.out | tail
+
+
+
+-----------查看命令----------
+netstat -aon|findstr 8080
+taskkill -f -pid 920
+
+
+
+
+
+文件夹常用r
+*************************************************************************************************************************
+1.查看linux的IP命令:ip addr
+
+2.安装rzsz命令:yum -y install lrzsz
+
+3.安装zip命令:yum -y install zip
+
+4.zip命令格式:zip 压缩文件名 源文件  unzip *.zip文件
+
+5.常用打包命令:tar -cvf 打包文件名 源文件
+tar -cvf log4j入门到详解.tar log4j入门到详解.pdf
+tar -xvf log4j入门到详解.tar
+
+6.常用命令: .tar.gz
+压缩命令:	tar -zcvf *.tar.gz 源文件	
+解压缩命令:	tar -zxvf *.tar.gz
+
+-----------------------------------------------------------------安装vsftp-----------------------------------------------
+第一步：安装vsftp
+
+yum install -y vsftpd
+
+
+
+第二步：设置开机启动
+
+systemctl enable vsftpd
+
+
+
+第三步：启动ftp服务
+
+systemctl start vsftpd.service
+
+
+
+第四步：打开防火墙
+(永久添加tcp 21端口)
+firewall-cmd --zone=public --add-port=21/tcp --permanent
+(添加ftp服务)
+firewall-cmd --permanent --zone=public --add-service=ftp
+(重启防火墙)
+firewall-cmd --reload
+
+firewall-cmd --list-ports
+
+#停止firewall
+systemctl stop firewalld.service
+
+ #禁止firewall开机启动
+systemctl disable firewalld.service
+
+
+第五步：添加用户
+
+useradd -g root -d /home/data -s /sbin/nologin yang
+新建yang用户 添加到root组
+但是不允许用户登录，仅仅可以ftp登录
+ftp登录后的默认目录是/home/data
+
+
+
+第六步：设置用户密码
+passwd yang
+
+最后设置密码为:yangjianwei01
+
+
+
+第七步：设置权限
+chown -R yang:root /home/data
+setsebool -P ftpd_full_access on
+
+
+
+第八步：修改vsftp配置文件，禁止匿名登录
+
+vi /etc/vsftpd/vsftpd.conf
+
+把：anonymous_enable=YES 改为： anonymous_enable=NO
+
+输入--->   :wq!  保存退出
+
+
+------------------------------------------------------------mysql安装---------------------------------------------------
+虚拟机上的mysql的密码:YangJianWei01@
+
+安装完成之后的修改密码和权限修改 MySQL5.7的
+set global validate_password_policy=LOW;
+set global validate_password_length=6;
+ALTER USER 'root'@'localhost' IDENTIFIED BY '123456';
+GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTION;
+flush privileges;
+
+
+mysql 启动, 重启, 停止命令
+systemctl start mysqld
+systemctl restart mysqld
+systemctl stop mysqld
+
+
+
+------------------------------------------------------------memcached启动命令-------------------------------------------
+memcached -d -l 192.168.1.123 -p 11211 -m 256 -u root
+
+
+------------------------------------------------------------redis单节点启动---------------------------------------------
+cd /usr/local/redis/bin
+[root@localhost bin]# ./redis-server
+------------------------------------------------------------redis单机多节点集群-----------------------------------------
+7001 - 7006
+创建三主三从
+
+#创建单机多节点集群修改位置1 port
+port 7001
+
+#创建单机多节点集群修改位置2 daemonize
+daemonize yes
+
+#创建单机多节点集群修改位置3 pidfile 
+pidfile /var/run/redis_7001.pid
+
+#单机多节点集群修改配置4 打开此处的注释
+cluster-enabled yes
+
+#单机多节点集群修改配置5 打开此处的注释并修改
+cluster-config-file nodes-7001.conf
+
+#单机多节点集群修改配置6 打开此处的注释并修改
+cluster-node-timeout 5000
+
+#此处的单机多节点集群采用的是aof的持久化方式修改配置7
+appendonly yes
+
+
+修改完成之后分别启动看一下是否启动成功:
+cd /usr/local/bin/redis/bin
+./redis-server /usr/local/bin/redis_cluster/7001/redis.conf 
+./redis-server /usr/local/bin/redis_cluster/7002/redis.conf 
+./redis-server /usr/local/bin/redis_cluster/7003/redis.conf 
+./redis-server /usr/local/bin/redis_cluster/7004/redis.conf 
+./redis-server /usr/local/bin/redis_cluster/7005/redis.conf 
+./redis-server /usr/local/bin/redis_cluster/7006/redis.conf 
+[root@localhost bin]# ps -ef|grep redis
+root       1909      1  0 13:58 ?        00:00:00 ./redis-server *:7001 [cluster]
+root       1913      1  0 13:58 ?        00:00:00 ./redis-server *:7002 [cluster]
+root       1917      1  0 13:58 ?        00:00:00 ./redis-server *:7003 [cluster]
+root       1921      1  0 13:58 ?        00:00:00 ./redis-server *:7004 [cluster]
+root       1925      1  0 13:58 ?        00:00:00 ./redis-server *:7005 [cluster]
+root       1929      1  0 13:58 ?        00:00:00 ./redis-server *:7006 [cluster]
+root       1933   1536  0 13:58 pts/0    00:00:00 grep --color=auto redis
+
+
+开始创建集群:
+redis-trib.rb管理集群
+
+redis-cli -c -p 7001
+
+
+
+find / -type f -name "zookeeper.log"
+
+**************************************************************最好zookeeper和kafka在同样的三台机器上(本地测试这样比较稳定)
+--------------------------------------------------------------zookeeper启动----------------------------------------------
+zookeeper节点查看:
+D:\ZooInspector\build>java -jar zookeeper-dev-ZooInspector.jar
+192.168.120.110:2181,192.168.120.150:2181,192.168.120.224:2181,192.168.120.137:2181
+192.168.120.150:2181
+
+
+清理zookeeper
+cd /opt/zookeeper/zookeeper-3.4.8/bin
+./zkCleanup.sh
+
+cd /opt/zookeeper/zookeeper-3.4.8/bin/
+rm -rf zookeeper.out
+
+
+清理kafka
+cd /opt/kafka/kafka_2.11-0.10.1.1/logs/
+rm -rf *
+
+小心使用清理kafka日志
+cd /opt/kafka/kafkalogs/
+rm -rf *
+
+-------------------------------------------------------------zookeeper启动-------------------------------------------
+cd /opt/zookeeper/zookeeper-3.4.8/bin/
+./zkServer.sh start
+
+查询zookeeper状态
+./zkServer.sh status
+
+查看启动情况 jps
+
+zkCli.sh
+ls /brokers/ids
+
+--------------------------------------------------------------kafka启动----------------------------------------------
+sh kafka-server-start.sh  -daemon ../config/server.properties
+
+
+cd /opt/kafka/kafka_2.11-0.10.1.1/bin
+sh kafka-server-start.sh  -daemon ../config/server.properties
+
+创建主题:
+./kafka-topics.sh --create --zookeeper 192.168.1.129:2181,192.168.1.130:2181,192.168.1.131:2181 --replication-factor 2 --partitions 3 --topic yang
+
+./kafka-topics.sh --create --zookeeper server-1:2181 , server-2:2181 , server-3:2181 --replication-factor 2 --partitions 3 --topic kafka-action
+
+--------------------------------------------------------------KafkaOffsetMonitor -------------------------------------
+java -cp KafkaOffsetMonitor-assembly-0.2.0.jar com.quantifind.kafka.offsetapp.OffsetGetterWeb --zk 192.168.1.129:2181,192.168.1.130:2181,192.168.1.131:2181 --port 8089  --refresh 10.seconds --retain 1.days
+
+
+zookeeper和kafka启动之后一定不能动了,用新的Xshell搞一些东西!
+
+kafka-topics.sh --zookeeper 192.168.1.129:2181,192.168.1.130:2181,192.168.1.131:2181  --describe
+
+kafka-topics.sh --zookeeper 192.168.1.129:2181,192.168.1.130:2181,192.168.1.131:2181 --topic "kafka-log4j" --describe
+
+
+kafka-run-class.sh kafka.tools.DumpLogSegments --files /opt/kafka/kafkalogs/kafka-log4j-2/00000000000000000000.log --print-data-log
+
+##在架构设计中的查看topic中的东西
+sh kafka-run-class.sh kafka.tools.DumpLogSegments --files /tmp/kafka-logs/FirstTopic-0/00000000000000000000.log --print-data-log > aaa.txt
+
+
+
+-------------------------------------------------------------magent的启动-------------------------------------------
+启动magent实例   
+./magent -u root -n 4096 -l 192.168.1.128 -p 11200 -s 192.168.1.128:11211 -s 192.168.1.135:11211 -b 192.168.1.136:11211
+
+
+-------------------------------------------------------------memcached启动命令 -------------------------------------
+./memcached -d -m 256 -u root -c 1024 -p 11211 -P /tmp/memcached.pid
+
+
+zkServer.sh start
+
+java -cp KafkaOffsetMonitor-assembly-0.2.1.jar \
+    com.quantifind.kafka.offsetapp.OffsetGetterWeb \
+    --zk 192.168.1.129:2181,192.168.1.130:2181,192.168.1.131:2181 \
+    --port 8088 \
+    --refresh 10.seconds \
+    --retain 2.days
+
+
+
+
+在liunx虚拟机中安装的是单节点的flume
+-----------------------------------------------------------flume-----------------------------------------------
+flume的启动:
+cd /opt/flume/apache-flume-1.7.0-bin/conf
+flume-ng agent --conf /opt/flume/apache-flume-1.7.0-bin/conf --conf-file flume-conf.properties.template --name agent -Dflume.root.logger=INFO,console
+
+flume-ng agent --conf /opt/flume/apache-flume-1.7.0-bin/conf --conf-file flume-kafka.properties --name agent -Dflume.root.logger=INFO,console
+
+echo "flume 实时从文件采集数据写入Kafka1" >/opt/data/flume/test.log
+echo "flume 实时从文件采集数据写入Kafka2" >/opt/data/flume/test.log
+echo "flume 实时从文件采集数据写入Kafka3" >/opt/data/flume/test.log
+echo "flume 实时从文件采集数据写入Kafka4" >/opt/data/flume/test.log
+echo "flume 实时从文件采集数据写入Kafka5" >/opt/data/flume/test.log
+echo "flume 实时从文件采集数据写入Kafka6" >/opt/data/flume/test.log
+
+
+kafka-run-class.sh kafka.tools.DumpLogSegments --files /opt/kafka/kafkalogs/flume-kafka-0/00000000000000000000.log --print-data-log
+kafka-run-class.sh kafka.tools.DumpLogSegments --files /opt/kafka/kafkalogs/flume-kafka-1/00000000000000000000.log --print-data-log
+kafka-run-class.sh kafka.tools.DumpLogSegments --files /opt/kafka/kafkalogs/flume-kafka-2/00000000000000000000.log --print-data-log
+
+
+flume-ng agent --conf /opt/flume/apache-flume-1.7.0-bin/conf --conf-file flume-source-avro.properties --name avroAgent -Dflume.root.logger=INFO,console
+
+
+
+-----------------------------------------------------------------Hadoop----------------------------------------------------
+在linux中的第一台zookeeper中的搭建的是伪集群的Hadoop
+修改/opt/hadoop/hadoop-2.7.6/etc/hadoop/hadoop-env.sh
+
+Hadoop启动命令:
+
+启动前首先格式胡工作空间:
+cd /opt/hadoop/hadoop-2.7.6/bin
+./hdfs namenode -format
+
+这里启动所有的*.sh脚本,不一一启动了
+cd /opt/hadoop/hadoop-2.7.6/sbin
+./start-all.sh
+
+在 HDFS 上创建一个 test 目录，命令如下 ：
+cd /opt/hadoop/hadoop-2.7.6/bin
+./hdfs dfs -mkdir /test
+
+
+查看 HDFS 上的目录 ， 命令如下 ：
+cd /opt/hadoop/hadoop-2.7.6/bin
+./hdfs dfs -ls /
+
+----------总过浏览器可以查看相应的操作-----------
+http://192.168.1.129:50090
+
+
+创建完成两个topic了已经,flume-kafka和kafka-channel了启动flume进行测试!
+cd /opt/flume/apache-flume-1.7.0-bin/conf
+flume-ng agent --conf /opt/flume/apache-flume-1.7.0-bin/conf --conf-file flume-kafka.properties --name agent -Dflume.root.logger=INFO,console
+
+cd /opt/flume/apache-flume-1.7.0-bin/conf
+flume-ng agent --conf /opt/flume/apache-flume-1.7.0-bin/conf --conf-file flume-kafka-hdfs.properties --name kafka-agent -Dflume.root.logger=INFO,console
+
+----------------------------------------------------------------------Nginx的相关命令和其他配置信息 -------------------------------------------------------
+windows 下的启动命令:
+start nginx
+nginx -s stop         快速关闭Nginx，可能不保存相关信息，并迅速终止web服务。
+nginx -s quit         平稳关闭Nginx，保存相关信息，有安排的结束web服务。
+nginx -s reload       因改变了Nginx相关配置，需要重新加载配置而重载。
+nginx -s reopen       重新打开日志文件。
+
+
+
+
+启动Nginx的命令:
+/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
+关闭Nginx的命令:
+ps -ef | grep nginx
+./nginx -s stop  : 快速停止nginx
+./nginx -s quit  ：完整有序的停止nginx
+./nginx -s reload  ：修改配置后重新加载生效
+
+
+
+nginx配置文件的位置:
+启动Nginx的命令:
+/usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
+停止nginx的命令:
+
+/usr/local/nginx/conf
+
+#user  nobody;
+worker_processes  1;
+
+#error_log  logs/error.log;
+#error_log  logs/error.log  notice;
+#error_log  logs/error.log  info;
+
+#pid        logs/nginx.pid;
+
+
+events {
+    worker_connections  1024;
+}
+
+
+http {
+    include       mime.types;
+    default_type  application/octet-stream;
+
+    #log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+    #                  '$status $body_bytes_sent "$http_referer" '
+    #                  '"$http_user_agent" "$http_x_forwarded_for"';
+
+    #access_log  logs/access.log  main;
+
+    sendfile        on;
+    #tcp_nopush     on;
+
+    #keepalive_timeout  0;
+    keepalive_timeout  65;
+
+    #gzip  on;
+
+    upstream local_tomcat {
+    	server 192.168.1.138:8080 weight=3;
+    	server 192.168.1.138:8081 weight=3;
+	    server 192.168.1.138:8082 weight=3;
+    }
+
+
+    server {
+        listen       80;
+        server_name  192.168.1.138;
+
+        #charset koi8-r;
+
+        #access_log  logs/host.access.log  main;
+
+        location / {
+            root   html;
+            index  index.html index.htm;
+        }
+
+	location /pageinterceptor {
+	    proxy_pass http://local_tomcat;
+	   #proxy_set_header  Host $host; #其中$host表示的是server_name的值
+	    proxy_set_header  Host $host:$proxy_port; #表示server_name:listen  
+            proxy_set_header  X-Real-IP  $remote_addr;  
+            proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;  
+            client_max_body_size  100m;
+            root   html;
+            index  index.html index.htm;
+        }
+
+
+        #error_page  404              /404.html;
+
+        # redirect server error pages to the static page /50x.html
+        #
+        error_page   500 502 503 504  /50x.html;
+        location = /50x.html {
+            root   html;
+        }
+
+        # proxy the PHP scripts to Apache listening on 127.0.0.1:80
+        #
+        #location ~ \.php$ {
+        #    proxy_pass   http://127.0.0.1;
+        #}
+
+        # pass the PHP scripts to FastCGI server listening on 127.0.0.1:9000
+        #
+        #location ~ \.php$ {
+        #    root           html;
+        #    fastcgi_pass   127.0.0.1:9000;
+        #    fastcgi_index  index.php;
+        #    fastcgi_param  SCRIPT_FILENAME  /scripts$fastcgi_script_name;
+        #    include        fastcgi_params;
+        #}
+
+        # deny access to .htaccess files, if Apache's document root
+        # concurs with nginx's one
+        #
+        #location ~ /\.ht {
+        #    deny  all;
+        #}
+    }
+
+
+    # another virtual host using mix of IP-, name-, and port-based configuration
+    #
+    #server {
+    #    listen       8000;
+    #    listen       somename:8080;
+    #    server_name  somename  alias  another.alias;
+
+    #    location / {
+    #        root   html;
+    #        index  index.html index.htm;
+    #    }
+    #}
+
+
+    # HTTPS server
+    #
+    #server {
+    #    listen       443 ssl;
+    #    server_name  localhost;
+
+    #    ssl_certificate      cert.pem;
+    #    ssl_certificate_key  cert.key;
+
+    #    ssl_session_cache    shared:SSL:1m;
+    #    ssl_session_timeout  5m;
+
+    #    ssl_ciphers  HIGH:!aNULL:!MD5;
+    #    ssl_prefer_server_ciphers  on;
+
+    #    location / {
+    #        root   html;
+    #        index  index.html index.htm;
+    #    }
+    #}
+
+}
+
+nginx常用命令
+
+启动：
+cd /usr/local/nginx/sbin
+./nginx
+nginx服务启动后默认的进程号会放在/usr/local/nginx/logs/nginx.pid文件
+cat nginx.pid 查看进程号
+
+关闭：
+kill -TERM pid  快速停止服务
+kill -QUIT pid  平缓停止服务
+kill -9 pid     强制停止服务
+
+
+-----------------------------------------------------------------GitLab的使用--------------------------------------------------
+gitlab-ctl stop			停止服务
+gitlab-ctl reconfigure	重新配置
+gitlab-ctl restart		重启
+
+
+
+------------------------------------------------------------------------------Zookeeper架构学习--------------------------------------------------------------------
+tar -zxvf zookeeper-3.4.10.tar.gz 
+cd zookeeper-3.4.10
+cd conf/
+cp zoo_sample.cfg zoo.cfg
+
+
+-----------------------------------------------------------------------------mongodb的命令 -------------------------------------------------
+启动命令:./mongod -f mongodb.conf
+关闭命令:./mongod --shutdown --dbpath /usr/local/mongodb/data/db/
+
+
+
+
+PDSK15-SQSAL2-5ASNXM-SAMXIE-8SAPHA-AJXNCE
+
+
+find / -type f -name '*'|xargs grep "main("
+
+find /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg -type f -name '*'|xargs grep "main("
+

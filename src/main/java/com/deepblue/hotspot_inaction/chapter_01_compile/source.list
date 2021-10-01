@@ -1,0 +1,127 @@
+#网易的源（163源，无论是不是教育网，速度都很快）
+deb http://mirrors.163.com/ubuntu/ quantal main universe restricted multiverse
+deb-src http://mirrors.163.com/ubuntu/ quantal main universe restricted multiverse
+deb http://mirrors.163.com/ubuntu/ quantal-security universe main multiverse restricted
+deb-src http://mirrors.163.com/ubuntu/ quantal-security universe main multiverse restricted
+deb http://mirrors.163.com/ubuntu/ quantal-updates universe main multiverse restricted
+deb http://mirrors.163.com/ubuntu/ quantal-proposed universe main multiverse restricted
+deb-src http://mirrors.163.com/ubuntu/ quantal-proposed universe main multiverse restricted
+deb http://mirrors.163.com/ubuntu/ quantal-backports universe main multiverse restricted
+deb-src http://mirrors.163.com/ubuntu/ quantal-backports universe main multiverse restricted
+deb-src http://mirrors.163.com/ubuntu/ quantal-updates universe main multiverse restricted
+
+#搜狐的源（sohu 源今天还没有更新，不过应该快了）
+deb http://mirrors.sohu.com/ubuntu/ quantal main restricted
+deb-src http://mirrors.sohu.com/ubuntu/ quantal main restricted
+deb http://mirrors.sohu.com/ubuntu/ quantal-updates main restricted
+deb-src http://mirrors.sohu.com/ubuntu/ quantal-updates main restricted
+deb http://mirrors.sohu.com/ubuntu/ quantal universe
+deb-src http://mirrors.sohu.com/ubuntu/ quantal universe
+deb http://mirrors.sohu.com/ubuntu/ quantal-updates universe
+deb-src http://mirrors.sohu.com/ubuntu/ quantal-updates universe
+deb http://mirrors.sohu.com/ubuntu/ quantal multiverse
+deb-src http://mirrors.sohu.com/ubuntu/ quantal multiverse
+deb http://mirrors.sohu.com/ubuntu/ quantal-updates multiverse
+deb-src http://mirrors.sohu.com/ubuntu/ quantal-updates multiverse
+deb http://mirrors.sohu.com/ubuntu/ quantal-backports main restricted universe multiverse
+deb-src http://mirrors.sohu.com/ubuntu/ quantal-backports main restricted universe multiverse
+deb http://mirrors.sohu.com/ubuntu/ quantal-security main restricted
+deb-src http://mirrors.sohu.com/ubuntu/ quantal-security main restricted
+deb http://mirrors.sohu.com/ubuntu/ quantal-security universe
+deb-src http://mirrors.sohu.com/ubuntu/ quantal-security universe
+deb http://mirrors.sohu.com/ubuntu/ quantal-security multiverse
+deb-src http://mirrors.sohu.com/ubuntu/ quantal-security multiverse
+deb http://extras.ubuntu.com/ubuntu quantal main
+deb-src http://extras.ubuntu.com/ubuntu quantal main
+
+#台湾源（台湾的ubuntu 更新源还是很给力的）
+deb http://tw.archive.ubuntu.com/ubuntu/ quantal main universe restricted multiverse
+deb-src http://tw.archive.ubuntu.com/ubuntu/ quantal main universe restricted multiverse
+deb http://tw.archive.ubuntu.com/ubuntu/ quantal-security universe main multiverse restricted
+deb-src http://tw.archive.ubuntu.com/ubuntu/ quantal-security universe main multiverse restricted
+deb http://tw.archive.ubuntu.com/ubuntu/ quantal-updates universe main multiverse restricted
+deb-src http://tw.archive.ubuntu.com/ubuntu/ quantal-updates universe main multiverse restricted
+
+#骨头源，骨头源是bones7456架设的一个Ubuntu源 ，提供ubuntu,deepin
+deb http://ubuntu.srt.cn/ubuntu/ quantal main universe restricted multiverse
+deb-src http://ubuntu.srt.cn/ubuntu/ quantal main universe restricted multiverse
+deb http://ubuntu.srt.cn/ubuntu/ quantal-security universe main multiverse restricted
+deb-src http://ubuntu.srt.cn/ubuntu/ quantal-security universe main multiverse restricted
+deb http://ubuntu.srt.cn/ubuntu/ quantal-updates universe main multiverse restricted
+deb http://ubuntu.srt.cn/ubuntu/ quantal-proposed universe main multiverse restricted
+deb-src http://ubuntu.srt.cn/ubuntu/ quantal-proposed universe main multiverse restricted
+deb http://ubuntu.srt.cn/ubuntu/ quantal-backports universe main multiverse restricted
+deb-src http://ubuntu.srt.cn/ubuntu/ quantal-backports universe main multiverse restricted
+deb-src http://ubuntu.srt.cn/ubuntu/ quantal-updates universe main multiverse restricted
+
+#mirror.lupaworld.com的源，速度很快
+deb http://mirror.lupaworld.com/ubuntu/archive/ quantal main restricted universe multiverse
+deb http://mirror.lupaworld.com/ubuntu/archive/ quantal-security main restricted universe multiverse
+deb http://mirror.lupaworld.com/ubuntu/archive/ quantal-updates main restricted universe multiverse
+deb http://mirror.lupaworld.com/ubuntu/archive/ quantal-backports main restricted universe multiverse
+deb http://mirror.lupaworld.com/ubuntu/ubuntu-cn/ quantal main restricted universe multiverse
+
+#ubuntu.cn99.com源（推荐）:
+deb http://ubuntu.cn99.com/ubuntu/ quantal main restricted universe multiverse
+deb http://ubuntu.cn99.com/ubuntu/ quantal-updates main restricted universe multiverse
+deb http://ubuntu.cn99.com/ubuntu/ quantal-security main restricted universe multiverse
+deb http://ubuntu.cn99.com/ubuntu/ quantal-backports main restricted universe multiverse
+deb http://ubuntu.cn99.com/ubuntu-cn/ quantal main restricted universe multiverse
+
+#教育网源
+#电子科技大学
+deb http://ubuntu.uestc.edu.cn/ubuntu/ quantal main restricted universe multiverse
+deb http://ubuntu.uestc.edu.cn/ubuntu/ quantal-backports main restricted universe multiverse
+deb http://ubuntu.uestc.edu.cn/ubuntu/ quantal-proposed main restricted universe multiverse
+deb http://ubuntu.uestc.edu.cn/ubuntu/ quantal-security main restricted universe multiverse
+deb http://ubuntu.uestc.edu.cn/ubuntu/ quantal-updates main restricted universe multiverse
+deb-src http://ubuntu.uestc.edu.cn/ubuntu/ quantal main restricted universe multiverse
+deb-src http://ubuntu.uestc.edu.cn/ubuntu/ quantal-backports main restricted universe multiverse
+deb-src http://ubuntu.uestc.edu.cn/ubuntu/ quantal-proposed main restricted universe multiverse
+deb-src http://ubuntu.uestc.edu.cn/ubuntu/ quantal-security main restricted universe multiverse
+deb-src http://ubuntu.uestc.edu.cn/ubuntu/ quantal-updates main restricted universe multiverse
+
+#中国科技大学
+deb http://debian.ustc.edu.cn/ubuntu/ quantal main restricted universe multiverse
+deb http://debian.ustc.edu.cn/ubuntu/ quantal-backports restricted universe multiverse
+deb http://debian.ustc.edu.cn/ubuntu/ quantal-proposed main restricted universe multiverse
+deb http://debian.ustc.edu.cn/ubuntu/ quantal-security main restricted universe multiverse
+deb http://debian.ustc.edu.cn/ubuntu/ quantal-updates main restricted universe multiverse
+deb-src http://debian.ustc.edu.cn/ubuntu/ quantal main restricted universe multiverse
+deb-src http://debian.ustc.edu.cn/ubuntu/ quantal-backports main restricted universe multiverse
+deb-src http://debian.ustc.edu.cn/ubuntu/ quantal-proposed main restricted universe multiverse
+deb-src http://debian.ustc.edu.cn/ubuntu/ quantal-security main restricted universe multiverse
+deb-src http://debian.ustc.edu.cn/ubuntu/ quantal-updates main restricted universe multiverse
+
+#北京交通大学
+deb http://mirror.bjtu.edu.cn/ubuntu/ quantal main multiverse restricted universe
+deb http://mirror.bjtu.edu.cn/ubuntu/ quantal-backports main multiverse restricted universe
+deb http://mirror.bjtu.edu.cn/ubuntu/ quantal-proposed main multiverse restricted universe
+deb http://mirror.bjtu.edu.cn/ubuntu/ quantal-security main multiverse restricted universe
+deb http://mirror.bjtu.edu.cn/ubuntu/ quantal-updates main multiverse restricted universe
+deb-src http://mirror.bjtu.edu.cn/ubuntu/ quantal main multiverse restricted universe
+deb-src http://mirror.bjtu.edu.cn/ubuntu/ quantal-backports main multiverse restricted universe
+deb-src http://mirror.bjtu.edu.cn/ubuntu/ quantal-proposed main multiverse restricted universe
+deb-src http://mirror.bjtu.edu.cn/ubuntu/ quantal-security main multiverse restricted universe
+deb-src http://mirror.bjtu.edu.cn/ubuntu/ quantal-updates main multiverse restricted universe
+
+#兰州大学
+deb ftp://mirror.lzu.edu.cn/ubuntu/ quantal main multiverse restricted universe
+deb ftp://mirror.lzu.edu.cn/ubuntu/ quantal-backports main multiverse restricted universe
+deb ftp://mirror.lzu.edu.cn/ubuntu/ quantal-proposed main multiverse restricted universe
+deb ftp://mirror.lzu.edu.cn/ubuntu/ quantal-security main multiverse restricted universe
+deb ftp://mirror.lzu.edu.cn/ubuntu/ quantal-updates main multiverse restricted universe
+deb ftp://mirror.lzu.edu.cn/ubuntu-cn/ quantal main multiverse restricted universe
+
+#上海交通大学（上海交大源，教育网的速度不用说了）
+deb http://ftp.sjtu.edu.cn/ubuntu/ quantal main multiverse restricted universe
+deb http://ftp.sjtu.edu.cn/ubuntu/ quantal-backports main multiverse restricted universe
+deb http://ftp.sjtu.edu.cn/ubuntu/ quantal-proposed main multiverse restricted universe
+deb http://ftp.sjtu.edu.cn/ubuntu/ quantal-security main multiverse restricted universe
+deb http://ftp.sjtu.edu.cn/ubuntu/ quantal-updates main multiverse restricted universe
+deb http://ftp.sjtu.edu.cn/ubuntu-cn/ quantal main multiverse restricted universe
+deb-src http://ftp.sjtu.edu.cn/ubuntu/ quantal main multiverse restricted universe
+deb-src http://ftp.sjtu.edu.cn/ubuntu/ quantal-backports main multiverse restricted universe
+deb-src http://ftp.sjtu.edu.cn/ubuntu/ quantal-proposed main multiverse restricted universe
+deb-src http://ftp.sjtu.edu.cn/ubuntu/ quantal-security main multiverse restricted universe
+deb-src http://ftp.sjtu.edu.cn/ubuntu/ quantal-updates main multiverse restricted universe

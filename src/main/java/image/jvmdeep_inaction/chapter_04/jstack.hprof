@@ -1,0 +1,141 @@
+2021-09-19 17:55:52
+Full thread dump OpenJDK 64-Bit Server VM (21.0-b17-internal-jvmg mixed mode):
+
+"Attach Listener" daemon prio=10 tid=0x00007fb804001000 nid=0x70f waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   JavaThread state: _thread_blocked
+Thread: 0x00007fb804001000  [0x70f] State: _at_safepoint _has_called_back 0 _at_poll_safepoint 0
+   JavaThread state: _thread_blocked
+
+   Locked ownable synchronizers:
+	- None
+
+"DestroyJavaVM" prio=10 tid=0x00007fb820028000 nid=0x6b5 waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   JavaThread state: _thread_blocked
+Thread: 0x00007fb820028000  [0x6b5] State: _at_safepoint _has_called_back 0 _at_poll_safepoint 0
+   JavaThread state: _thread_blocked
+
+   Locked ownable synchronizers:
+	- None
+
+"Thread-1" prio=10 tid=0x00007fb8201a6000 nid=0x6bf waiting for monitor entry [0x00007fb825429000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+   JavaThread state: _thread_blocked
+Thread: 0x00007fb8201a6000  [0x6bf] State: _at_safepoint _has_called_back 0 _at_poll_safepoint 0
+   JavaThread state: _thread_blocked
+	at DeadLock$SeondThread.run(DeadLock.java:50)
+	- waiting to lock <0x00000000de649f90> (a java.lang.String)
+	- locked <0x00000000de649fc8> (a java.lang.String)
+
+   Locked ownable synchronizers:
+	- None
+
+"Thread-0" prio=10 tid=0x00007fb8201a3800 nid=0x6be waiting for monitor entry [0x00007fb82552a000]
+   java.lang.Thread.State: BLOCKED (on object monitor)
+   JavaThread state: _thread_blocked
+Thread: 0x00007fb8201a3800  [0x6be] State: _at_safepoint _has_called_back 0 _at_poll_safepoint 0
+   JavaThread state: _thread_blocked
+	at DeadLock$FirstThread.run(DeadLock.java:28)
+	- waiting to lock <0x00000000de649fc8> (a java.lang.String)
+	- locked <0x00000000de649f90> (a java.lang.String)
+
+   Locked ownable synchronizers:
+	- None
+
+"Low Memory Detector" daemon prio=10 tid=0x00007fb820178000 nid=0x6bc runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   JavaThread state: _thread_blocked
+Thread: 0x00007fb820178000  [0x6bc] State: _at_safepoint _has_called_back 0 _at_poll_safepoint 0
+   JavaThread state: _thread_blocked
+
+   Locked ownable synchronizers:
+	- None
+
+"C2 CompilerThread1" daemon prio=10 tid=0x00007fb820174800 nid=0x6bb waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   JavaThread state: _thread_blocked
+Thread: 0x00007fb820174800  [0x6bb] State: _at_safepoint _has_called_back 0 _at_poll_safepoint 0
+   JavaThread state: _thread_blocked
+
+   Locked ownable synchronizers:
+	- None
+
+"C2 CompilerThread0" daemon prio=10 tid=0x00007fb820172000 nid=0x6ba waiting on condition [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   JavaThread state: _thread_blocked
+Thread: 0x00007fb820172000  [0x6ba] State: _at_safepoint _has_called_back 0 _at_poll_safepoint 0
+   JavaThread state: _thread_blocked
+
+   Locked ownable synchronizers:
+	- None
+
+"Signal Dispatcher" daemon prio=10 tid=0x00007fb82016f800 nid=0x6b9 runnable [0x0000000000000000]
+   java.lang.Thread.State: RUNNABLE
+   JavaThread state: _thread_blocked
+Thread: 0x00007fb82016f800  [0x6b9] State: _at_safepoint _has_called_back 0 _at_poll_safepoint 0
+   JavaThread state: _thread_blocked
+
+   Locked ownable synchronizers:
+	- None
+
+"Finalizer" daemon prio=10 tid=0x00007fb8200f2000 nid=0x6b8 in Object.wait() [0x00007fb825b30000]
+   java.lang.Thread.State: WAITING (on object monitor)
+   JavaThread state: _thread_blocked
+Thread: 0x00007fb8200f2000  [0x6b8] State: _at_safepoint _has_called_back 0 _at_poll_safepoint 0
+   JavaThread state: _thread_blocked
+	at java.lang.Object.wait(Native Method)
+	- waiting on <0x00000000de605ff8> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:118)
+	- locked <0x00000000de605ff8> (a java.lang.ref.ReferenceQueue$Lock)
+	at java.lang.ref.ReferenceQueue.remove(ReferenceQueue.java:134)
+	at java.lang.ref.Finalizer$FinalizerThread.run(Finalizer.java:159)
+
+   Locked ownable synchronizers:
+	- None
+
+"Reference Handler" daemon prio=10 tid=0x00007fb8200ef000 nid=0x6b7 in Object.wait() [0x00007fb825c31000]
+   java.lang.Thread.State: WAITING (on object monitor)
+   JavaThread state: _thread_blocked
+Thread: 0x00007fb8200ef000  [0x6b7] State: _at_safepoint _has_called_back 0 _at_poll_safepoint 0
+   JavaThread state: _thread_blocked
+	at java.lang.Object.wait(Native Method)
+	- waiting on <0x00000000de605d28> (a java.lang.ref.Reference$Lock)
+	at java.lang.Object.wait(Object.java:485)
+	at java.lang.ref.Reference$ReferenceHandler.run(Reference.java:116)
+	- locked <0x00000000de605d28> (a java.lang.ref.Reference$Lock)
+
+   Locked ownable synchronizers:
+	- None
+
+"VM Thread" prio=10 tid=0x00007fb8200d4800 nid=0x6b6 runnable 
+
+"VM Periodic Task Thread" prio=10 tid=0x00007fb820184000 nid=0x6bd waiting on condition 
+
+Compiler thread printing unimplemented.
+
+JNI global references: 91
+
+
+Found one Java-level deadlock:
+=============================
+"Thread-1":
+  waiting to lock monitor 0x00007fb8100036d0 (object 0x00000000de649f90, a java.lang.String),
+  which is held by "Thread-0"
+"Thread-0":
+  waiting to lock monitor 0x00007fb810005f80 (object 0x00000000de649fc8, a java.lang.String),
+  which is held by "Thread-1"
+
+Java stack information for the threads listed above:
+===================================================
+"Thread-1":
+	at DeadLock$SeondThread.run(DeadLock.java:50)
+	- waiting to lock <0x00000000de649f90> (a java.lang.String)
+	- locked <0x00000000de649fc8> (a java.lang.String)
+"Thread-0":
+	at DeadLock$FirstThread.run(DeadLock.java:28)
+	- waiting to lock <0x00000000de649fc8> (a java.lang.String)
+	- locked <0x00000000de649f90> (a java.lang.String)
+
+Found 1 deadlock.
+

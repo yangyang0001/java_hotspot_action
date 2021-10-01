@@ -1,0 +1,774 @@
+------------------------------------------------------------ HotSpot实战 -------------------------------------------------------
+sh hotspot -gdb HelloWorld
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------  第二章启动  ----------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+一、如何阅读HotSpot源码:
+    1.宏的定义 #define typeName(param_type) {};
+
+    2.内联函数函数
+    inline *** functionName() {}
+
+    3.内部锁 参考图片
+
+    4.HotSpot VM选项 参考图片
+
+二、HotSpot 内核框架
+    1.内核框架的基本结构 参考图片
+
+HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Code, Memory, Compiler, Oops, C1/Opto/Shark 和 GC
+    Prims模块主要包含4个子模块:
+        JNI, JVM, JVMTI, Perf
+
+        1、JNI:    java native interface 是Java本地库或JVM库中的方法, 本地方法库中定义了很多jni_开头的函数
+        2、JVM:    为了解析类创建了很多JVM_开头的常量和函数来辅助解析Class文件
+        3、JVMTI:  jvm tools interface, 监控java程序使用
+        4、Perf:   监控 Perf Data计数器
+
+    Services模块主要包含9个子模块:
+        Management, MemoryService, MemoryPool, ThreadService, RuntimeService, MemoryManager, HeapDumper, ClassLoadingService, AttachListener
+
+        对于MemoryPool 和 MemoryManager来说, 说白了就是围绕分配和回收来说的
+        CodeHeapPool            CollectedMemoryPool
+        CodeCacheMemoryManager  GCMemoryManager
+
+        Services 对JVM提供了JMX功能, 即JMX (Java Management Extensions)
+
+        1、Management:       提供了JMX底层实现的基础, 在windows系统中可以参考 JRE_HOME/bin/management.dll
+        2、MemoryService:    提供JVM内存管理服务, 对堆内存和线程池都可进行管理!
+        3、MemoryPool:       内存池管理模块, MemoryPool 分为两类: CollectedMemoryPool 和 CodeHeapPool,
+                             其中 CollectedMemoryPool又有以下4种常见的类型:     SCGC
+                             SurvivorContiguousSpacePool		survivor    [səˈvaɪvə(r)]     幸存者; 生还者; 残存物
+                             ContiguousSpacePool			    contiguous  [kənˈtɪgjuəs]     连续的, 邻近的
+                             GenerationPool				        generation  [ˌdʒenəˈreɪʃn]    一代; 产生; 一代人; 生殖
+                             CompactibleFreeListSpacePool		compactible [kəmˈpæktəb(ə)l]  能被压缩的
+
+
+        4、MemoryManager:    内存管理器 用来管理内存池, 一个内存管理器可以管理一个内存池或多个内存池, 同样一个内存池可以由一个或多个内存管理器进行管理!
+                             常见的内存管理器有 CodeCacheMemoryManager, GCMemoryManager, 其中GCMemoryManager又有以下8种子类型  CMCG + 3P
+                             CopyMemoryManager
+                             MSCMemoryManager
+                             CMSMemoryManager
+                             G1YoungGenMemoryManager
+                             G1OldGenMemoryManager
+
+                             ParNewMemoryManager
+                             PSScavengeMemoryManager
+                             PSMarkSweepMemoryManager
+
+
+        5、RuntimeService:   提供对java运行时的性能监控和管理服务, 如applicationTime, jvmCapabilities 等
+
+        6、ThreadService:    提供对线程性能和管理服务
+
+        7、ClassLoadingService:  提供类加载器模块的性能和管理服务
+
+        8、AttachListener:   监控 客户端连接JVM的工具
+
+        9、HeapDumper:       堆转储功能管理
+
+    Runtime 模块 具体的子模块非常多 主要有24个核心模块, 只介绍最常用的模块, 参考图片请查看HotSpot_Runtime模块组成部分
+        Thread模块, Arguments模块, StubRoutines和StubCodeGenerator模块, Frame模块
+        CompilationPolicy模块, Init模块, VMThread模块, VMOperation模块
+
+        1、Thread模块: Thread模块中定义了各种线程类型, JVM内部线程和Java业务线程! 此外还定义了Threads子模块, 它维护着系统中有效线程队列!
+
+        2、Arguments: 记录和传递VM参数和选项
+
+        3、StubRoutines 和 StubCodeGenerator:  生成Stub, 关于Stub的更多信息!
+
+        4、Frame模块: 表示一个物理栈帧(又称活动记录 Activation Record) 栈帧是和CPU类型相关, 栈帧即可以是C帧也可以是java帧, java帧既可以是编译帧也可以是解释帧!
+
+        5、CompilationPolicy: 编译策略, 提供了2种情况编译策略类型: SimpleThresHoldPolicy, AdvancedThresHoldPolicy! ThresHold [ˈθreʃhəʊld] [n. 入口；门槛；开始；极限；临界值]
+
+        6、Init模块: 初始化模块
+
+        7、VMThread模块: 虚拟机在创建时, 会启动一个单例的虚拟机线程(VM Thread), 该线程职责: 维护一个VMOperationQueue, 这些VMOperation分为4种模式
+            阻塞    安全
+            0        0       非阻塞,　非进入安全点   concurrent
+            0        1       非阻塞,　进入安全点     async_safepoint
+            1        0       阻塞,　　非进入安全点   no_safepoint
+            1        1       阻塞,　　进入安全点     safepoint
+
+        8、VMOperation 操作 参考图片HotSpot_Runtime_VMOperation操作种类
+            引入源码看下 VMOperation 的模式有以下4种类型
+            enum Mode {
+            _safepoint,       // blocking,        safepoint, vm_op C-heap allocated
+            _no_safepoint,    // blocking,     no safepoint, vm_op C-Heap allocated
+            _concurrent,      // non-blocking, no safepoint, vm_op C-Heap allocated
+            _async_safepoint  // non-blocking,    safepoint, vm_op C-Heap allocated
+            };
+
+三、启动
+    A、启动器(Launcher)的分类: 分为通用启动器(JDK中的java命令) 和 调试启动器(gamma 调试启动器作为实战的基础)
+        1、通用启动器 就是我们常用的 JDK 中的java 命令(包括 javaw), VM在启动时创建一个单例线程VM Thread, 当前线程主要 维护一个VMOperationQueue,
+        VMOperation的模式请看VMThread[即上面的7]
+        JRE 中提供的类加载器有三种 bootstrap class path, extension class path 书中为 installed extensions, user class path
+
+        java 命令的使用方式:
+        java  [ option ] class [ argument ... ]
+        java  [ option ] -jar file.jar [ argument ... ]
+        javaw [ option ] class [ argument ... ]
+        javaw [ option ] -jar file.jar [ argument ... ]
+
+        option   是VM选项, 分为标准选项 和 非标准选项, 非标准选项的使用方式 为 -X 或 -XX
+        argument 是传递给main方法的参数
+
+        ----------------------------------------------------------------------------------------------------------------------------------------
+        TODO macOS系统
+        cd /Users/yangjianwei/IdeaProjects/java_hotspot_action/target/classes
+        java com/deepblue/hotspot_inaction/chapter_02_launcher/ClientTest
+
+        TODO windows系统
+        cd D:\study_workspace\java_hotspot_action\target\classes
+        java com/deepblue/hotspot_inaction/chapter_02_launcher/ClientTest
+
+        TODO 使用javap -verbose 反编译 class 文件, 看一个文件的 class文件具体构成
+        D:\study_workspace\java_hotspot_action\target\classes>javap -verbose com/deepblue/hotspot_inaction/chapter_02_launcher/ClientTest.class
+        ----------------------------------------------------------------------------------------------------------------------------------------
+
+        VM选项分为 标准VM选项 和 非标准VM选项, 非标准VM选项的使用是以 -X 或 -XX开始的, 查看非标准VM选项 使用用命令 java -X
+
+        VM 标准选项请看 HotSpot_Launcher_VM标准选项
+
+        VM 非标准选项 java -X 来查看当前JDK下的 VM非标准选项
+
+        隐藏的非标准的VM选项, 这种包含成千上万个, 使用方式 -XX
+
+        2、调试启动器 gamma, 在HotSpot中以此调试器作为实战的基础! 在 hotspot/src/share/tools/launcher/java.c
+
+    B、虚拟机的声明周期 从这开始就需要从Linux上进行调试 来根据文章中所书写来进行实战了
+
+    =========================================================== GDB 命令的使用start ==========================================================
+    GDB使用
+        在Clion中写一个HelloWorld.c(C语言书写), 移动到 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg 下
+        执行 gcc -g HelloWorld.c 会产生一个 a.out 然后用 gdb a.out 命令进行调试就进入了GDB环境了!
+        start 命令, 进行GDB命令调试!
+        list  命令, 查看更多的行
+        ctrl + x + a 联合按键 会触发一个GDB的调试面板!
+        refresh 命令, 刷新GDB页面!
+        layout next 命令来切换不同的视图界面
+
+        next 执行1步不会进入函数体,  step执行1步 进入函数体
+
+        break main  在main 函数打断点
+        run         再次运行程序
+
+
+
+        在/home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg 目录下使用命令 sh hotspot -gdb HelloWorld 之前
+        首先将本地书写的HelloWorld.java 上传到 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg 目录下
+
+        用jdk6进行编译:
+        /home/jdk1.6.0_35/bin/javac HelloWorld.java   在当前目录下会产生 HelloWorld.class文件
+
+        执行 sh hotspot -gdb HelloWorld
+
+        // 通过GDB调试 检测整个过程的启动
+        (gdb) break java.c:main
+        (gdb) break java.c:JavaMain
+        (gdb) run
+
+        // 后面不断调试添加
+        break java.c:586
+
+    1、入口main函数  参考图HotSpot_JVM启动过程.jpg 图片, 配合GDB可以进行跟踪!
+    2、JavaMain 函数
+    ......
+
+    第二章 根据自己想要研究的深度和细致程度 用GDB自己去调试跟踪吧
+    =========================================================== GDB 命令的使用 end ==========================================================
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------第三章 类与对象----------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+    -------------------------------------------------------------------- 3.1、对象表示机制 --------------------------------------------------------
+    1、概念: OOP (ordinary object pointer) [ˈɔːdnri]  普通的, 平凡的
+
+    2、OOP-Klass 二分模型:
+    OOP 和 Klass 是什么?
+    OOP     :(ordinary object pointer) 普通对象指针, 用来描述对象实例数据! 描述对象实例数据
+    Klass   : Java类的C++对等体, 用来描述Java类
+
+    3、OOP 和 Klass 的功能是什么?
+    OOP   功能 只是用来表示 对象实例数据
+    Klass 功能 1、在语言层面实现对等的Class类[由基类Klass类来完成] 2、分发对象 [由Klass类的子类进行完成]
+
+    4、Oops 模块可分为两个独立的框架: OOP框架 和 Klass框架
+    oopDesc 是Oops模块的基类 参考 oop.hpp, oopDesc 有很多子类型的oopDesc, 一共12个子类型
+
+    5、OopDesc 是 OOP框架的基类, 在hotspot中存在有12个子类 参考 OopDesc及其子类描述.png
+    instanceOopDesc, methodOopDesc, methodDataOopDesc, constMethodOopDesc, constantPoolOopDesc, constantPoolCacheOopDesc, klassOopDesc, markOopDesc
+    arrayOopDesc, objArrayOopDesc, typeArrayOopDesc, compiledICHolderOopDesc
+
+    其中 instanceOopDesc 和 arrayOopDesc 称之为对象头
+
+    6、java对象在jvm中的表示方式
+    java对象在虚拟内存中的方式方式可以分为两块连续的内存: 对象头 + 实例数据
+    instanceOopDesc 和 arrayOopDesc 称为对象头
+
+
+    7、对象的内存布局: 对象头 + 实例数据
+                     ----------------------
+                     |     Mark Word      |  _mark: markOop
+    instanceOopDesc  ----------------------
+                     |     元数据指针      |  _metaData: wideKlassOop 或 narrowOop
+                     ----------------------
+                     |      实例数据       |
+                     ----------------------
+
+                     数组的内存布局
+                     ----------------------
+                     |     Mark Word      |  _mark: markOop
+    arrayOopDesc     ----------------------
+                     |     元数据指针      |  _metaData: wideKlassOop 或 narrowOop
+                     ----------------------
+                     |     数组的长度      |  _length: n
+                     ----------------------
+                     |      实例数据       |
+                     ----------------------
+
+    对象头中每个部分都存放什么东西?
+    Mark Word: 当前对象的HashCode, 锁状态, GC分代垃圾回收年龄Age, 线程持有锁, 偏向线程ID, 偏向时间戳 等 占用空间和当前操作系统一致! 64位操作系统则占用64位, 32位操作系统则占用32位
+    元数据指针: 指向了方法区中的Klass类
+
+    对象内存空间利用率: 实例数据空间 / (instanceOop + 实例数据空间)
+
+    8、是否压缩元数据指针配置  -XX:+UseCompressedOops  -XX:-UseCompressedOops
+    VM选项 使用元数据指针的 wideKlassOop 或 narrowOop 如果使用 -XX:+UseCompressedOops 则源数据指针使用 wideKassOop 如果使用 -XX:-UseCompressedOops 则元数据指针使用 narrowOop
+
+    在/home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg 文件夹下使用如下命令, 虽然看不出参数使用效果 可以作为以后调试的入口!
+    /home/jdk1.6.0_35/bin/java -XX:+UseCompressedOops HelloWorld
+    sh hotspot -XX:+UseCompressedOops HelloWord
+
+    MarkWord 定义了对象的 5 种状态, 其所占用的位数在对象处在不同的状态时是不一样的！ 参考MarkWord记录对象状态.png
+    enum {
+        locked_value             = 0,
+        unlocked_value           = 1,
+        monitor_value            = 2,
+        marked_value             = 3,
+        biased_lock_pattern      = 5            // biased [ˈbaɪəst]  偏向的 偏心的
+    };
+
+    9、Klass框架 请参考 Klass框架层次结构.jpg, Klass的基本数据结构 看考图片 Klass核心数据结构.jpg
+    布局特征标识符 _layout_helper
+    对象布局 _layout_helper = 非负数, 对象又分为: oop + 基本类型
+        _layout_helper 为正数 则表示instance对象, 大小为instance对象的大小
+        _layout_helper 为零   则表示java基本类型对象
+    数组布局 _layout_helper = 负数,   数组又分为: oop数组 + 基本类型数组
+        _layout_helper 由四部分组成: tag, hsz, ebt, log2(esz)
+        tag = 0x80  表示 oop数组
+        tag = 0xC0  表示 非oop数组
+
+    10、实例对象中字段的存储顺序 可由 -XX:FieldsAllocationStyle=1 是默认的情况下面给出 FieldsAllocationStyle的枚举类型
+    product(intx, FieldsAllocationStyle, 1,                                   \  默认的风格是 1, oops at last
+              "0 - type based with oops first, 1 - with oops last, "          \  风格 0: oops at first
+              "2 - oops in super and sub classes are together")               \  风格 2: oops 在父类和子类中都存在
+
+    TODO 使用方式: sh hotspot -XX:FieldsAllocationStyle=0 HelloWorld
+
+    product(bool, CompactFields, true,                                        \
+            "Allocate nonstatic fields in gaps between previous fields")      \  在前面的字段之间的间隔中分配空间用以存放非静态字段
+
+    TODO 使用方式: sh hotspot -XX:+CompactFields HelloWorld
+
+    notproduct(bool, PrintCompactFieldsSavings, false,                        \
+            "Print how many words were saved with CompactFields")             \
+
+    TODO 使用方式: sh hotspot -XX:+PrintCompactFieldsSavings HelloWorld
+
+    -------------------------------------------------------------------- 3.2、类状态的转换 --------------------------------------------------------
+
+    1、实战部分 使用HSDB 调试 HotSpot
+        注意: Linux和Solaris在Oracle/Sun JDK6就可以使用HSDB了, 但Windows上要到Oracle JDK7才可以用HSDB, 无论哪种平台都必须先安装JDK环境
+
+        Windows平台
+        java -cp ".;%JAVA_HOME%/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB    能够成功; 书上的没有加双引号, 书上错误
+        java -cp ".;%JAVA_HOME%/lib/sa-jdi.jar" sun.jvm.hotspot.CLHSDB
+
+        使用Attaching to Process时出现错误 如下异常
+        抛出异常: Exception in thread "Thread-1" java.lang.UnsatisfiedLinkError: Can't load library: D:\Program Files\Java\jre1.8.0_221\bin\sawindbg.dll
+        解决方案: 将D:\Program Files\Java\jdk1.8.0_221\jre\bin\sawindbg.dll 复制到 D:\Program Files\Java\jre1.8.0_221\bin\ 下就OK了
+
+        ---------------------------------------------------------- Linux平台HSDB研究 -------------------------------------------------------------
+        Linux平台
+        运行命令: java -cp "$JAVA_HOME/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB
+        抛出异常: Exception in thread "main" java.awt.HeadlessException: No X11 DISPLAY variable was set, but this program performed an operation which requires it.
+        解决方案: 在 /etc/profile 中添加配置 export DISPLAY=localhost:0.0
+
+        再次命令: java -cp "$JAVA_HOME/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB
+        抛出异常: Exception in thread "main" java.lang.UnsatisfiedLinkError: /home/jdk1.6.0_35/jre/lib/amd64/xawt/libmawt.so: libXext.so.6: cannot open shared object file: No such file or directory
+        解决方案: 执行如下命令:
+                 yum -y install libXext.x86_64
+                 yum -y install libXrender.x86_64
+                 yum -y install libXtst.x86_64
+
+        再次命令: java -cp "$JAVA_HOME/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB
+        抛出异常: Exception in thread "main" java.lang.InternalError: Can't connect to X11 window server using 'localhost:0.0' as the value of the DISPLAY variable.
+        解决方案: 命令上添加启动参数 -Djava.awt.headless=true
+
+        执行命令:
+            export DISPLAY=192.168.117.1:0.0
+            java -cp "$JAVA_HOME/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB
+            但是没有任何反应! 所以这种Linux下的 HSDB不先做深入研究, 在Windows上做这种HSDB的研究
+        ---------------------------------------------------------- Linux平台HSDB研究 -------------------------------------------------------------
+
+        MacOS 平台:
+        只有是root用户的权限下执行以下命令否则报错:
+        java -cp "/Library/Java/JavaVirtualMachines/jdk1.8.0_251.jdk/Contents/Home/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB
+
+        jdk12 执行以下命令:
+        cd /Library/Java/JavaVirtualMachines/jdk-12.0.2.jdk/Contents/Home/bin
+        jhsdb hsdb
+
+    2、HSDB 熟悉 和 使用 Command Line HSDB, 如果想在DOS命令下使用 CLHSDB 执行如下命令:
+        开启CLHSDB : java -cp ".;%JAVA_HOME%/lib/sa-jdi.jar" sun.jvm.hotspot.CLHSDB
+        连接进程命令: attach 进程号
+        开始使用命令来处理就OK了
+
+    3、类的状态转换, 主要研究类从编译 到 进入JVM的过程 和辅助工具的使用
+        Java虚拟机规范地址: 参考以下可以猜测se10 等等
+        https://docs.oracle.com/javase/specs/jvms/se7/jvms7.pdf
+        https://docs.oracle.com/javase/specs/jvms/se8/jvms8.pdf
+        https://docs.oracle.com/javase/specs/jvms/se9/jvms9.pdf
+        ......
+        TODO HotSpot中instanceKlass 给类定义了7种状态, markOop 给对象定义了5种状态, 前者是类的状态, 后者是对象的状态不可弄混了!
+        enum ClassState {
+            unparsable_by_gc = 0,               // object is not yet parsable by gc. Value of _init_state at object allocation. 还不能被GC解析, 已经分配了初始状态值
+            allocated,                          // allocated (but not yet linked)                                               已经分配, 未链接
+            loaded,                             // loaded and inserted in class hierarchy (but not linked yet)                  加载并插入到类层次结构中, 未链接
+            linked,                             // successfully linked/verified (but not initialized yet)                       已链接/校验完成, 但未初始化
+            being_initialized,                  // currently running class initializer                                          初始化中
+            fully_initialized,                  // initialized (successfull final state)                                        完成初始化
+            initialization_error                // error happened during initialization                                         初始化过程出错
+        };
+
+        *.java文件 -> 编译 -> *.class文件 -> 加载 -> 链接 -> 初始化 -> Class[方法区]
+
+        加载: 加载过程是将*.class文件 通过输入流进入内存并按照Klass文件对应的格式翻译成JVM内部的类或借口
+        链接: 校验 准备 解析
+            校验: 校验klass是否复合规定的二进制文件格式
+            准备: 对静态变量进行分配空间和零初始化的过程
+            解析: 是将符号引用转换为直接引用
+        初始化:执行类或接口的初始化方法的过程
+
+        *.class文件 经过 加载 链接 初始化 的过程 就可以在JVM中使用了!
+
+    4、Java VisualVM 可视化工具的使用, 在windows下需要 管理员 才能看到进程! 目前只是链接的本地机器, 加载相关的 VMOperation 参考图片 HotSpot_JVM类加载相关.png
+
+    5、类的加载
+        classfile 顶层模块, 这个模块下的5个核心模块 ClassFileParser, Verifier, ClassLoader, SystemDictionary, SymbolTable
+        ClassFileParser : 类解析器, 用来解析*.class文件; 它利用ClassFileStream 读取*.class文件, 将当前输入流为 ClassFileParser的参数!
+        Verifier        : 校验器, 一种抽象 有子类ClassVerifier
+        ClassLoader     : 类加载器
+        SystemDictionary: 系统字典, 存储所有已经加载的类
+        SymbolTable     : 字符表                                               Symbol [ˈsɪmbl] 字符, 标志, 象征
+
+
+    6、用GDB调试查看 classFileParser.hpp:277行[即方法 classFileParser:parseClassFile()], 打断点如下:
+        break thread.cpp:3107
+        break init.cpp:109
+        break universe.cpp:348
+        break systemDictionary.cpp:186
+        break systemDictionary.cpp:1359
+        break classLoader.cpp:917
+        break classFileParser.hpp:284
+        break classFileParser.cpp:2826
+
+        init.cpp文件中的init_globals() 方法完成加载功能, 查看HotSpot_JVM启动过程.jpg; 在classFileParser.cpp:parseClassFile 方法
+
+        加载中常用的VMOperation 可以参考图片, 也可以通过启动加入以下参数查看
+        -verbose    是打印出来VMOperation
+        -XX:+TraceClassLoading -XX:+TraceClassLoadingPreorder -XX:+LazyBootClassLoader
+        -XX:+LoadLineNumberTables -XX:+LoadLocalVariableTables -XX:+LoadLocalVariableTypeTables
+
+        具体命令可以如下:
+        sh hotspot -XX:+TraceClassLoading -XX:+TraceClassLoadingPreorder -XX:+LazyBootClassLoader -verbose HelloWorld
+        sh hotspot -XX:+LoadLineNumberTables -XX:+LoadLocalVariableTables -XX:+LoadLocalVariableTypeTables -verbose HelloWorld
+
+    7、链接 包含 校验、准备、解析 三个逻辑阶段
+        每个Class文件都有自己的常量池, 常量池中存放当前类用到的 符号引用!
+        Class文件之间通过符号引用建立联系, Class的常量池会在JVM内部关联一个 位于运行时内存的 常量池数据结构, 匹配关系如下:
+        *.class文件constantPool <-------------> 运行时常量池(内部对应*.class文件常量池的数据结构), 运行时常量池 有别于 Class文件的静态常量池
+
+        链接又从逻辑上分为3个阶段, 校验、准备、解析, 将符号引用转换为直接引用的过程称为解析, 因符号引用来自于常量池, 故解析又叫常量池解析!
+
+        注意:
+            1、每个Class都有自己的常量池, 常量池中存放的当前类中用到的所有符号引用!
+            2、解析是将符号引用转化为直接引用的过程, 因符号引用来自于常量池, 因此解析又称为常量池解析! 解析的时机, 有的是采用主方法运行前一次性完成对所有类的解析, 这种称为早解析,
+               有的采用首次被访问时才进行解析, 这种叫晚解析! HotSpot 采用的是后者晚解析的方式! 因此解析的时机又分为两种时机 早解析 和 晚解析!
+
+        TODO 通过GDB查看链接过程, 需要加入断点 查看图片 HotSpot_链接过程源码.jpg
+        break thread.cpp:3107
+        break init.cpp:122
+        break universe.cpp:1057
+        break instanceKlass.cpp:245
+
+        如下代码就是 instanceKlass.cpp 中的245代码:
+        bool instanceKlass::link_class_impl(instanceKlassHandle this_oop, bool throw_verifyerror, TRAPS)
+
+        校验: 对类或接口所对应的二进制信息进行验证, 其中method是验证的主要目标
+
+        准备: 对静态变量进行零初始化的过程, 即对不同类型的静态变量进行赋默认值的过程, 进行零初始化的规则如下:
+        　　  Char类型 默认值为: '\u0000'
+        　　  byte类型 默认值为: 0
+        　　  boolean 默认值为: 0
+        　　  float   默认值为: 0.0f
+        　　  double  默认值为: 0.0d
+
+        解析: 将符号引用 转换成 直接引用的过程, 因符号引用存在于常量池中, 故解析又称为常量池解析; 将以下4类符号引用转化为直接引用的过程称之为解析!
+        　　  其中包括4类符号引用: 类, 接口, 字段, 类方法和接口方法, 将这四类符号引用转化为直接引用, 即直接转化为运行时内存地址!
+        　　  解析过程主要专注方法, 将指向常量池的索引 替换为 常量池缓存的索引 的过程称之为重写!
+
+    8、初始化
+        概念: 对类或接口进行初始化就是执行他们的初始化方法!
+        参考: HotSpot_初始化过程源码.png
+        break thread.cpp:3107
+        break thread.cpp:3178
+        break instanceKlass.cpp:195
+        break instanceKlass.cpp:394
+
+        instanceKlass.cpp第394行就是如下代码:
+        instanceKlass.cpp 中 initialize_impl() 就是初始化的方法
+
+        初始化和接口没有关系, 证明如下:
+        1、让接口中 有个属性是static的且赋值, 如public static OtherK other = new OtherK(); 在 OtherK.java中有初始化代码块
+        2、可以看源码在 instanceKlass.cpp Step7 中有 !this_oop->is_interface(), 源码解释: 如果是接口直接过滤掉了! 可参考页码 117/358
+
+    9、实战: 类的族谱
+        研究类的族谱 这里使用开源的JavaFX项目作为演示程序 ensemble.jar
+        需要下载 javafx_samples-2_0_2.zip
+        引导地址 https://www.infoworld.com/article/2074504/javafx-2-s-ensemble-and-other-sample-applications.html
+        下载地址 https://www.oracle.com/java/technologies/javafx2-archive-downloads.html
+        下载链接 https://download.oracle.com/otn-pub/java/javafx/2.0.2-b08/javafx_samples-2_0_2.zip
+
+        使用条件:
+        1、解压javafx_samples-2_0_2.zip 里面会有 Ensemble.jar, 双击Ensemble.jar 或 执行 java -jar Ensemble.jar, 并启用HSDB进行debug
+        2、通过HSDB链接进程, 查看类Class Browser, 根据地址查看类消息 Inspector
+
+    10、实战: 系统字典 System Dictionary
+        在systemDictionary.cpp中 静态成员含义:
+        // 持有已加载类的 Hashtable
+        Dictionary*            SystemDictionary::_dictionary          = NULL;
+
+        // 持有将被加载类的占位符的 Hashtable
+        PlaceholderTable*      SystemDictionary::_placeholders        = NULL;
+
+        // 持有来自于共享库的类的 Hashtable
+        Dictionary*            SystemDictionary::_shared_dictionary   = NULL;
+
+        // 类加载器约束
+        LoaderConstraintTable* SystemDictionary::_loader_constraints  = NULL;
+
+        // 解析错误
+        ResolutionErrorTable*  SystemDictionary::_resolution_errors   = NULL;
+
+        // 调用方法表(JSR 292)
+        SymbolPropertyTable*   SystemDictionary::_invoke_method_table = NULL;
+
+        // 单调递增计数器, 随着_number_of_classes和断点设置等信息增长或删除
+        int         SystemDictionary::_number_of_modifications = 0;
+
+        // 系统类加载器锁对象
+        oop         SystemDictionary::_system_loader_lock_obj     =  NULL;
+
+        // 持有公用的klasses(预加载)
+        klassOop    SystemDictionary::_well_known_klasses[SystemDictionary::WKID_LIMIT] =  { NULL /*, NULL...*/ };
+
+        // 持有基本类型的装箱klass的表(如int_klass、double_klass等)
+        klassOop    SystemDictionary::_box_klasses[T_VOID+1]      =  { NULL /*, NULL...*/ };
+
+        oop         SystemDictionary::_java_system_loader         =  NULL;
+        bool        SystemDictionary::_has_loadClassInternal      =  false;
+        bool        SystemDictionary::_has_checkPackageAccess     =  false;
+
+        // 延迟加载类
+        volatile klassOop    SystemDictionary::_abstract_ownable_synchronizer_klass = NULL;
+
+        TODO 这里并没有深究 SA Plugin 来探测 SystemDictionary中的属性
+
+    11、创建对象, 创建流程过程请查看HotSpot_实例的创建流程.jpg
+        对象创建的基本流程:
+        (1) 当前类已经完成解析
+        (2) 确保当前类和父类已经完成初始化
+        (3) 如果满足快速分配条件, 则进入快速分配流程
+        (4) 如果不满足快速分配条件, 或快速分配失败, 则进入慢速分配流程
+
+        HotSpot分配对象的过程, 有快速分配 和 慢速分配!
+        快速分配有两种分配方式: TLABs 和 共享Eden区! [Thread Local Allocation Buffers 线程快速分配缓存技术], 可以在线程私有区域实现空间的分配, 简称TLABs
+        慢速分配 请参考 HotSpot_实例的创建流程.jpg
+
+        MacOS下 使用jdk12 的CLHSDB
+        cd /Library/Java/JavaVirtualMachines/jdk-12.0.2.jdk/Contents/Home/bin
+        jhsdb hsdb
+
+        hsdb> attach 13914
+        Attaching to process 13914, please wait...
+        Warning: Nashorn engine is planned to be removed from a future JDK release
+        javax.script.ScriptException: TypeError: sapkg.runtime.VM.getVM is not a function in sa.js at line number 54
+        javax.script.ScriptException: TypeError: sapkg.runtime.VM.getVM is not a function in sa.js at line number 54
+        Warning! JS Engine can't start, some commands will not be available.
+
+        hsdb> universe
+        Heap Parameters:
+        garbage-first heap [0x0000000700000000, 0x0000000800000000] region size 1024K
+        G1 Heap:
+           regions  = 4096
+           capacity = 4294967296 (4096.0MB)
+           used     = 3899392 (3.71875MB)
+           free     = 4291067904 (4092.28125MB)
+           0.090789794921875% used
+        G1 Young Generation:
+        Eden Space:
+           regions  = 3
+           capacity = 27262976 (26.0MB)
+           used     = 3145728 (3.0MB)
+           free     = 24117248 (23.0MB)
+           11.538461538461538% used
+        Survivor Space:
+           regions  = 0
+           capacity = 0 (0.0MB)
+           used     = 0 (0.0MB)
+           free     = 0 (0.0MB)
+           0.0% used
+        G1 Old Generation:
+           regions  = 2
+           capacity = 243269632 (232.0MB)
+           used     = 753664 (0.71875MB)
+           free     = 242515968 (231.28125MB)
+           0.3098060344827586% used
+
+
+        Windows jdk8下 使用 CLHSDB 观察 Ensemble.jar
+        java -cp ".;%JAVA_HOME%/lib/sa-jdi.jar" sun.jvm.hotspot.HSDB    能够成功; 书上的没有加双引号, 书上错误
+        java -cp ".;%JAVA_HOME%/lib/sa-jdi.jar" sun.jvm.hotspot.CLHSDB
+
+        C:\Users\yangjianwei>jps
+        10528 Launcher
+        35552
+        24532 Ensemble.jar
+        17112 Jps
+        10812 RemoteMavenServer36
+        
+        C:\Users\yangjianwei>java -cp ".;%JAVA_HOME%/lib/sa-jdi.jar" sun.jvm.hotspot.CLHSDB
+        hsdb> attach 24532
+        Attaching to process 24532, please wait...
+        hsdb> universe
+        Heap Parameters:
+        ParallelScavengeHeap [
+            PSYoungGen [
+                eden =  [0x00000000d6000000,0x00000000d7235330,0x00000000da000000] ,
+                from =  [0x00000000da000000,0x00000000da000000,0x00000000da500000] ,
+                to   =  [0x00000000de500000,0x00000000de500000,0x00000000dea00000]
+            ]
+            PSOldGen [  [0x0000000082000000,0x00000000833518c8,0x0000000087100000]  ]
+        ]
+
+        TODO scanoops 命令的使用 scanoops start end ClassName
+        hsdb> scanoops 0x0000000082000000 0x00000000833518c8 java/lang/Thread
+        0x00000000820770f0 java/lang/Thread
+        0x00000000820ce450 java/lang/Thread
+        0x00000000820ce648 java/lang/Thread
+        0x00000000820ce848 java/lang/ref/Finalizer$FinalizerThread
+        0x00000000820cea40 java/lang/ref/Reference$ReferenceHandler
+        0x00000000820cecc0 com/sun/glass/ui/InvokeLaterDispatcher
+        0x0000000082165de0 java/lang/Thread
+        0x0000000082165f58 java/lang/Thread
+        0x00000000821660d0 java/lang/Thread
+        0x0000000082166248 java/lang/Thread
+        0x000000008272ab88 com/sun/javafx/tk/quantum/QuantumToolkit$1
+        0x0000000082af21d0 java/lang/Thread
+        0x0000000082b0fc48 java/lang/Thread
+        0x0000000082b109f0 java/lang/Thread
+        0x0000000082b10c68 java/lang/Thread
+        0x0000000083065e40 java/lang/Thread
+        0x0000000083122a78 java/lang/Thread
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+----------------------------------------------------------------------- 第四章 运行时数据区 -------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+运行时数据区的划分:
+    程序运行所需要的空间 在编译期是无法确定的, 因此就需要在运行时开辟空间来满足程序所需要的空间, 这种空间就叫运行时数据区!
+    数据 + 算法 = 程序, 因此就要开辟对象存储空间 和 函数调用栈来保证程序的运行
+    请看图: HotSpot_运行时数据区职能划分.png
+
+    在运行时数据区, 只有 本地内存中 的 线程私有区域是私有的, 其他的堆(Heap)区 和 方法区(Method Area) 是共享的! 方法区 和 堆区是线程共享的, 那就得有管理者,
+    管理分为分配 + 回收, 分配是由HotSpot内存管理模块来维护, 回收是由垃圾回收器管理! 总之这两块共享数据区 是有HotSpot提供的MemoryManager 改管理!
+
+    注意: 每个线程都有自己独有的 PC寄存器 + 栈帧
+
+堆(Heap)区
+    在Java中程序员是不会直接关注内存区域的, 内存的管理交给JVM来管理, 这种管理内存的方式称为 自动内存管理! 同样垃圾回收的事情也是JVM自动完成, 这个组件叫垃圾收集器 或 垃圾回收器!
+    在JConsole 和 VisualVM 中的表现形式是不一样的, 具体参考图片 JConsole和VisualVM运行时数据区的表现形式.png
+
+    问题: 方法区 和 持久代是一个概念吗?
+    方法区 和 持久代不是一个概念, 方法区是运行时数据区的划分, 持久代是垃圾回收的概念, 只是HotSpot在设计方法区的时候设计在持久代中了!
+
+    看图说话, 根据 HotSpot_运行时数据区只能划分.jpg中描述, 运行时数据区分为以下3大区域:
+        运行时数据区主要分为 本地内存(Native Memory), 堆(Heap), 方法区(Method Area)
+
+        本地内存(Native Memory) :   Thread 1 ... N, PC + 栈帧(Stack Frame)
+        堆(Heap)               :   分为 新生代(YoungGen) + 老年代(OldGen); 新生代(YoungGen)又分为: Eden, From, To; 老年代(OldGen)
+        方法区 (Method Area)　  :   Class  1 ... N, (方法, 字段, 代码, 运行时常量池)
+
+        堆区 + 方法区 是所有线程共享的区域, 本地内存中的 PC + 栈帧 是线程私有区域
+
+    分代概念的提出: 因为不同对象在内存中的声明周期差距巨大, 有的声明周期及其短暂, 有的声明周期伴随整个程序或整个应用的声明周期, 因此在创建对象的过程中就将不同的对象放入不同的内存区域中!
+        Java内存中的分代目前分为:
+        新生代: (Young     Generation) 新产生的对象存入的内存区域, 新生代又分为 Eden区 和 两个幸存区(Survivor), 一个称为From区, 另外一个称为To区, 这块区域为 堆区
+        老年代: (Old       Generation) 经过分代垃圾回收后, 新生代达到一定的年龄会被虚拟机移动到老年代中, 这块区域位于 堆区
+        持久代: (Permanent Generation) 这块区域位于 非堆区
+
+线程私有区域: PC + 栈帧
+    PC:
+        线程私有区域, 每个线程都有自己独有的PC寄存器, 用来存放 某种方法的 指令的地址!
+        如果程序运行的当前方法是本地方法, 那么PC寄存器中不存放任何指令的地址, 因为 本地方法的执行 是依赖于 硬件PC寄存器来进行处理的!
+        如果程序运行的当前方法非本地方法, 那么PC寄存器中存放的就是 正在执行的 字节码指令的地址!
+
+    JVM栈:
+        JVM栈分配规范:
+            JVM虚拟机规范JVM栈可以在堆中分配, 但是根据职能划分图中来看, JVM栈是内存中的独立的一块区域, 另外JVM规范也提供了VMOperation 来控制JVM栈的最大和最小空间设置操作!
+        JVM栈可能异常:
+            1、java线程分配的栈的内存超过java虚拟机栈允许的最大容量时, JVM会抛出一个 StackOverflowError 异常!
+            2、如果java虚拟机栈是可以动态扩展的, 但是在扩展后仍然无法满足内存分配的需求, 或者创建新的线程时没有足够的内存去创建java虚拟机栈, 这是会抛出 OutOfMemoryError 异常!
+
+
+    方法区:
+        方法区在java虚拟机规范中,没有明确规定物理上和堆进行隔离, 只是逻辑上的分隔, 规范中提供了调节方法区最大和最小值的VMOperation!
+
+        BASE64Util 通过jclasslib可以看出来 内部的方法 仅用一条指令就可以代表了! 指令和面跟着操作符, 这个操作符就是常量池的索引!
+        用jclasslib BASE64Util.encodeBase64(String message) 方法中的,目标方法 BASE64Encoder.encodeBuffer()方法 翻译成二进制编码后如何表示
+        invokevirtual #10 <sun/misc/BASE64Encoder.encodeBuffer>
+            cp info #6  <sun/misc/BASE64Encoder>
+                cp info #46 <sun/misc/BASE64Encoder>
+                    字节数组长度: 22
+                    字符串长度: 　22
+                    字符串: 　　　sun/misc/BASE64Encoder
+            cp info #50 <encoderBuffer : ([B)Ljava/lang/String;>
+                cp info #68 <encodeBuffer>
+                    字节数组长度: 12
+                    字符串长度: 　12-
+                    字符串: 　　　encodeBuffer
+                cp info #69 <([B)Ljava/lang/String;>
+                    字节数组长度: 22
+                    字符串长度: 　22
+                    字符串: 　　　([B)Ljava/lang/String;
+
+        JVM虚拟机规范: 虚拟机在创建类或接口时, 为每个类或接口 创建一个运行时常量池, 这个常量池在运行期间在方法区中进行分配!
+        查看一个类的常量池的信息可以使用命令:
+        D:\study_workspace\java_hotspot_action\target\classes>javap -verbose com.deepblue.hotspot_inaction.chapter_04_running_data.BASE64Util
+
+        常量池缓存项 分为字段项 + 方法项, 具体查看cpCacheOop.hpp文件!
+
+        方法的表示: methodOopDesc , 在JVM中每个方法都被表示成一个对象, 对象的类型是 methodOopDesc
+        methods[] 数组只包含当前class 中的所有方法, 不包含从父类中继承的方法, 一旦 access_flag 标识为 ACC_NATIVE 或 ACC_ABSTRACT 就可以在当前类中直接引用当前方法而不需要再关联其他的类!
+         
+    性能监控数据区 PerfData
+        使用如下命令可查PerfData中的信息[pid为 使用命令jps查询出的进程ID或processorId]:
+        jstat -J-Djstat.showUnsupported=true -snap <pid>
+
+    转储技术: 将运行时刻的程序快照保存下来, 为调试、分析或诊断程序 提供数据上的支持
+        虚拟机中使用的转储技术分为
+            核心转储 (core dump)
+            堆转储   (heap dump)
+            线程转储 (thread dump)
+
+        使用VisualVM进行转储分析, 想要更好的研究下这种东西, 这里直接引入 深入理解Java虚拟机 一书!
+        在里面有这样的配置可以监控JVM的内存转储文件, 使用举例如下:
+        -XX:+HeapDumpOnOutOfMemoryError -XX:HeapDumpPath=/home/openjdk/hotspot/build_jvm/java.hprof
+
+    JVM Crash
+    使用方式是开启VM Option: -XX:ErrorFile=/home/openjdk/hotspot/build_jvm/java_crash.log, 如果不配置则会生成一个 hs_err_pid<pid>.log
+
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------------------------ 第五章 垃圾回收 ----------------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+1、堆与GC
+    垃圾回收概念: 书中的有待商榷 是将内存中没有用的对象空间进行清理回收的过程!
+    从以上的定义可以反问:
+        那块内存? 涉及到内存如何划分或分类的
+        没有用的? 如何判定哪些对象没有用?
+    从以上定义可以拓展:
+        什么工具? 用什么工具进行回收
+        什么时机? 在哪个时刻进行回收, 这个时机有什么特殊点要关注
+        什么方法? 用什么方法进行回收
+
+    由以上问题引出:
+    垃圾回收器:
+        垃圾回收目的: 是将内存中 有用的对象保留, 无用的对象清除
+        垃圾回收器的衡量标准: 1、清除的精准度    2、效率如何    3、用户感应是否良好(吞吐量是否影响了用户感知), 其他策略值 频率等
+    垃圾回收算法:
+        标记-复制算法
+        标记-清除算法
+        标记-整理算法
+
+    分代回收思想: 因对象的生命周期是不同的, 有的是朝生夕灭, 有的可能伴随进程一直存活, 这样就有了分代的思想, 因此根据不同的生命周期将内存分为
+        新生代
+        老年代
+        持久代
+    分代JVM Option 分别对应以下
+        -XX:InitialSurvivorRatio        Eden区 / Survivor区的 初始比例大小   　　　　　默认值 8
+        -XX:InitialTenuringThreshold    晋升到老年代的对象年龄初始阈值                 默认值 7
+        -XX:SurvivorRatio               Eden区 / Survivor区的比例大小                默认值 8
+        -XX:MinSurvivorRatio            Eden区 / Survivor区的最小比例                默认值 3
+        -XX:TargetSurvivorRatio         垃圾回收后期望得到的Survivor区的使用率 (%)     默认值 50
+        -XX:MaxTenuringThreshold        晋升到老年代的对象年龄阈值　　　　　　　　　　　　默认值 15
+        -XX:PretenureSizeThreshold      晋升到老年代的对象的大小阈值                   默认值 0
+        -XX:UsePSAdaptiveSurvivorPolicy 自适应调整Survivor区域大小策略                默认值 true
+
+    分代模型:
+        Generation
+        DefNewGeneration            CardGeneration
+        ParNewGeneration            OneContigSpaceCardGeneration                    ConcurrentMarkSweepGeneration
+        ASParNewGeneration          CompactingPermGenGen    TenuredGeneration       CMSPermGenGen       ASConcurrentMarkSweepGeneration
+
+        在generation.hpp 中可以查看 enum Name
+        enum Name {
+            ASParNew,
+            ASConcurrentMarkSweep,
+            DefNew,
+            ParNew,
+            MarkSweepCompact,
+            ConcurrentMarkSweep,
+            Other
+        };
+        //   The system configurations currently allowed are:
+        //   DefNewGeneration + TenuredGeneration + PermGeneration
+        //   DefNewGeneration + ConcurrentMarkSweepGeneration + ConcurrentMarkSweepPermGen
+        //   ParNewGeneration + TenuredGeneration + PermGeneration
+        //   ParNewGeneration + ConcurrentMarkSweepGeneration + ConcurrentMarkSweepPermGen
+
+    快速分配:
+        指针碰撞　 : 一般情况下如果Eden区中有大量的连续空间, 这时候如果要分配对象只需要记录下上一次分配对象后的指针 往后移动指定大小的空间就可以为新产生的对象分配响应的空间了, 这种方式称为指针碰撞
+        TLAB分配  : 位于Eden区中的一部分区域, 每个线程都有自己的TLAB, 只有使用不够的使用, 再上锁在Eden区中分配!
+
+    栈内分配:
+        提出的思想: 因为栈不属于垃圾回收的范围, 没有产生垃圾随着线程的生而生, 线程的亡而亡, 就不会有垃圾回收的概念了!
+
+    GC公共模块:
+
+    垃圾回收器
+
+    hotspot_in_action 暂时告一段落!
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+------------------------------------------------------- 剩余部分, 大部分为源码部分, 这块有时间再去看--------------------------------------------------------
+-------------------------------------------------------------------------------------------------------------------------------------------------------
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
