@@ -274,7 +274,57 @@ TODO 前面三款新生代的垃圾回收器 采用的都是 标记-复制算法
 本章中的工具几乎都是基于 Windows平台下的jdk 进行讲解的!
 
 jdk命令工具:
+
     0、top 作为辅助工具 记住可以切换为线程 快捷键 shift + h 或者 大写的H都可以, 如果查看完整命令 可以用 c 键来触发
+        (1) top 命令可以直接查出 服务的 进程id
+        (2) top -p pid -H 可以查看当前 进程id 下的 所有线程 id 进行查看! 展开后可以按 c 键 展示出是哪个具体的 COMMAND
+        (3) 展示出来的线程Id(当前为10进制), 转换为16进制后 和 nid 进行比对就可以 在 jstack 查看 dump 转储文件进行监控了!
+
+        TODO 执行指令 top -p 1995 -H
+        [root@localhost ~]# top -p 1995 -H
+        top - 01:37:15 up 54 min,  3 users,  load average: 0.05, 0.03, 0.05
+        Threads:  15 total,   0 running,  15 sleeping,   0 stopped,   0 zombie
+        %Cpu(s):  0.0 us,  0.3 sy,  0.0 ni, 99.7 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+        KiB Mem :  1863004 total,  1422636 free,   238736 used,   201632 buff/cache
+        KiB Swap:  2097148 total,  2097148 free,        0 used.  1473044 avail Mem
+
+          PID  USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND
+          1995 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.01 gamma
+          2008 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.52 gamma
+          2009 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 gamma
+          2010 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 gamma
+          2011 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 gamma
+          2012 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 gamma
+          2013 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 gamma
+          2014 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 gamma
+          2015 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 gamma
+          2016 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.07 gamma
+          2017 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 gamma
+          2018 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 gamma
+          2019 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 gamma
+
+        -------------------------------------------------------------------------------------------------------------------------------------------
+        TODO 在上面的基础上 按 c 键 后展示 如下:
+        top - 01:38:35 up 56 min,  3 users,  load average: 0.01, 0.02, 0.05
+        Threads:  15 total,   0 running,  15 sleeping,   0 stopped,   0 zombie
+        %Cpu(s):  0.3 us,  0.3 sy,  0.0 ni, 99.3 id,  0.0 wa,  0.0 hi,  0.0 si,  0.0 st
+        KiB Mem :  1863004 total,  1422636 free,   238736 used,   201632 buff/cache
+        KiB Swap:  2097148 total,  2097148 free,        0 used.  1473044 avail Mem
+
+        PID  USER      PR  NI    VIRT    RES    SHR S %CPU %MEM     TIME+ COMMAND
+        2016 root      20   0 1287264  64540   8344 S  0.3  3.5   0:00.20 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg/gamma LinuxDemo
+        1995 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.01 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg/gamma LinuxDemo
+        2008 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.52 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg/gamma LinuxDemo
+        2009 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg/gamma LinuxDemo
+        2010 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg/gamma LinuxDemo
+        2011 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg/gamma LinuxDemo
+        2012 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg/gamma LinuxDemo
+        2013 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg/gamma LinuxDemo
+        2014 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg/gamma LinuxDemo
+        2015 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg/gamma LinuxDemo
+        2017 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg/gamma LinuxDemo
+        2018 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg/gamma LinuxDemo
+        2019 root      20   0 1287264  64540   8344 S  0.0  3.5   0:00.00 /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg/gamma LinuxDemo
 
     1、查看虚拟机进程工具 jps
         jps -l  : 查看各个进程启动类
