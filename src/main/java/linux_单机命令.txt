@@ -1,57 +1,57 @@
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-------------------------------------------------------------------linuxÂã»úĞèÒª°²×°µÄ¶«Î÷-----------------------------------------------------------
+------------------------------------------------------------------linuxè£¸æœºéœ€è¦å®‰è£…çš„ä¸œè¥¿-----------------------------------------------------------
 ----------------------------------------------------------------------------------------------------------------------------------------------------
-CentOS7¹Ø±ÕSELinux
+CentOS7å…³é—­SELinux
 vim /etc/selinux/config
 
-½«SELINUX=enforcing¸ÄÎªSELINUX=disabled
-ÉèÖÃºóĞèÒªÖØÆô²ÅÄÜÉúĞ§
+å°†SELINUX=enforcingæ”¹ä¸ºSELINUX=disabled
+è®¾ç½®åéœ€è¦é‡å¯æ‰èƒ½ç”Ÿæ•ˆ
 
 
 
-Ò»¡¢Ê×ÏÈÖ´ĞĞÏÂÃæÈı²½Ö´ĞĞ:	ip addr
-1.ĞŞ¸ÄÍøÂç½Å±¾
+ä¸€ã€é¦–å…ˆæ‰§è¡Œä¸‹é¢ä¸‰æ­¥æ‰§è¡Œ:	ip addr
+1.ä¿®æ”¹ç½‘ç»œè„šæœ¬
 cd /etc/sysconfig/network-scripts
 vi ifcfg-ens33
 
-½«ONBOOT=noĞŞ¸ÄÎªONBOOT=yes±£´æÍË³ö
-2.ÖØÆôÍøÂç·şÎñ
+å°†ONBOOT=noä¿®æ”¹ä¸ºONBOOT=yesä¿å­˜é€€å‡º
+2.é‡å¯ç½‘ç»œæœåŠ¡
 service network restart
 
-3.°²×°net-tools°ü
+3.å®‰è£…net-toolsåŒ…
 yum -y install net-tools
 
-¶ş¡¢°²×°vim
+äºŒã€å®‰è£…vim
 yum -y install vim
 
-Èı¡¢°²×°ÉÏsz rz -y
+ä¸‰ã€å®‰è£…ä¸Šsz rz -y
 yum -y install lrzsz
 
-ËÄ¡¢°²×°lsof²é¿´¶Ë¿ÚµÄÃüÁî Àı×Ó:lsof -i:8080
+å››ã€å®‰è£…lsofæŸ¥çœ‹ç«¯å£çš„å‘½ä»¤ ä¾‹å­:lsof -i:8080
 yum install lsof -y
 
-Îå¡¢°²×°tcpdump
+äº”ã€å®‰è£…tcpdump
 yum -y install tcpdump
 
-Áù¡¢°²×°iostat ÃüÁî
+å…­ã€å®‰è£…iostat å‘½ä»¤
 yum -y install sysstat
 
-Æß¡¢°²×°unzipÃüÁî
+ä¸ƒã€å®‰è£…unzipå‘½ä»¤
 yum -y install unzip
 
-°Ë¡¢°²×°wgetÃüÁî
+å…«ã€å®‰è£…wgetå‘½ä»¤
 yum -y install wget
 
-¾Å¡¢°²×°tar.xzÎÄ¼şµÄ½âÑ¹ËõÃüÁî
+ä¹ã€å®‰è£…tar.xzæ–‡ä»¶çš„è§£å‹ç¼©å‘½ä»¤
 yum -y install xz
 
-Ê®¡¢°²×°bzip
+åã€å®‰è£…bzip
 yum -y install bzip2
 
-Ê®Ò»¡¢°²×°×ÖÌå¿â
+åä¸€ã€å®‰è£…å­—ä½“åº“
 yum -y install fontconfig
 
------×Ü½áÉÏÃæµÄÃüÁî:
+-----æ€»ç»“ä¸Šé¢çš„å‘½ä»¤:
 yum -y install net-tools
 yum -y install vim
 yum -y install lrzsz
@@ -59,7 +59,6 @@ yum -y install lsof
 yum -y install tcpdump
 yum -y install sysstat
 yum -y install unzip
-yum -y install zip
 yum -y install wget
 yum -y install xz
 yum -y install bzip2
@@ -68,58 +67,49 @@ yum -y install gcc-c++
 yum -y install ncurses-devel
 yum -y install openssl openssl-devel
 yum -y install unixODBC unixODBC-devel
-yum -y install glibc-static libstdc++-static
-yum -y install gdb
-
-
-cd /home
-yum whatprovides debuginfo-install
-yum install yum-utils
-debuginfo-install glibc-2.17-324.el7_9.x86_64
-
 
 
 docker run debian echo "Hello World"
 
 
-ĞŞ¸ÄÊ±¼ä:
-²é¿´ºÍĞŞ¸ÄLinuxµÄÊ±¼ä
+ä¿®æ”¹æ—¶é—´:
+æŸ¥çœ‹å’Œä¿®æ”¹Linuxçš„æ—¶é—´
 
-1. ²é¿´Ê±¼äºÍÈÕÆÚ
-ÃüÁî £º date
+1. æŸ¥çœ‹æ—¶é—´å’Œæ—¥æœŸ
+å‘½ä»¤ ï¼š date
 
-2.ÉèÖÃÊ±¼äºÍÈÕÆÚ
-ÀıÈç£º½«ÏµÍ³ÈÕÆÚÉè¶¨³É2019Äê10ÔÂ5ÈÕµÄÃüÁî
+2.è®¾ç½®æ—¶é—´å’Œæ—¥æœŸ
+ä¾‹å¦‚ï¼šå°†ç³»ç»Ÿæ—¥æœŸè®¾å®šæˆ2019å¹´10æœˆ5æ—¥çš„å‘½ä»¤
 
-ÃüÁî £º date -s 10/07/2019
+å‘½ä»¤ ï¼š date -s 10/07/2019
 
-½«ÏµÍ³Ê±¼äÉè¶¨³ÉÏÂÎç5µã55·Ö55ÃëµÄÃüÁî
+å°†ç³»ç»Ÿæ—¶é—´è®¾å®šæˆä¸‹åˆ5ç‚¹55åˆ†55ç§’çš„å‘½ä»¤
 
-ÃüÁî £º date -s 17:55:55
+å‘½ä»¤ ï¼š date -s 17:55:55
 
-3. ½«µ±Ç°Ê±¼äºÍÈÕÆÚĞ´ÈëBIOS£¬±ÜÃâÖØÆôºóÊ§Ğ§
-ÃüÁî £º hwclock -w
+3. å°†å½“å‰æ—¶é—´å’Œæ—¥æœŸå†™å…¥BIOSï¼Œé¿å…é‡å¯åå¤±æ•ˆ
+å‘½ä»¤ ï¼š hwclock -w
 
 hwclock --hctosys
 
 
-½â¾öÅ¼¶ûifconfig²»ÄÜÏÔÊ¾IPµÄÎÊÌâ:
+è§£å†³å¶å°”ifconfigä¸èƒ½æ˜¾ç¤ºIPçš„é—®é¢˜:
 
 systemctl restart network.service
 
-chkconfig NetworkManager off 
-chkconfig network on 
-service NetworkManager stop 
+chkconfig NetworkManager off
+chkconfig network on
+service NetworkManager stop
 service network start
 ------------------------------------------------------------------------------------------------------------------------------------------------------
 
-----------------------------------------------------windowÏÂ²éÑ¯Ä³¸ö¶Ë¿ÚÊÇÄÄ¸ö½ø³ÌÕ¼ÓÃµÄÃüÁî:
-windowÏÂ¸ù¾İ¶Ë¿ÚºÅ²éÑ¯½ø³ÌºÅµÄÃüÁî»ò×ÅÄÄ¸ö¶Ë¿ÚºÅ±»Õ¼ÓÃÃüÁî£º 	netstat -aon|findstr ¶Ë¿ÚºÅ
-windowÏÂ¸ù¾İ½ø³ÌºÅ²éÑ¯µ±Ç°½ø³ÌºÅµÄÕ¼ÓÃ³ÌĞò»ò·şÎñÊÇÄÄÒ»¸ö: 	tasklist|findstr ½ø³ÌºÅ
+----------------------------------------------------windowä¸‹æŸ¥è¯¢æŸä¸ªç«¯å£æ˜¯å“ªä¸ªè¿›ç¨‹å ç”¨çš„å‘½ä»¤:
+windowä¸‹æ ¹æ®ç«¯å£å·æŸ¥è¯¢è¿›ç¨‹å·çš„å‘½ä»¤æˆ–ç€å“ªä¸ªç«¯å£å·è¢«å ç”¨å‘½ä»¤ï¼š 	netstat -aon|findstr ç«¯å£å·
+windowä¸‹æ ¹æ®è¿›ç¨‹å·æŸ¥è¯¢å½“å‰è¿›ç¨‹å·çš„å ç”¨ç¨‹åºæˆ–æœåŠ¡æ˜¯å“ªä¸€ä¸ª: 	tasklist|findstr è¿›ç¨‹å·
 
-----------------------------------------------------linux ÏÂ²éÑ¯Ä³¸ö¶Ë¿ÚÊÇ·ñ±»Õ¼ÓÃµÄÃüÁî:
-·½·¨1: lsof -i:¶Ë¿ÚºÅ
-·½·¨2: netstat -tunpl | grep ¶Ë¿ÚºÅ
+----------------------------------------------------linux ä¸‹æŸ¥è¯¢æŸä¸ªç«¯å£æ˜¯å¦è¢«å ç”¨çš„å‘½ä»¤:
+æ–¹æ³•1: lsof -i:ç«¯å£å·
+æ–¹æ³•2: netstat -tunpl | grep ç«¯å£å·
 
 
 
@@ -127,93 +117,93 @@ windowÏÂ¸ù¾İ½ø³ÌºÅ²éÑ¯µ±Ç°½ø³ÌºÅµÄÕ¼ÓÃ³ÌĞò»ò·şÎñÊÇÄÄÒ»¸ö: 	tasklist|findstr ½ø³Ì
 
 
 
-//²é¿´¸÷¸ö·şÎñÊµÊ±×´Ì¬					ÖĞ¼äµÄÊÇÊı×Ö1²»ÊÇ×ÖÄ¸l,ÒâË¼ÊÇÃ¿1ÃëË¢ĞÂÒ»´Î
+//æŸ¥çœ‹å„ä¸ªæœåŠ¡å®æ—¶çŠ¶æ€					ä¸­é—´çš„æ˜¯æ•°å­—1ä¸æ˜¯å­—æ¯l,æ„æ€æ˜¯æ¯1ç§’åˆ·æ–°ä¸€æ¬¡
 watch -n 1 -d netstat -tunlp
 
 
-//ÖØÆôµÄÃüÁî,ÌØ¶¨»·¾³
+//é‡å¯çš„å‘½ä»¤,ç‰¹å®šç¯å¢ƒ
 ps aux | grep tomcat | grep -v grep | awk '{print $2}' | xargs kill -9 ; sleep 5
 /opt/tomcat7/bin/startup.sh
 /opt/tomcat7.85/bin/startup.sh
 
 
-//²éÑ¯ÈÕÖ¾µÄ¶àÉÙĞĞµ½¶àÉÙĞĞµÄÈÕÖ¾
+//æŸ¥è¯¢æ—¥å¿—çš„å¤šå°‘è¡Œåˆ°å¤šå°‘è¡Œçš„æ—¥å¿—
 sed -n '1,10p' catalina.out
-»ò
+æˆ–
 grep -C 100 '13563051773' catalina.out
 
-//²é¿´µ¥Ì¨tomcat½ø³ÌºÅ
+//æŸ¥çœ‹å•å°tomcatè¿›ç¨‹å·
 netstat -tunlp
 
-ps -aux | grep ½ø³ÌºÅ			----->½ø³ÌºÅÍ¨¹ıÉÏÃæµÄÃüÁî»ñµÃ
+ps -aux | grep è¿›ç¨‹å·			----->è¿›ç¨‹å·é€šè¿‡ä¸Šé¢çš„å‘½ä»¤è·å¾—
 
-netstat -ntulp |grep 80			//²é¿´¶Ë¿ÚÇé¿ö
+netstat -ntulp |grep 80			//æŸ¥çœ‹ç«¯å£æƒ…å†µ
 
 
-//²é¿´ÄÚ´æÇé¿öÃüÁî
+//æŸ¥çœ‹å†…å­˜æƒ…å†µå‘½ä»¤
 top
 
-//²é¿´ÊÇ·ñÓĞ»ıÑ¹ÃüÁî
+//æŸ¥çœ‹æ˜¯å¦æœ‰ç§¯å‹å‘½ä»¤
 netstat -tunlp
 
-//²é¿´Ä³Ğ©Æ¬¶ÎµÄÃüÁî
-cat  ÎÄ¼şÃû   | grep  ²éÕÒµÄ×Ö·û´®
+//æŸ¥çœ‹æŸäº›ç‰‡æ®µçš„å‘½ä»¤
+cat  æ–‡ä»¶å   | grep  æŸ¥æ‰¾çš„å­—ç¬¦ä¸²
 cat catalina.out | grep 539300001202
 
-Èç¹ûÏÂÃæµÄÃüÁîÓöµ½ÌØÊâ×Ö·û±ØĞë¼Ó\×ªÒëÀıÈç  grep '\[TimeTasker\]' catalina.out
-grep '×Ö·û´®' ÎÄ¼şÃû
+å¦‚æœä¸‹é¢çš„å‘½ä»¤é‡åˆ°ç‰¹æ®Šå­—ç¬¦å¿…é¡»åŠ \è½¬è¯‘ä¾‹å¦‚  grep '\[TimeTasker\]' catalina.out
+grep 'å­—ç¬¦ä¸²' æ–‡ä»¶å
 
 
-1¡¢²é¿´½ø³Ì
+1ã€æŸ¥çœ‹è¿›ç¨‹
 	ps -ef | grep java
-2¡¢É±µô½ø³Ì
+2ã€æ€æ‰è¿›ç¨‹
 	sudo kill -9 [PID]
-3¡¢ssh´ò¿ªÎÄ¼ş
-	vi [ÎÄ¼şÃû]
-4¡¢ssh±à¼­ÎÄ¼ş
-	´ò¿ªÎÄ¼şºó°´insert¼ü
-5¡¢ÍË³ö±à¼­
-	:q!   ÍË³ö²»±£´æĞŞ¸Ä
+3ã€sshæ‰“å¼€æ–‡ä»¶
+	vi [æ–‡ä»¶å]
+4ã€sshç¼–è¾‘æ–‡ä»¶
+	æ‰“å¼€æ–‡ä»¶åæŒ‰inserté”®
+5ã€é€€å‡ºç¼–è¾‘
+	:q!   é€€å‡ºä¸ä¿å­˜ä¿®æ”¹
 	:q
-6¡¢ÍË³ö±à¼­²¢±£´æ
+6ã€é€€å‡ºç¼–è¾‘å¹¶ä¿å­˜
 	:wq
-7¡¢ÏÂÔØÎÄ¼ş
-	sz [ÎÄ¼şÃû]
-8¡¢ÉÏ´«ĞÂÎÄ¼ş
-	rz [ÎÄ¼şÃû]
-9¡¢ÉÏ´«²¢¸²¸ÇÎÄ¼ş
-	rz -y [ÎÄ¼şÃû]
-10¡¢Í£Ö¹tomcat
+7ã€ä¸‹è½½æ–‡ä»¶
+	sz [æ–‡ä»¶å]
+8ã€ä¸Šä¼ æ–°æ–‡ä»¶
+	rz [æ–‡ä»¶å]
+9ã€ä¸Šä¼ å¹¶è¦†ç›–æ–‡ä»¶
+	rz -y [æ–‡ä»¶å]
+10ã€åœæ­¢tomcat
 	/etc/init.d/tomcat stop
 	ps -ef |grep java
-    Èç¹ûÓĞ½ø³Ìkill -9 ½ø³ÌºÅ
-11¡¢Çå³ıtomcat»º´æ
+    å¦‚æœæœ‰è¿›ç¨‹kill -9 è¿›ç¨‹å·
+11ã€æ¸…é™¤tomcatç¼“å­˜
 	sudo rm -rf /opt/tomcat7/work/*
-12¡¢Æô¶¯tomcat
+12ã€å¯åŠ¨tomcat
     /etc/init.d/tomcat start
-13¡¢ËùÓĞ·şÎñÆ÷¶¼ÊÇ
-    ÓÃ»§root
-    ÃÜÂëpxe@wd2013
-14¡¢ËùÓĞÊı¾İ¿âÓÃ»§ÃÜÂë£º
-    ÓÃ»§ sdiptv
-    ÃÜÂë iptvsd2015
-15¡¢ÊµÊ±²é¿´ÈÕÖ¾log
-    tail -f /opt/tomcat/log/ÈÕÖ¾ÎÄ¼şÃû
-16¡¢zipÑ¹ËõÓë½âÑ¹
-    zip -r ÎÄ¼şÃû.zip Ä¿Â¼
+13ã€æ‰€æœ‰æœåŠ¡å™¨éƒ½æ˜¯
+    ç”¨æˆ·root
+    å¯†ç pxe@wd2013
+14ã€æ‰€æœ‰æ•°æ®åº“ç”¨æˆ·å¯†ç ï¼š
+    ç”¨æˆ· sdiptv
+    å¯†ç  iptvsd2015
+15ã€å®æ—¶æŸ¥çœ‹æ—¥å¿—log
+    tail -f /opt/tomcat/log/æ—¥å¿—æ–‡ä»¶å
+16ã€zipå‹ç¼©ä¸è§£å‹
+    zip -r æ–‡ä»¶å.zip ç›®å½•
     unzip
-17¡¢ÖØÃüÃû  mv Ô´ÎÄ¼şÃû ĞÂÎÄ¼şÃû
-18¡¢templateÉ½¶«±¾µØ·ÃÎÊµØÖ·
+17ã€é‡å‘½å  mv æºæ–‡ä»¶å æ–°æ–‡ä»¶å
+18ã€templateå±±ä¸œæœ¬åœ°è®¿é—®åœ°å€
     http://172.25.37.236/templetssd/epg/index.jsptempToken=temptoken&UserID=UserID
     &providerid=hw&MAC=MAC
-    http://60.19.30.89/templetssd/epg/index.jsp?           
-19¡¢webserviceÉú³É¿Í»§¶Ë
+    http://60.19.30.89/templetssd/epg/index.jsp?
+19ã€webserviceç”Ÿæˆå®¢æˆ·ç«¯
     wsimport -keep -p com.demo.clent         http://172.25.37.235/epgms/services/templateSyncCmdRequestWbs?wsdl
-20. Ñ¹ËõÎÄ¼ş¼Ğ zip -r aa.zip aa
+20. å‹ç¼©æ–‡ä»¶å¤¹ zip -r aa.zip aa
 
-ÖØÆôtomcat
-ps -ef|grep jre 
-ÕÒµ½½ø³ÌºÅ
+é‡å¯tomcat
+ps -ef|grep jre
+æ‰¾åˆ°è¿›ç¨‹å·
 kill -9 20990
 /etc/init.d/tomcat stop
 
@@ -222,16 +212,16 @@ kill -9 20990
 
 
 
-¹Ø±Õtomcat±¾À´ÊÇ/etc/init.d/tomcat stopÒòÎª²»ºÃÊ¹¾ÍÖ±½ÓÉ±ËÀ½ø³Ì¹Ø±Õ
-Èç¹ûÔÚinit.dÏÂÃæÃ»ÓĞtomcat£¬Æô¶¯¹Ø±Õ·½Ê½£º
+å…³é—­tomcatæœ¬æ¥æ˜¯/etc/init.d/tomcat stopå› ä¸ºä¸å¥½ä½¿å°±ç›´æ¥æ€æ­»è¿›ç¨‹å…³é—­
+å¦‚æœåœ¨init.dä¸‹é¢æ²¡æœ‰tomcatï¼Œå¯åŠ¨å…³é—­æ–¹å¼ï¼š
 sudo rm -rf /opt/tomcat7/work/*
 systemctl stop tomcat7.service
 systemctl start tomcat7.service
 tailf /opt/tomcat7/logs/catalina.out
 
-ÏÈÁ¬½Ó  adb £¬  adb  connect  192.168.x.xxx   , Á¬½Óadb ºóÖ´ĞĞ adb logcat > d:\test4.log  ,  È»ºó  ½øĞĞ   ´ò¿ª Í³Ò»²¥·ÅÆ÷µÄ²Ù×÷£¬  Ö®ºóÔÙ ÍË³ö²¥·ÅÆ÷¡£  È»ºó   ÔÚ  cmd  ÃüÁîÀ¸ÖĞ ctrl+c¡£  È»ºó°Ñ   test4.log  ·¢ÎÒ ¾ÍĞĞÁË¡£
+å…ˆè¿æ¥  adb ï¼Œ  adb  connect  192.168.x.xxx   , è¿æ¥adb åæ‰§è¡Œ adb logcat > d:\test4.log  ,  ç„¶å  è¿›è¡Œ   æ‰“å¼€ ç»Ÿä¸€æ’­æ”¾å™¨çš„æ“ä½œï¼Œ  ä¹‹åå† é€€å‡ºæ’­æ”¾å™¨ã€‚  ç„¶å   åœ¨  cmd  å‘½ä»¤æ ä¸­ ctrl+cã€‚  ç„¶åæŠŠ   test4.log  å‘æˆ‘ å°±è¡Œäº†ã€‚
 
-adb shell 
+adb shell
 
 memcache telnet ip 11211 get key; delete key;quit;
 
@@ -250,17 +240,17 @@ ftp://10.23.248.11/iptv/asm/20160722/1469169908464_hk_1.jpg
 
 
 
-------------------Çå¿ÕÈÕÖ¾ÃüÁî/Çå³ıÈÕÖ¾-------------------
+------------------æ¸…ç©ºæ—¥å¿—å‘½ä»¤/æ¸…é™¤æ—¥å¿—-------------------
 cat /dev/null > catalina.out
 cat /dev/null > gc.log
 
 
-//²é¿´´øÓĞÄ³¸ö×Ö·û´®×îºóµÄÈÕÖ¾
+//æŸ¥çœ‹å¸¦æœ‰æŸä¸ªå­—ç¬¦ä¸²æœ€åçš„æ—¥å¿—
 grep T0059 /opt/tomcat7/logs/catalina.out | tail
 
 
 
------------²é¿´ÃüÁî----------
+-----------æŸ¥çœ‹å‘½ä»¤----------
 netstat -aon|findstr 8080
 taskkill -f -pid 920
 
@@ -268,95 +258,95 @@ taskkill -f -pid 920
 
 
 
-ÎÄ¼ş¼Ğ³£ÓÃr
+æ–‡ä»¶å¤¹å¸¸ç”¨r
 *************************************************************************************************************************
-1.²é¿´linuxµÄIPÃüÁî:ip addr
+1.æŸ¥çœ‹linuxçš„IPå‘½ä»¤:ip addr
 
-2.°²×°rzszÃüÁî:yum -y install lrzsz
+2.å®‰è£…rzszå‘½ä»¤:yum -y install lrzsz
 
-3.°²×°zipÃüÁî:yum -y install zip
+3.å®‰è£…zipå‘½ä»¤:yum -y install zip
 
-4.zipÃüÁî¸ñÊ½:zip Ñ¹ËõÎÄ¼şÃû Ô´ÎÄ¼ş  unzip *.zipÎÄ¼ş
+4.zipå‘½ä»¤æ ¼å¼:zip å‹ç¼©æ–‡ä»¶å æºæ–‡ä»¶  unzip *.zipæ–‡ä»¶
 
-5.³£ÓÃ´ò°üÃüÁî:tar -cvf ´ò°üÎÄ¼şÃû Ô´ÎÄ¼ş
-tar -cvf log4jÈëÃÅµ½Ïê½â.tar log4jÈëÃÅµ½Ïê½â.pdf
-tar -xvf log4jÈëÃÅµ½Ïê½â.tar
+5.å¸¸ç”¨æ‰“åŒ…å‘½ä»¤:tar -cvf æ‰“åŒ…æ–‡ä»¶å æºæ–‡ä»¶
+tar -cvf log4jå…¥é—¨åˆ°è¯¦è§£.tar log4jå…¥é—¨åˆ°è¯¦è§£.pdf
+tar -xvf log4jå…¥é—¨åˆ°è¯¦è§£.tar
 
-6.³£ÓÃÃüÁî: .tar.gz
-Ñ¹ËõÃüÁî:	tar -zcvf *.tar.gz Ô´ÎÄ¼ş	
-½âÑ¹ËõÃüÁî:	tar -zxvf *.tar.gz
+6.å¸¸ç”¨å‘½ä»¤: .tar.gz
+å‹ç¼©å‘½ä»¤:	tar -zcvf *.tar.gz æºæ–‡ä»¶
+è§£å‹ç¼©å‘½ä»¤:	tar -zxvf *.tar.gz
 
------------------------------------------------------------------°²×°vsftp-----------------------------------------------
-µÚÒ»²½£º°²×°vsftp
+-----------------------------------------------------------------å®‰è£…vsftp-----------------------------------------------
+ç¬¬ä¸€æ­¥ï¼šå®‰è£…vsftp
 
 yum install -y vsftpd
 
 
 
-µÚ¶ş²½£ºÉèÖÃ¿ª»úÆô¶¯
+ç¬¬äºŒæ­¥ï¼šè®¾ç½®å¼€æœºå¯åŠ¨
 
 systemctl enable vsftpd
 
 
 
-µÚÈı²½£ºÆô¶¯ftp·şÎñ
+ç¬¬ä¸‰æ­¥ï¼šå¯åŠ¨ftpæœåŠ¡
 
 systemctl start vsftpd.service
 
 
 
-µÚËÄ²½£º´ò¿ª·À»ğÇ½
-(ÓÀ¾ÃÌí¼Ótcp 21¶Ë¿Ú)
+ç¬¬å››æ­¥ï¼šæ‰“å¼€é˜²ç«å¢™
+(æ°¸ä¹…æ·»åŠ tcp 21ç«¯å£)
 firewall-cmd --zone=public --add-port=21/tcp --permanent
-(Ìí¼Óftp·şÎñ)
+(æ·»åŠ ftpæœåŠ¡)
 firewall-cmd --permanent --zone=public --add-service=ftp
-(ÖØÆô·À»ğÇ½)
+(é‡å¯é˜²ç«å¢™)
 firewall-cmd --reload
 
 firewall-cmd --list-ports
 
-#Í£Ö¹firewall
+#åœæ­¢firewall
 systemctl stop firewalld.service
 
- #½ûÖ¹firewall¿ª»úÆô¶¯
+ #ç¦æ­¢firewallå¼€æœºå¯åŠ¨
 systemctl disable firewalld.service
 
 
-µÚÎå²½£ºÌí¼ÓÓÃ»§
+ç¬¬äº”æ­¥ï¼šæ·»åŠ ç”¨æˆ·
 
 useradd -g root -d /home/data -s /sbin/nologin yang
-ĞÂ½¨yangÓÃ»§ Ìí¼Óµ½root×é
-µ«ÊÇ²»ÔÊĞíÓÃ»§µÇÂ¼£¬½ö½ö¿ÉÒÔftpµÇÂ¼
-ftpµÇÂ¼ºóµÄÄ¬ÈÏÄ¿Â¼ÊÇ/home/data
+æ–°å»ºyangç”¨æˆ· æ·»åŠ åˆ°rootç»„
+ä½†æ˜¯ä¸å…è®¸ç”¨æˆ·ç™»å½•ï¼Œä»…ä»…å¯ä»¥ftpç™»å½•
+ftpç™»å½•åçš„é»˜è®¤ç›®å½•æ˜¯/home/data
 
 
 
-µÚÁù²½£ºÉèÖÃÓÃ»§ÃÜÂë
+ç¬¬å…­æ­¥ï¼šè®¾ç½®ç”¨æˆ·å¯†ç 
 passwd yang
 
-×îºóÉèÖÃÃÜÂëÎª:yangjianwei01
+æœ€åè®¾ç½®å¯†ç ä¸º:yangjianwei01
 
 
 
-µÚÆß²½£ºÉèÖÃÈ¨ÏŞ
+ç¬¬ä¸ƒæ­¥ï¼šè®¾ç½®æƒé™
 chown -R yang:root /home/data
 setsebool -P ftpd_full_access on
 
 
 
-µÚ°Ë²½£ºĞŞ¸ÄvsftpÅäÖÃÎÄ¼ş£¬½ûÖ¹ÄäÃûµÇÂ¼
+ç¬¬å…«æ­¥ï¼šä¿®æ”¹vsftpé…ç½®æ–‡ä»¶ï¼Œç¦æ­¢åŒ¿åç™»å½•
 
 vi /etc/vsftpd/vsftpd.conf
 
-°Ñ£ºanonymous_enable=YES ¸ÄÎª£º anonymous_enable=NO
+æŠŠï¼šanonymous_enable=YES æ”¹ä¸ºï¼š anonymous_enable=NO
 
-ÊäÈë--->   :wq!  ±£´æÍË³ö
+è¾“å…¥--->   :wq!  ä¿å­˜é€€å‡º
 
 
-------------------------------------------------------------mysql°²×°---------------------------------------------------
-ĞéÄâ»úÉÏµÄmysqlµÄÃÜÂë:YangJianWei01@
+------------------------------------------------------------mysqlå®‰è£…---------------------------------------------------
+è™šæ‹Ÿæœºä¸Šçš„mysqlçš„å¯†ç :YangJianWei01@
 
-°²×°Íê³ÉÖ®ºóµÄĞŞ¸ÄÃÜÂëºÍÈ¨ÏŞĞŞ¸Ä MySQL5.7µÄ
+å®‰è£…å®Œæˆä¹‹åçš„ä¿®æ”¹å¯†ç å’Œæƒé™ä¿®æ”¹ MySQL5.7çš„
 set global validate_password_policy=LOW;
 set global validate_password_length=6;
 ALTER USER 'root'@'localhost' IDENTIFIED BY '123456';
@@ -364,54 +354,54 @@ GRANT ALL PRIVILEGES ON *.* TO 'root'@'%' IDENTIFIED BY '123456' WITH GRANT OPTI
 flush privileges;
 
 
-mysql Æô¶¯, ÖØÆô, Í£Ö¹ÃüÁî
+mysql å¯åŠ¨, é‡å¯, åœæ­¢å‘½ä»¤
 systemctl start mysqld
 systemctl restart mysqld
 systemctl stop mysqld
 
 
 
-------------------------------------------------------------memcachedÆô¶¯ÃüÁî-------------------------------------------
+------------------------------------------------------------memcachedå¯åŠ¨å‘½ä»¤-------------------------------------------
 memcached -d -l 192.168.1.123 -p 11211 -m 256 -u root
 
 
-------------------------------------------------------------redisµ¥½ÚµãÆô¶¯---------------------------------------------
+------------------------------------------------------------rediså•èŠ‚ç‚¹å¯åŠ¨---------------------------------------------
 cd /usr/local/redis/bin
 [root@localhost bin]# ./redis-server
-------------------------------------------------------------redisµ¥»ú¶à½Úµã¼¯Èº-----------------------------------------
+------------------------------------------------------------rediså•æœºå¤šèŠ‚ç‚¹é›†ç¾¤-----------------------------------------
 7001 - 7006
-´´½¨ÈıÖ÷Èı´Ó
+åˆ›å»ºä¸‰ä¸»ä¸‰ä»
 
-#´´½¨µ¥»ú¶à½Úµã¼¯ÈºĞŞ¸ÄÎ»ÖÃ1 port
+#åˆ›å»ºå•æœºå¤šèŠ‚ç‚¹é›†ç¾¤ä¿®æ”¹ä½ç½®1 port
 port 7001
 
-#´´½¨µ¥»ú¶à½Úµã¼¯ÈºĞŞ¸ÄÎ»ÖÃ2 daemonize
+#åˆ›å»ºå•æœºå¤šèŠ‚ç‚¹é›†ç¾¤ä¿®æ”¹ä½ç½®2 daemonize
 daemonize yes
 
-#´´½¨µ¥»ú¶à½Úµã¼¯ÈºĞŞ¸ÄÎ»ÖÃ3 pidfile 
+#åˆ›å»ºå•æœºå¤šèŠ‚ç‚¹é›†ç¾¤ä¿®æ”¹ä½ç½®3 pidfile
 pidfile /var/run/redis_7001.pid
 
-#µ¥»ú¶à½Úµã¼¯ÈºĞŞ¸ÄÅäÖÃ4 ´ò¿ª´Ë´¦µÄ×¢ÊÍ
+#å•æœºå¤šèŠ‚ç‚¹é›†ç¾¤ä¿®æ”¹é…ç½®4 æ‰“å¼€æ­¤å¤„çš„æ³¨é‡Š
 cluster-enabled yes
 
-#µ¥»ú¶à½Úµã¼¯ÈºĞŞ¸ÄÅäÖÃ5 ´ò¿ª´Ë´¦µÄ×¢ÊÍ²¢ĞŞ¸Ä
+#å•æœºå¤šèŠ‚ç‚¹é›†ç¾¤ä¿®æ”¹é…ç½®5 æ‰“å¼€æ­¤å¤„çš„æ³¨é‡Šå¹¶ä¿®æ”¹
 cluster-config-file nodes-7001.conf
 
-#µ¥»ú¶à½Úµã¼¯ÈºĞŞ¸ÄÅäÖÃ6 ´ò¿ª´Ë´¦µÄ×¢ÊÍ²¢ĞŞ¸Ä
+#å•æœºå¤šèŠ‚ç‚¹é›†ç¾¤ä¿®æ”¹é…ç½®6 æ‰“å¼€æ­¤å¤„çš„æ³¨é‡Šå¹¶ä¿®æ”¹
 cluster-node-timeout 5000
 
-#´Ë´¦µÄµ¥»ú¶à½Úµã¼¯Èº²ÉÓÃµÄÊÇaofµÄ³Ö¾Ã»¯·½Ê½ĞŞ¸ÄÅäÖÃ7
+#æ­¤å¤„çš„å•æœºå¤šèŠ‚ç‚¹é›†ç¾¤é‡‡ç”¨çš„æ˜¯aofçš„æŒä¹…åŒ–æ–¹å¼ä¿®æ”¹é…ç½®7
 appendonly yes
 
 
-ĞŞ¸ÄÍê³ÉÖ®ºó·Ö±ğÆô¶¯¿´Ò»ÏÂÊÇ·ñÆô¶¯³É¹¦:
+ä¿®æ”¹å®Œæˆä¹‹ååˆ†åˆ«å¯åŠ¨çœ‹ä¸€ä¸‹æ˜¯å¦å¯åŠ¨æˆåŠŸ:
 cd /usr/local/bin/redis/bin
-./redis-server /usr/local/bin/redis_cluster/7001/redis.conf 
-./redis-server /usr/local/bin/redis_cluster/7002/redis.conf 
-./redis-server /usr/local/bin/redis_cluster/7003/redis.conf 
-./redis-server /usr/local/bin/redis_cluster/7004/redis.conf 
-./redis-server /usr/local/bin/redis_cluster/7005/redis.conf 
-./redis-server /usr/local/bin/redis_cluster/7006/redis.conf 
+./redis-server /usr/local/bin/redis_cluster/7001/redis.conf
+./redis-server /usr/local/bin/redis_cluster/7002/redis.conf
+./redis-server /usr/local/bin/redis_cluster/7003/redis.conf
+./redis-server /usr/local/bin/redis_cluster/7004/redis.conf
+./redis-server /usr/local/bin/redis_cluster/7005/redis.conf
+./redis-server /usr/local/bin/redis_cluster/7006/redis.conf
 [root@localhost bin]# ps -ef|grep redis
 root       1909      1  0 13:58 ?        00:00:00 ./redis-server *:7001 [cluster]
 root       1913      1  0 13:58 ?        00:00:00 ./redis-server *:7002 [cluster]
@@ -422,8 +412,8 @@ root       1929      1  0 13:58 ?        00:00:00 ./redis-server *:7006 [cluster
 root       1933   1536  0 13:58 pts/0    00:00:00 grep --color=auto redis
 
 
-¿ªÊ¼´´½¨¼¯Èº:
-redis-trib.rb¹ÜÀí¼¯Èº
+å¼€å§‹åˆ›å»ºé›†ç¾¤:
+redis-trib.rbç®¡ç†é›†ç¾¤
 
 redis-cli -c -p 7001
 
@@ -431,15 +421,15 @@ redis-cli -c -p 7001
 
 find / -type f -name "zookeeper.log"
 
-**************************************************************×îºÃzookeeperºÍkafkaÔÚÍ¬ÑùµÄÈıÌ¨»úÆ÷ÉÏ(±¾µØ²âÊÔÕâÑù±È½ÏÎÈ¶¨)
---------------------------------------------------------------zookeeperÆô¶¯----------------------------------------------
-zookeeper½Úµã²é¿´:
+**************************************************************æœ€å¥½zookeeperå’Œkafkaåœ¨åŒæ ·çš„ä¸‰å°æœºå™¨ä¸Š(æœ¬åœ°æµ‹è¯•è¿™æ ·æ¯”è¾ƒç¨³å®š)
+--------------------------------------------------------------zookeeperå¯åŠ¨----------------------------------------------
+zookeeperèŠ‚ç‚¹æŸ¥çœ‹:
 D:\ZooInspector\build>java -jar zookeeper-dev-ZooInspector.jar
 192.168.120.110:2181,192.168.120.150:2181,192.168.120.224:2181,192.168.120.137:2181
 192.168.120.150:2181
 
 
-ÇåÀízookeeper
+æ¸…ç†zookeeper
 cd /opt/zookeeper/zookeeper-3.4.8/bin
 ./zkCleanup.sh
 
@@ -447,34 +437,34 @@ cd /opt/zookeeper/zookeeper-3.4.8/bin/
 rm -rf zookeeper.out
 
 
-ÇåÀíkafka
+æ¸…ç†kafka
 cd /opt/kafka/kafka_2.11-0.10.1.1/logs/
 rm -rf *
 
-Ğ¡ĞÄÊ¹ÓÃÇåÀíkafkaÈÕÖ¾
+å°å¿ƒä½¿ç”¨æ¸…ç†kafkaæ—¥å¿—
 cd /opt/kafka/kafkalogs/
 rm -rf *
 
--------------------------------------------------------------zookeeperÆô¶¯-------------------------------------------
+-------------------------------------------------------------zookeeperå¯åŠ¨-------------------------------------------
 cd /opt/zookeeper/zookeeper-3.4.8/bin/
 ./zkServer.sh start
 
-²éÑ¯zookeeper×´Ì¬
+æŸ¥è¯¢zookeeperçŠ¶æ€
 ./zkServer.sh status
 
-²é¿´Æô¶¯Çé¿ö jps
+æŸ¥çœ‹å¯åŠ¨æƒ…å†µ jps
 
 zkCli.sh
 ls /brokers/ids
 
---------------------------------------------------------------kafkaÆô¶¯----------------------------------------------
+--------------------------------------------------------------kafkaå¯åŠ¨----------------------------------------------
 sh kafka-server-start.sh  -daemon ../config/server.properties
 
 
 cd /opt/kafka/kafka_2.11-0.10.1.1/bin
 sh kafka-server-start.sh  -daemon ../config/server.properties
 
-´´½¨Ö÷Ìâ:
+åˆ›å»ºä¸»é¢˜:
 ./kafka-topics.sh --create --zookeeper 192.168.1.129:2181,192.168.1.130:2181,192.168.1.131:2181 --replication-factor 2 --partitions 3 --topic yang
 
 ./kafka-topics.sh --create --zookeeper server-1:2181 , server-2:2181 , server-3:2181 --replication-factor 2 --partitions 3 --topic kafka-action
@@ -483,7 +473,7 @@ sh kafka-server-start.sh  -daemon ../config/server.properties
 java -cp KafkaOffsetMonitor-assembly-0.2.0.jar com.quantifind.kafka.offsetapp.OffsetGetterWeb --zk 192.168.1.129:2181,192.168.1.130:2181,192.168.1.131:2181 --port 8089  --refresh 10.seconds --retain 1.days
 
 
-zookeeperºÍkafkaÆô¶¯Ö®ºóÒ»¶¨²»ÄÜ¶¯ÁË,ÓÃĞÂµÄXshell¸ãÒ»Ğ©¶«Î÷!
+zookeeperå’Œkafkaå¯åŠ¨ä¹‹åä¸€å®šä¸èƒ½åŠ¨äº†,ç”¨æ–°çš„Xshellæä¸€äº›ä¸œè¥¿!
 
 kafka-topics.sh --zookeeper 192.168.1.129:2181,192.168.1.130:2181,192.168.1.131:2181  --describe
 
@@ -492,17 +482,17 @@ kafka-topics.sh --zookeeper 192.168.1.129:2181,192.168.1.130:2181,192.168.1.131:
 
 kafka-run-class.sh kafka.tools.DumpLogSegments --files /opt/kafka/kafkalogs/kafka-log4j-2/00000000000000000000.log --print-data-log
 
-##ÔÚ¼Ü¹¹Éè¼ÆÖĞµÄ²é¿´topicÖĞµÄ¶«Î÷
+##åœ¨æ¶æ„è®¾è®¡ä¸­çš„æŸ¥çœ‹topicä¸­çš„ä¸œè¥¿
 sh kafka-run-class.sh kafka.tools.DumpLogSegments --files /tmp/kafka-logs/FirstTopic-0/00000000000000000000.log --print-data-log > aaa.txt
 
 
 
--------------------------------------------------------------magentµÄÆô¶¯-------------------------------------------
-Æô¶¯magentÊµÀı   
+-------------------------------------------------------------magentçš„å¯åŠ¨-------------------------------------------
+å¯åŠ¨magentå®ä¾‹
 ./magent -u root -n 4096 -l 192.168.1.128 -p 11200 -s 192.168.1.128:11211 -s 192.168.1.135:11211 -b 192.168.1.136:11211
 
 
--------------------------------------------------------------memcachedÆô¶¯ÃüÁî -------------------------------------
+-------------------------------------------------------------memcachedå¯åŠ¨å‘½ä»¤ -------------------------------------
 ./memcached -d -m 256 -u root -c 1024 -p 11211 -P /tmp/memcached.pid
 
 
@@ -518,20 +508,20 @@ java -cp KafkaOffsetMonitor-assembly-0.2.1.jar \
 
 
 
-ÔÚliunxĞéÄâ»úÖĞ°²×°µÄÊÇµ¥½ÚµãµÄflume
+åœ¨liunxè™šæ‹Ÿæœºä¸­å®‰è£…çš„æ˜¯å•èŠ‚ç‚¹çš„flume
 -----------------------------------------------------------flume-----------------------------------------------
-flumeµÄÆô¶¯:
+flumeçš„å¯åŠ¨:
 cd /opt/flume/apache-flume-1.7.0-bin/conf
 flume-ng agent --conf /opt/flume/apache-flume-1.7.0-bin/conf --conf-file flume-conf.properties.template --name agent -Dflume.root.logger=INFO,console
 
 flume-ng agent --conf /opt/flume/apache-flume-1.7.0-bin/conf --conf-file flume-kafka.properties --name agent -Dflume.root.logger=INFO,console
 
-echo "flume ÊµÊ±´ÓÎÄ¼ş²É¼¯Êı¾İĞ´ÈëKafka1" >/opt/data/flume/test.log
-echo "flume ÊµÊ±´ÓÎÄ¼ş²É¼¯Êı¾İĞ´ÈëKafka2" >/opt/data/flume/test.log
-echo "flume ÊµÊ±´ÓÎÄ¼ş²É¼¯Êı¾İĞ´ÈëKafka3" >/opt/data/flume/test.log
-echo "flume ÊµÊ±´ÓÎÄ¼ş²É¼¯Êı¾İĞ´ÈëKafka4" >/opt/data/flume/test.log
-echo "flume ÊµÊ±´ÓÎÄ¼ş²É¼¯Êı¾İĞ´ÈëKafka5" >/opt/data/flume/test.log
-echo "flume ÊµÊ±´ÓÎÄ¼ş²É¼¯Êı¾İĞ´ÈëKafka6" >/opt/data/flume/test.log
+echo "flume å®æ—¶ä»æ–‡ä»¶é‡‡é›†æ•°æ®å†™å…¥Kafka1" >/opt/data/flume/test.log
+echo "flume å®æ—¶ä»æ–‡ä»¶é‡‡é›†æ•°æ®å†™å…¥Kafka2" >/opt/data/flume/test.log
+echo "flume å®æ—¶ä»æ–‡ä»¶é‡‡é›†æ•°æ®å†™å…¥Kafka3" >/opt/data/flume/test.log
+echo "flume å®æ—¶ä»æ–‡ä»¶é‡‡é›†æ•°æ®å†™å…¥Kafka4" >/opt/data/flume/test.log
+echo "flume å®æ—¶ä»æ–‡ä»¶é‡‡é›†æ•°æ®å†™å…¥Kafka5" >/opt/data/flume/test.log
+echo "flume å®æ—¶ä»æ–‡ä»¶é‡‡é›†æ•°æ®å†™å…¥Kafka6" >/opt/data/flume/test.log
 
 
 kafka-run-class.sh kafka.tools.DumpLogSegments --files /opt/kafka/kafkalogs/flume-kafka-0/00000000000000000000.log --print-data-log
@@ -544,64 +534,64 @@ flume-ng agent --conf /opt/flume/apache-flume-1.7.0-bin/conf --conf-file flume-s
 
 
 -----------------------------------------------------------------Hadoop----------------------------------------------------
-ÔÚlinuxÖĞµÄµÚÒ»Ì¨zookeeperÖĞµÄ´î½¨µÄÊÇÎ±¼¯ÈºµÄHadoop
-ĞŞ¸Ä/opt/hadoop/hadoop-2.7.6/etc/hadoop/hadoop-env.sh
+åœ¨linuxä¸­çš„ç¬¬ä¸€å°zookeeperä¸­çš„æ­å»ºçš„æ˜¯ä¼ªé›†ç¾¤çš„Hadoop
+ä¿®æ”¹/opt/hadoop/hadoop-2.7.6/etc/hadoop/hadoop-env.sh
 
-HadoopÆô¶¯ÃüÁî:
+Hadoopå¯åŠ¨å‘½ä»¤:
 
-Æô¶¯Ç°Ê×ÏÈ¸ñÊ½ºú¹¤×÷¿Õ¼ä:
+å¯åŠ¨å‰é¦–å…ˆæ ¼å¼èƒ¡å·¥ä½œç©ºé—´:
 cd /opt/hadoop/hadoop-2.7.6/bin
 ./hdfs namenode -format
 
-ÕâÀïÆô¶¯ËùÓĞµÄ*.sh½Å±¾,²»Ò»Ò»Æô¶¯ÁË
+è¿™é‡Œå¯åŠ¨æ‰€æœ‰çš„*.shè„šæœ¬,ä¸ä¸€ä¸€å¯åŠ¨äº†
 cd /opt/hadoop/hadoop-2.7.6/sbin
 ./start-all.sh
 
-ÔÚ HDFS ÉÏ´´½¨Ò»¸ö test Ä¿Â¼£¬ÃüÁîÈçÏÂ £º
+åœ¨ HDFS ä¸Šåˆ›å»ºä¸€ä¸ª test ç›®å½•ï¼Œå‘½ä»¤å¦‚ä¸‹ ï¼š
 cd /opt/hadoop/hadoop-2.7.6/bin
 ./hdfs dfs -mkdir /test
 
 
-²é¿´ HDFS ÉÏµÄÄ¿Â¼ £¬ ÃüÁîÈçÏÂ £º
+æŸ¥çœ‹ HDFS ä¸Šçš„ç›®å½• ï¼Œ å‘½ä»¤å¦‚ä¸‹ ï¼š
 cd /opt/hadoop/hadoop-2.7.6/bin
 ./hdfs dfs -ls /
 
-----------×Ü¹ıä¯ÀÀÆ÷¿ÉÒÔ²é¿´ÏàÓ¦µÄ²Ù×÷-----------
+----------æ€»è¿‡æµè§ˆå™¨å¯ä»¥æŸ¥çœ‹ç›¸åº”çš„æ“ä½œ-----------
 http://192.168.1.129:50090
 
 
-´´½¨Íê³ÉÁ½¸ötopicÁËÒÑ¾­,flume-kafkaºÍkafka-channelÁËÆô¶¯flume½øĞĞ²âÊÔ!
+åˆ›å»ºå®Œæˆä¸¤ä¸ªtopicäº†å·²ç»,flume-kafkaå’Œkafka-channeläº†å¯åŠ¨flumeè¿›è¡Œæµ‹è¯•!
 cd /opt/flume/apache-flume-1.7.0-bin/conf
 flume-ng agent --conf /opt/flume/apache-flume-1.7.0-bin/conf --conf-file flume-kafka.properties --name agent -Dflume.root.logger=INFO,console
 
 cd /opt/flume/apache-flume-1.7.0-bin/conf
 flume-ng agent --conf /opt/flume/apache-flume-1.7.0-bin/conf --conf-file flume-kafka-hdfs.properties --name kafka-agent -Dflume.root.logger=INFO,console
 
-----------------------------------------------------------------------NginxµÄÏà¹ØÃüÁîºÍÆäËûÅäÖÃĞÅÏ¢ -------------------------------------------------------
-windows ÏÂµÄÆô¶¯ÃüÁî:
+----------------------------------------------------------------------Nginxçš„ç›¸å…³å‘½ä»¤å’Œå…¶ä»–é…ç½®ä¿¡æ¯ -------------------------------------------------------
+windows ä¸‹çš„å¯åŠ¨å‘½ä»¤:
 start nginx
-nginx -s stop         ¿ìËÙ¹Ø±ÕNginx£¬¿ÉÄÜ²»±£´æÏà¹ØĞÅÏ¢£¬²¢Ñ¸ËÙÖÕÖ¹web·şÎñ¡£
-nginx -s quit         Æ½ÎÈ¹Ø±ÕNginx£¬±£´æÏà¹ØĞÅÏ¢£¬ÓĞ°²ÅÅµÄ½áÊøweb·şÎñ¡£
-nginx -s reload       Òò¸Ä±äÁËNginxÏà¹ØÅäÖÃ£¬ĞèÒªÖØĞÂ¼ÓÔØÅäÖÃ¶øÖØÔØ¡£
-nginx -s reopen       ÖØĞÂ´ò¿ªÈÕÖ¾ÎÄ¼ş¡£
+nginx -s stop         å¿«é€Ÿå…³é—­Nginxï¼Œå¯èƒ½ä¸ä¿å­˜ç›¸å…³ä¿¡æ¯ï¼Œå¹¶è¿…é€Ÿç»ˆæ­¢webæœåŠ¡ã€‚
+nginx -s quit         å¹³ç¨³å…³é—­Nginxï¼Œä¿å­˜ç›¸å…³ä¿¡æ¯ï¼Œæœ‰å®‰æ’çš„ç»“æŸwebæœåŠ¡ã€‚
+nginx -s reload       å› æ”¹å˜äº†Nginxç›¸å…³é…ç½®ï¼Œéœ€è¦é‡æ–°åŠ è½½é…ç½®è€Œé‡è½½ã€‚
+nginx -s reopen       é‡æ–°æ‰“å¼€æ—¥å¿—æ–‡ä»¶ã€‚
 
 
 
 
-Æô¶¯NginxµÄÃüÁî:
+å¯åŠ¨Nginxçš„å‘½ä»¤:
 /usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
-¹Ø±ÕNginxµÄÃüÁî:
+å…³é—­Nginxçš„å‘½ä»¤:
 ps -ef | grep nginx
-./nginx -s stop  : ¿ìËÙÍ£Ö¹nginx
-./nginx -s quit  £ºÍêÕûÓĞĞòµÄÍ£Ö¹nginx
-./nginx -s reload  £ºĞŞ¸ÄÅäÖÃºóÖØĞÂ¼ÓÔØÉúĞ§
+./nginx -s stop  : å¿«é€Ÿåœæ­¢nginx
+./nginx -s quit  ï¼šå®Œæ•´æœ‰åºçš„åœæ­¢nginx
+./nginx -s reload  ï¼šä¿®æ”¹é…ç½®åé‡æ–°åŠ è½½ç”Ÿæ•ˆ
 
 
 
-nginxÅäÖÃÎÄ¼şµÄÎ»ÖÃ:
-Æô¶¯NginxµÄÃüÁî:
+nginxé…ç½®æ–‡ä»¶çš„ä½ç½®:
+å¯åŠ¨Nginxçš„å‘½ä»¤:
 /usr/local/nginx/sbin/nginx -c /usr/local/nginx/conf/nginx.conf
-Í£Ö¹nginxµÄÃüÁî:
+åœæ­¢nginxçš„å‘½ä»¤:
 
 /usr/local/nginx/conf
 
@@ -660,10 +650,10 @@ http {
 
 	location /pageinterceptor {
 	    proxy_pass http://local_tomcat;
-	   #proxy_set_header  Host $host; #ÆäÖĞ$host±íÊ¾µÄÊÇserver_nameµÄÖµ
-	    proxy_set_header  Host $host:$proxy_port; #±íÊ¾server_name:listen  
-            proxy_set_header  X-Real-IP  $remote_addr;  
-            proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;  
+	   #proxy_set_header  Host $host; #å…¶ä¸­$hostè¡¨ç¤ºçš„æ˜¯server_nameçš„å€¼
+	    proxy_set_header  Host $host:$proxy_port; #è¡¨ç¤ºserver_name:listen
+            proxy_set_header  X-Real-IP  $remote_addr;
+            proxy_set_header  X-Forwarded-For $proxy_add_x_forwarded_for;
             client_max_body_size  100m;
             root   html;
             index  index.html index.htm;
@@ -741,45 +731,39 @@ http {
 
 }
 
-nginx³£ÓÃÃüÁî
+nginxå¸¸ç”¨å‘½ä»¤
 
-Æô¶¯£º
+å¯åŠ¨ï¼š
 cd /usr/local/nginx/sbin
 ./nginx
-nginx·şÎñÆô¶¯ºóÄ¬ÈÏµÄ½ø³ÌºÅ»á·ÅÔÚ/usr/local/nginx/logs/nginx.pidÎÄ¼ş
-cat nginx.pid ²é¿´½ø³ÌºÅ
+nginxæœåŠ¡å¯åŠ¨åé»˜è®¤çš„è¿›ç¨‹å·ä¼šæ”¾åœ¨/usr/local/nginx/logs/nginx.pidæ–‡ä»¶
+cat nginx.pid æŸ¥çœ‹è¿›ç¨‹å·
 
-¹Ø±Õ£º
-kill -TERM pid  ¿ìËÙÍ£Ö¹·şÎñ
-kill -QUIT pid  Æ½»ºÍ£Ö¹·şÎñ
-kill -9 pid     Ç¿ÖÆÍ£Ö¹·şÎñ
-
-
------------------------------------------------------------------GitLabµÄÊ¹ÓÃ--------------------------------------------------
-gitlab-ctl stop			Í£Ö¹·şÎñ
-gitlab-ctl reconfigure	ÖØĞÂÅäÖÃ
-gitlab-ctl restart		ÖØÆô
+å…³é—­ï¼š
+kill -TERM pid  å¿«é€Ÿåœæ­¢æœåŠ¡
+kill -QUIT pid  å¹³ç¼“åœæ­¢æœåŠ¡
+kill -9 pid     å¼ºåˆ¶åœæ­¢æœåŠ¡
 
 
+-----------------------------------------------------------------GitLabçš„ä½¿ç”¨--------------------------------------------------
+gitlab-ctl stop			åœæ­¢æœåŠ¡
+gitlab-ctl reconfigure	é‡æ–°é…ç½®
+gitlab-ctl restart		é‡å¯
 
-------------------------------------------------------------------------------Zookeeper¼Ü¹¹Ñ§Ï°--------------------------------------------------------------------
-tar -zxvf zookeeper-3.4.10.tar.gz 
+
+
+------------------------------------------------------------------------------Zookeeperæ¶æ„å­¦ä¹ --------------------------------------------------------------------
+tar -zxvf zookeeper-3.4.10.tar.gz
 cd zookeeper-3.4.10
 cd conf/
 cp zoo_sample.cfg zoo.cfg
 
 
------------------------------------------------------------------------------mongodbµÄÃüÁî -------------------------------------------------
-Æô¶¯ÃüÁî:./mongod -f mongodb.conf
-¹Ø±ÕÃüÁî:./mongod --shutdown --dbpath /usr/local/mongodb/data/db/
+-----------------------------------------------------------------------------mongodbçš„å‘½ä»¤ -------------------------------------------------
+å¯åŠ¨å‘½ä»¤:./mongod -f mongodb.conf
+å…³é—­å‘½ä»¤:./mongod --shutdown --dbpath /usr/local/mongodb/data/db/
 
 
 
 
 PDSK15-SQSAL2-5ASNXM-SAMXIE-8SAPHA-AJXNCE
-
-
-find / -type f -name '*'|xargs grep "main("
-
-find /home/openjdk/hotspot/build_jvm/linux_amd64_compiler2/jvmg -type f -name '*'|xargs grep "main("
-
