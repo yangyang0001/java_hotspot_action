@@ -47,7 +47,7 @@ HotSpot顶层模块包含: Prims, Services, Runtime, Classfile, Interpreter, Cod
 
 
         4、MemoryManager:    内存管理器 用来管理内存池, 一个内存管理器可以管理一个内存池或多个内存池, 同样一个内存池可以由一个或多个内存管理器进行管理!
-                             常见的内存管理器有 CodeCacheMemoryManager, GCMemoryManager, 其中GCMemoryManager又有以下8种子类型  CMCG + 3P
+                             常见的内存管理器有 CodeCacheMemoryManager, GCMemoryManager, 其中GCMemoryManager又有以下8种子类型  CMCG + PPP
                              CopyMemoryManager
                              MSCMemoryManager
                              CMSMemoryManager
