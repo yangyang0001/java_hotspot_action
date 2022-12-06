@@ -95,6 +95,15 @@ http://pan-yz.chaoxing.com/share/info/b7b7702a30a2d8ac 密码: dmm16d
     直接内存溢出 查看 DirectMemoryOOM 类中的测试 直接内存不属于Java虚拟机直接管理的运行时数据内存, 但在堆区中可以通过DirectByteBuffer 来引用直接内存中的这块区域
                     如果不设置-XX:MaxDirectMemory=*M, 则默认值和 -Xmx的大小是一致的!
 
+6、跟踪 GCRoots 软件 MAT, JProfiler 等的使用, 这里使用 JProfiler 下面是使用方式: (MacOS 环境下使用)
+    1、在 IntelliJ IDEA 中安装 JProfiler 插件
+
+    2、下载 JProfiler 工具, 下载地址: https://www.ej-technologies.com/download/jprofiler/version_111, 本人使用这个版本
+
+    3、安装 JProfiler 自动引导, 安装完成就可以使用了, 注意安装过程中, 有个关联开发工具, 这里选择 IntelliJ IDEA 就可以了!
+
+    4、测试工程使用 工程 springboot-vue 中的 MineProfilerController
+
 
 -------------------------------------------------------------------------------------------------------------------------------------------------------
 -----------------------------------------------------------------  第三章 垃圾回收器和内存分配策略  -------------------------------------------------------
