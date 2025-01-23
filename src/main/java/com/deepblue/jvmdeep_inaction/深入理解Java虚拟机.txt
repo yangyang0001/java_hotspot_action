@@ -389,7 +389,8 @@ jdk命令工具:
          32位的寻址空间最大位4G, 因此一般 -Xmx1.5G
 
 
-
+TODO: 最佳实践地址:
+https://help.aliyun.com/zh/sae/serverless-app-engine-classic/use-cases/best-practices-for-jvm-heap-size-configuration?spm=a2c4g.11186623.help-menu-118957.d_3_1_1.2e9b4e396O9kQi
 
 
 
